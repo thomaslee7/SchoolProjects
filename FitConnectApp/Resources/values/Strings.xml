@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="Hello">Hello World, Click Me!</string>
+    <string name="ApplicationName">FitConnectApp</string>
+    <string name ="signed_in_fmt">Signed In</string>
+    <string name ="signed_out">Signed out</string>
+    <string name="ApiKey">AIzaSyBCr1UAKrOzpslGeqbrhoR_UeC80Akyx9A</string>
+    <string name="DatabaseUrl">
+      https://fitappconnect.firebaseio.com/
+    </string>
+    <string name="StorageBucket">
+      fitappconnect.appspot.com
+    </string>
+    <string name="ApplicationId">1:257464791047:android:a55322b7e60d7a25</string>
+    <string name="ClientId">257464791047-svtu5ge67kd0h4sut35ua3nkh590mte9.apps.googleusercontent.com</string>
+    <string name="SenderId">257464791047</string>
+</resources>
