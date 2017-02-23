@@ -183,6 +183,9 @@ namespace FitConnectApp
 			// aapt resource value: 0x7f020019
 			public const int Icon = 2130837529;
 			
+			// aapt resource value: 0x7f02001a
+			public const int logo = 2130837530;
+			
 			static Drawable()
 			{
 				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
@@ -217,17 +220,17 @@ namespace FitConnectApp
 			// aapt resource value: 0x7f070002
 			public const int none = 2131165186;
 			
-			// aapt resource value: 0x7f070009
-			public const int sign_in_button = 2131165193;
-			
 			// aapt resource value: 0x7f07000a
-			public const int sign_out_and_disconnect = 2131165194;
+			public const int sign_in_button = 2131165194;
+			
+			// aapt resource value: 0x7f07000b
+			public const int sign_out_and_disconnect = 2131165195;
 			
 			// aapt resource value: 0x7f070004
 			public const int standard = 2131165188;
 			
-			// aapt resource value: 0x7f07000b
-			public const int statusTextView = 2131165195;
+			// aapt resource value: 0x7f070009
+			public const int statusTextView = 2131165193;
 			
 			// aapt resource value: 0x7f070005
 			public const int wide = 2131165189;
