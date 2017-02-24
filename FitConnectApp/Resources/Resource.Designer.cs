@@ -169,22 +169,25 @@ namespace FitConnectApp
 			public const int common_google_signin_btn_text_light_pressed = 2130837524;
 			
 			// aapt resource value: 0x7f020015
-			public const int ic_plusone_medium_off_client = 2130837525;
+			public const int homeScreenButtonShape = 2130837525;
 			
 			// aapt resource value: 0x7f020016
-			public const int ic_plusone_small_off_client = 2130837526;
+			public const int ic_plusone_medium_off_client = 2130837526;
 			
 			// aapt resource value: 0x7f020017
-			public const int ic_plusone_standard_off_client = 2130837527;
+			public const int ic_plusone_small_off_client = 2130837527;
 			
 			// aapt resource value: 0x7f020018
-			public const int ic_plusone_tall_off_client = 2130837528;
+			public const int ic_plusone_standard_off_client = 2130837528;
 			
 			// aapt resource value: 0x7f020019
-			public const int Icon = 2130837529;
+			public const int ic_plusone_tall_off_client = 2130837529;
 			
 			// aapt resource value: 0x7f02001a
-			public const int logo = 2130837530;
+			public const int Icon = 2130837530;
+			
+			// aapt resource value: 0x7f02001b
+			public const int logo = 2130837531;
 			
 			static Drawable()
 			{
@@ -198,6 +201,9 @@ namespace FitConnectApp
 		
 		public partial class Id
 		{
+			
+			// aapt resource value: 0x7f07000c
+			public const int account_button = 2131165196;
 			
 			// aapt resource value: 0x7f070000
 			public const int adjust_height = 2131165184;
@@ -220,20 +226,29 @@ namespace FitConnectApp
 			// aapt resource value: 0x7f070002
 			public const int none = 2131165186;
 			
-			// aapt resource value: 0x7f07000a
-			public const int sign_in_button = 2131165194;
+			// aapt resource value: 0x7f07000e
+			public const int sign_in_button = 2131165198;
+			
+			// aapt resource value: 0x7f07000f
+			public const int sign_out_and_disconnect = 2131165199;
 			
 			// aapt resource value: 0x7f07000b
-			public const int sign_out_and_disconnect = 2131165195;
+			public const int social_button = 2131165195;
 			
 			// aapt resource value: 0x7f070004
 			public const int standard = 2131165188;
+			
+			// aapt resource value: 0x7f07000d
+			public const int stats_button = 2131165197;
 			
 			// aapt resource value: 0x7f070009
 			public const int statusTextView = 2131165193;
 			
 			// aapt resource value: 0x7f070005
 			public const int wide = 2131165189;
+			
+			// aapt resource value: 0x7f07000a
+			public const int workouts_button = 2131165194;
 			
 			static Id()
 			{
@@ -265,7 +280,10 @@ namespace FitConnectApp
 		{
 			
 			// aapt resource value: 0x7f030000
-			public const int Main = 2130903040;
+			public const int Home = 2130903040;
+			
+			// aapt resource value: 0x7f030001
+			public const int Main = 2130903041;
 			
 			static Layout()
 			{
