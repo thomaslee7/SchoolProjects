@@ -13,9 +13,9 @@
         android:textSize="32dp"
         android:fontFamily="sans-serif-medium"
         android:textStyle="bold"
-        android:id="@+id/statusTextView" />
+        android:id="@+id/WelcomeText" />
     <TextView
-        android:text="Image here...\nor something"
+        android:text="Image here...or something"
         android:textColor="#ff000000"
         android:textSize="32dp"
         android:gravity="center"

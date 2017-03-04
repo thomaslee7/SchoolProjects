@@ -17,12 +17,15 @@ using Android.Support.V4.App;
 using Android.Util;
 using Firebase.Auth;
 using Firebase;
+using GalaSoft.MvvmLight.Helpers;
+using GalaSoft.MvvmLight.Views;
+using FitConnectApp.ViewModel;
+using Microsoft.Practices.ServiceLocation;
 
 namespace FitConnectApp
 {
-    [Activity(Label = "LoginActivity")]
-    public class LoginActivity : FragmentActivity, GoogleApiClient.IOnConnectionFailedListener,
-        View.IOnClickListener, IOnCompleteListener, FirebaseAuth.IAuthStateListener
+    [Activity(Label = "LoginActivity", MainLauncher = true, Icon = "@drawable/icon")]
+    public class LoginActivity : ActivityBase, GoogleApiClient.IOnConnectionFailedListener, View.IOnClickListener , IOnCompleteListener, FirebaseAuth.IAuthStateListener
     {
         private static int RC_SIGN_IN = 9001;
         public static string TAG = "LoginActivity";
@@ -30,8 +33,24 @@ namespace FitConnectApp
         private FirebaseAuth mAuth;
         private GoogleApiClient mGoogleApiClient;
         private TextView mStatusTextView;
-        SignInButton signInButton;
-        Button signOutButton;
+        private TextView welcomeText;
+        private SignInButton signInButton;
+        private Button signOutButton;
+
+        private readonly List<Binding> bindings = new List<Binding>();
+
+        private LoginViewModel Vm
+        {
+            get
+            {
+                return App.Locator.Login;
+            }
+        }
+
+        public TextView StatusTextView => mStatusTextView ?? (mStatusTextView = FindViewById<TextView>(Resource.Id.statusTextView));
+        public SignInButton SignInButton => signInButton ?? (signInButton = FindViewById<SignInButton>(Resource.Id.sign_in_button));
+        public Button SignOutButton => signOutButton ?? (signOutButton = FindViewById<Button>(Resource.Id.sign_out_and_disconnect));
+        public TextView WelcomeText => welcomeText ?? (welcomeText = FindViewById<TextView>(Resource.Id.WelcomeText));
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -39,38 +58,29 @@ namespace FitConnectApp
             {
 
                 base.OnCreate(savedInstanceState);
-                SetContentView(Resource.Layout.Main);
+                SetContentView(Resource.Layout.Login);
 
-                signInButton = FindViewById<SignInButton>(Resource.Id.sign_in_button);
-                signOutButton = FindViewById<Button>(Resource.Id.sign_out_and_disconnect);
-                mStatusTextView = FindViewById<TextView>(Resource.Id.statusTextView);
+                bindings.Add(
+                this.SetBinding(
+                    () => Vm.WelcomeTitle,
+                    () => WelcomeText.Text));
 
                 GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DefaultSignIn)
-                    .RequestIdToken("257464791047-bq54c6mdogf15epd9tm2ja0o3m3efvq6.apps.googleusercontent.com")//(GetString(Resource.String.ClientId)) //
+                    .RequestIdToken("257464791047-bq54c6mdogf15epd9tm2ja0o3m3efvq6.apps.googleusercontent.com")
                     .RequestId()
                     .RequestEmail()
                     .Build();
 
                 mGoogleApiClient = new GoogleApiClient.Builder(this)
-                    .EnableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
                     .AddApi(Auth.GOOGLE_SIGN_IN_API, gso)
                     .Build();
 
-                //FirebaseOptions o = new FirebaseOptions.Builder()
-                //   .SetApiKey("AIzaSyAFgkDjnvIfOtKkdVxcLw4cMiLqVORf9O0")//GetString(Resource.String.ApiKey))
-                //   .SetApplicationId(GetString(Resource.String.ApplicationId))
-                //   .SetDatabaseUrl(GetString(Resource.String.DatabaseUrl))
-                //   .SetStorageBucket(GetString(Resource.String.StorageBucket))
-                //   .SetGcmSenderId(GetString(Resource.String.SenderId))
-                //   .Build();
-
                 FirebaseApp fa = FirebaseApp.InitializeApp(this);
-                //FirebaseApp fa = FirebaseApp.InitializeApp(this, o, Application.PackageName);
-                
+
                 mAuth = FirebaseAuth.GetInstance(fa);
-                
-                signInButton.SetOnClickListener(this);
-                signOutButton.SetOnClickListener(this);
+
+                SignInButton.SetOnClickListener(this);
+                SignOutButton.SetOnClickListener(this);
             }
             catch (Exception ex)
             {
@@ -95,7 +105,6 @@ namespace FitConnectApp
             }
         }
 
-
         protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
         {
             try
@@ -118,20 +127,32 @@ namespace FitConnectApp
             }
         }
 
+        public void LoginComplete(bool loginSuccess)
+        {
+            updateUI(loginSuccess);
+            if (loginSuccess)
+            {
+                NavigationService nav = (NavigationService)ServiceLocator.Current.GetInstance<INavigationService>();
+                nav.NavigateTo(ViewModelLocator.HomeScreenKey);
+            }
+        }
+
+
         private void handleSignInResult(GoogleSignInResult result)
         {
             try
             {
-
                 Log.Debug(TAG, "handleSignInResult:" + result.IsSuccess);
                 if (result.IsSuccess)
                 {
                     // Signed in successfully, show authenticated UI.
                     GoogleSignInAccount acct = result.SignInAccount;
-                    mStatusTextView.Text = GetString(Resource.String.signed_in_fmt, acct.DisplayName);
+                    StatusTextView.Text = GetString(Resource.String.signed_in_fmt, acct.DisplayName);
                     Log.Debug("handleSignInresult", "signing into firebase now: " + acct.IdToken);
                     FirebaseAuthWithGoogle(acct);
                     updateUI(true);
+                    NavigationService nav = (NavigationService)ServiceLocator.Current.GetInstance<INavigationService>();
+                    nav.NavigateTo(ViewModelLocator.HomeScreenKey);
                 }
                 else
                 {
@@ -152,7 +173,7 @@ namespace FitConnectApp
             {
 
                 Log.Debug(TAG, "FirebaseAuthWithGoogle:" + acct.Id + "; acct token: " + acct.IdToken);
-                
+
                 AuthCredential credential = GoogleAuthProvider.GetCredential(acct.IdToken, null);
                 mAuth.SignInWithCredential(credential).AddOnCompleteListener(this, this);
             }
@@ -172,7 +193,7 @@ namespace FitConnectApp
             }
             else
             {
-                mStatusTextView.Text = GetString(Resource.String.signed_out);
+                StatusTextView.Text = GetString(Resource.String.signed_out);
 
                 FindViewById(Resource.Id.sign_in_button).Visibility = ViewStates.Visible;
                 FindViewById(Resource.Id.sign_out_and_disconnect).Visibility = ViewStates.Gone;
@@ -183,12 +204,14 @@ namespace FitConnectApp
         {
             base.OnStop();
             mAuth.RemoveAuthStateListener(this);
+            mGoogleApiClient.Disconnect();
         }
 
         protected override void OnStart()
         {
             base.OnStart();
             mAuth.AddAuthStateListener(this);
+            mGoogleApiClient.Connect();
         }
 
         public void OnConnectionFailed(ConnectionResult result)
@@ -213,8 +236,6 @@ namespace FitConnectApp
             }
         }
 
-
-
         private void signOut()
         {
             mAuth.SignOut();
@@ -228,7 +249,7 @@ namespace FitConnectApp
 
         public void OnComplete(Task task)
         {
-            
+
             Log.Debug(TAG, "SignInWithCredential:OnComplete:" + task.IsSuccessful);
             // If sign in fails, display a message to the user. If sign in succeeds
             // the auth state listener will be notified and logic to handle the
