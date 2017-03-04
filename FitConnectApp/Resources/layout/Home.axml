@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:background="#ffE8E8E8"
+    android:layout_height="match_parent">
+    <TextView
+        android:text="FitConnect"
+        android:textColor="#ff088da5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="32dp"
+        android:fontFamily="sans-serif-medium"
+        android:textStyle="bold"
+        android:id="@+id/statusTextView" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="100dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+        <Button
+            android:text="Workouts"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="100dp"
+            android:background="#DDDCD2"
+            android:textSize="32dp"
+            android:textColor="#ff088da5"
+            android:id="@+id/workouts_button" />
+        <Button
+            android:text="Social"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="100dp"
+            android:background="#DDDCD2"
+            android:textSize="32dp"
+            android:textColor="#ff088da5"
+            android:id="@+id/social_button" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="5dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+        <Button
+            android:text="Account"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="100dp"
+            android:background="#DDDCD2"
+            android:textSize="32dp"
+            android:textColor="#ff088da5"
+            android:id="@+id/account_button" />
+        <Button
+            android:text="Stats"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="100dp"
+            android:background="#DDDCD2"
+            android:textSize="32dp"
+            android:textColor="#ff088da5"
+            android:id="@+id/stats_button" />
+    </LinearLayout>
+</LinearLayout>
