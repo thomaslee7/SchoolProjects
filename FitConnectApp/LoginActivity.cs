@@ -21,6 +21,8 @@ using GalaSoft.MvvmLight.Helpers;
 using GalaSoft.MvvmLight.Views;
 using FitConnectApp.ViewModel;
 using Microsoft.Practices.ServiceLocation;
+using Android.Preferences;
+using FitConnectApp.Models;
 
 namespace FitConnectApp
 {
@@ -78,6 +80,31 @@ namespace FitConnectApp
                 FirebaseApp fa = FirebaseApp.InitializeApp(this);
 
                 mAuth = FirebaseAuth.GetInstance(fa);
+
+                FirebaseAuth.Instance.AuthState += (sender, e) =>
+                {
+                    Log.Info(TAG, "Attempting to get UID in AuthState");
+                    var user = e?.Auth?.CurrentUser;
+
+                    if (user != null)
+                    {
+                        //if (App.appUser != null)
+                        //{
+                        App.saveUid(this.ApplicationContext, user.Uid);
+                        App.appUser.FirebaseUserId = user.Uid;
+                        Log.Info(TAG, "UID: " + user.Uid);
+                            //App.appUser.FirebaseToken = user.GetTokenAsync(true).Result.Token;
+                        //}
+                        //else
+                        //{
+                        //    App.appUser = new User { FirebaseUserId = user.Uid }; //, FirebaseToken = user.GetTokenAsync(true).Result.Token };
+                        //}
+                    }
+                    else
+                    {
+                        // User is signed out
+                    }
+                };
 
                 SignInButton.SetOnClickListener(this);
                 SignOutButton.SetOnClickListener(this);
@@ -149,6 +176,10 @@ namespace FitConnectApp
                     GoogleSignInAccount acct = result.SignInAccount;
                     StatusTextView.Text = GetString(Resource.String.signed_in_fmt, acct.DisplayName);
                     Log.Debug("handleSignInresult", "signing into firebase now: " + acct.IdToken);
+                    App.saveAuthToken(this.ApplicationContext, "GOOGLE", acct.IdToken);
+                    App.appUser.FirstName = acct.GivenName;
+                    App.appUser.LastName = acct.FamilyName;
+
                     FirebaseAuthWithGoogle(acct);
                     updateUI(true);
                     NavigationService nav = (NavigationService)ServiceLocator.Current.GetInstance<INavigationService>();
@@ -171,11 +202,26 @@ namespace FitConnectApp
         {
             try
             {
-
-                Log.Debug(TAG, "FirebaseAuthWithGoogle:" + acct.Id + "; acct token: " + acct.IdToken);
-
                 AuthCredential credential = GoogleAuthProvider.GetCredential(acct.IdToken, null);
+                
                 mAuth.SignInWithCredential(credential).AddOnCompleteListener(this, this);
+                
+                //try
+                //{
+                //    var token = mAuth.CurrentUser.GetTokenAsync(true).Result.Token;
+
+                //    Log.Info(TAG, "FBtoken: " + token);
+                //    Log.Info(TAG, "FBID: " + mAuth.CurrentUser.Uid);
+
+                //    if (App.appUser != null) App.appUser.FirebaseToken = token;
+                //    if (App.appUser != null) App.appUser.FirebaseUserId = mAuth.CurrentUser.Uid;
+                //}
+                //catch (Exception ex)
+                //{
+                //    Log.Debug(TAG, ex.ToString());
+                //    throw;
+                //}
+
             }
             catch (Exception ex)
             {
@@ -245,12 +291,29 @@ namespace FitConnectApp
                     Log.Debug(TAG, "Auth.GoogleSignInApi.SignOut");
                     updateUI(false);
                 }));
+            App.removeAuthToken(this.ApplicationContext, "GOOGLE");
         }
 
         public void OnComplete(Task task)
         {
 
             Log.Debug(TAG, "SignInWithCredential:OnComplete:" + task.IsSuccessful);
+            //try
+            //{
+            //    var token = mAuth.CurrentUser.GetTokenAsync(true).Result.Token;
+
+            //    Log.Info(TAG, "FBtoken: " + token);
+            //    Log.Info(TAG, "FBID: " + mAuth.CurrentUser.Uid);
+
+            //    if (App.appUser != null) App.appUser.FirebaseToken = token;
+            //    if (App.appUser != null) App.appUser.FirebaseUserId = mAuth.CurrentUser.Uid;
+            //}
+            //catch (Exception ex)
+            //{
+            //    Log.Debug(TAG, ex.ToString());
+            //    throw;
+            //}
+
             // If sign in fails, display a message to the user. If sign in succeeds
             // the auth state listener will be notified and logic to handle the
             // signed in user can be handled in the listener.
@@ -264,9 +327,10 @@ namespace FitConnectApp
 
         public void OnAuthStateChanged(FirebaseAuth auth)
         {
+            
             var user = auth.CurrentUser;
             Log.Debug(TAG, "onAuthStateChanged:" + (user != null ? "signed_in:" + user.Uid : "signed_out"));
             updateUI(user != null);
-        }
+        }        
     }
 }

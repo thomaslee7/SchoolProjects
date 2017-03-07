@@ -6,12 +6,18 @@ using Android.Gms.Common.Apis;
 using Firebase.Auth;
 using Android.Gms.Auth.Api;
 using Android.Content;
+using Android.Preferences;
+using Android.Util;
+using FitConnectApp.Models;
 
 namespace FitConnectApp
 {
     public static class App
     {
+        public const string TAG = "App";
+
         private static ViewModelLocator locator;
+        private static User appuser;
 
         public static ViewModelLocator Locator
         {
@@ -33,6 +39,101 @@ namespace FitConnectApp
 
                 return locator;
             }
+        }
+
+        public static void saveAuthToken(Context ctx, string provider, string token)
+        {
+            try
+            {
+                ISharedPreferences prefs = PreferenceManager.GetDefaultSharedPreferences(ctx);
+                ISharedPreferencesEditor editor = prefs.Edit();
+                editor.PutString(provider + "_authToken", token);
+                editor.Apply();
+            }
+            catch (System.Exception ex)
+            {
+                Log.Debug(TAG, ex.ToString());
+                //throw;
+            }
+        }
+
+        public static string getAuthToken(Context ctx, string provider)
+        {
+            try
+            {
+
+                ISharedPreferences prefs = PreferenceManager.GetDefaultSharedPreferences(ctx);
+                return prefs.GetString(provider.ToUpper() + "_authToken", null);
+            }
+            catch (System.Exception ex)
+            {
+                Log.Debug(TAG, ex.ToString());
+                //throw;
+            }
+
+            return null;
+        }
+
+        public static void removeAuthToken(Context ctx, string provider)
+        {
+            try
+            {
+                ISharedPreferences prefs = PreferenceManager.GetDefaultSharedPreferences(ctx);
+                ISharedPreferencesEditor editor = prefs.Edit();
+                editor.Remove(provider.ToUpper() + "_authToken");
+                editor.Apply();
+            }
+            catch (System.Exception ex)
+            {
+                Log.Debug(TAG, ex.ToString());
+                //throw;
+            }
+        }
+
+        public static void saveUid(Context ctx, string uid)
+        {
+            try
+            {
+                ISharedPreferences prefs = PreferenceManager.GetDefaultSharedPreferences(ctx);
+                ISharedPreferencesEditor editor = prefs.Edit();
+                editor.PutString("FIREBASE_UID", uid);
+                editor.Apply();
+            }
+            catch (System.Exception ex)
+            {
+                Log.Debug(TAG, ex.ToString());
+                //throw;
+            }
+        }
+
+        public static string getUid(Context ctx)
+        {
+            try
+            {
+
+                ISharedPreferences prefs = PreferenceManager.GetDefaultSharedPreferences(ctx);
+                return prefs.GetString("FIREBASE_UID", null);
+            }
+            catch (System.Exception ex)
+            {
+                Log.Debug(TAG, ex.ToString());
+                //throw;
+            }
+
+            return null;
+        }
+
+        public static User appUser
+        {
+            get
+            {
+                if (appuser == null)
+                {
+                    appuser = new User();
+                }
+                return appuser;
+            }
+            
         }
     }
 }
