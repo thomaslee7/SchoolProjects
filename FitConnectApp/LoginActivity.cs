@@ -32,7 +32,7 @@ namespace FitConnectApp
         private static int RC_SIGN_IN = 9001;
         public static string TAG = "LoginActivity";
 
-        private FirebaseAuth mAuth;
+        //private FirebaseAuth mAuth;
         private GoogleApiClient mGoogleApiClient;
         private TextView mStatusTextView;
         private TextView welcomeText;
@@ -77,9 +77,9 @@ namespace FitConnectApp
                     .AddApi(Auth.GOOGLE_SIGN_IN_API, gso)
                     .Build();
 
-                FirebaseApp fa = FirebaseApp.InitializeApp(this);
+                App.fbApp = FirebaseApp.InitializeApp(this);
 
-                mAuth = FirebaseAuth.GetInstance(fa);
+                App.mAuth = FirebaseAuth.GetInstance(App.fbApp);
 
                 FirebaseAuth.Instance.AuthState += (sender, e) =>
                 {
@@ -182,8 +182,8 @@ namespace FitConnectApp
 
                     FirebaseAuthWithGoogle(acct);
                     updateUI(true);
-                    NavigationService nav = (NavigationService)ServiceLocator.Current.GetInstance<INavigationService>();
-                    nav.NavigateTo(ViewModelLocator.HomeScreenKey);
+                    //NavigationService nav = (NavigationService)ServiceLocator.Current.GetInstance<INavigationService>();
+                    //nav.NavigateTo(ViewModelLocator.HomeScreenKey);
                 }
                 else
                 {
@@ -204,24 +204,7 @@ namespace FitConnectApp
             {
                 AuthCredential credential = GoogleAuthProvider.GetCredential(acct.IdToken, null);
                 
-                mAuth.SignInWithCredential(credential).AddOnCompleteListener(this, this);
-                
-                //try
-                //{
-                //    var token = mAuth.CurrentUser.GetTokenAsync(true).Result.Token;
-
-                //    Log.Info(TAG, "FBtoken: " + token);
-                //    Log.Info(TAG, "FBID: " + mAuth.CurrentUser.Uid);
-
-                //    if (App.appUser != null) App.appUser.FirebaseToken = token;
-                //    if (App.appUser != null) App.appUser.FirebaseUserId = mAuth.CurrentUser.Uid;
-                //}
-                //catch (Exception ex)
-                //{
-                //    Log.Debug(TAG, ex.ToString());
-                //    throw;
-                //}
-
+                App.mAuth.SignInWithCredential(credential).AddOnCompleteListener(this, this);
             }
             catch (Exception ex)
             {
@@ -249,14 +232,14 @@ namespace FitConnectApp
         protected override void OnStop()
         {
             base.OnStop();
-            mAuth.RemoveAuthStateListener(this);
+            App.mAuth.RemoveAuthStateListener(this);
             mGoogleApiClient.Disconnect();
         }
 
         protected override void OnStart()
         {
             base.OnStart();
-            mAuth.AddAuthStateListener(this);
+            App.mAuth.AddAuthStateListener(this);
             mGoogleApiClient.Connect();
         }
 
@@ -284,7 +267,7 @@ namespace FitConnectApp
 
         private void signOut()
         {
-            mAuth.SignOut();
+            App.mAuth.SignOut();
             Auth.GoogleSignInApi.SignOut(mGoogleApiClient)
                 .SetResultCallback(new ResultCallback<IResult>(delegate
                 {
@@ -298,22 +281,10 @@ namespace FitConnectApp
         {
 
             Log.Debug(TAG, "SignInWithCredential:OnComplete:" + task.IsSuccessful);
-            //try
-            //{
-            //    var token = mAuth.CurrentUser.GetTokenAsync(true).Result.Token;
 
-            //    Log.Info(TAG, "FBtoken: " + token);
-            //    Log.Info(TAG, "FBID: " + mAuth.CurrentUser.Uid);
-
-            //    if (App.appUser != null) App.appUser.FirebaseToken = token;
-            //    if (App.appUser != null) App.appUser.FirebaseUserId = mAuth.CurrentUser.Uid;
-            //}
-            //catch (Exception ex)
-            //{
-            //    Log.Debug(TAG, ex.ToString());
-            //    throw;
-            //}
-
+            NavigationService nav = (NavigationService)ServiceLocator.Current.GetInstance<INavigationService>();
+            nav.NavigateTo(ViewModelLocator.HomeScreenKey);
+   
             // If sign in fails, display a message to the user. If sign in succeeds
             // the auth state listener will be notified and logic to handle the
             // signed in user can be handled in the listener.

@@ -9,6 +9,7 @@ using Android.Content;
 using Android.Preferences;
 using Android.Util;
 using FitConnectApp.Models;
+using Firebase;
 
 namespace FitConnectApp
 {
@@ -18,6 +19,8 @@ namespace FitConnectApp
 
         private static ViewModelLocator locator;
         private static User appuser;
+        private static FirebaseAuth firebaseAuth;
+        private static FirebaseApp firebaseApp;
 
         public static ViewModelLocator Locator
         {
@@ -38,6 +41,30 @@ namespace FitConnectApp
                 }
 
                 return locator;
+            }
+        }
+
+        public static FirebaseAuth mAuth
+        {
+            get
+            {
+                return firebaseAuth;
+            }
+            set
+            {
+                firebaseAuth = value;
+            }
+        }
+
+        public static FirebaseApp fbApp
+        {
+            get
+            {
+                return firebaseApp;
+            }
+            set
+            {
+                firebaseApp = value;
             }
         }
 

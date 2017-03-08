@@ -21,16 +21,12 @@ using static Android.Gms.Common.Apis.GoogleApiClient;
 using Android.Util;
 using Firebase;
 using Firebase.Database;
-using Firebase.Xamarin.Database;
-using Firebase.Xamarin.Auth;
-using Firebase.Xamarin.Token;
-using Firebase.Xamarin.Database.Query;
 
 namespace FitConnectApp
 {
     [Activity(Label = "HomeScreen")]
     public class HomeScreen : ActivityBase, GoogleApiClient.IOnConnectionFailedListener,
-        View.IOnClickListener, IOnCompleteListener, Firebase.Auth.FirebaseAuth.IAuthStateListener
+        View.IOnClickListener, IOnCompleteListener, FirebaseAuth.IAuthStateListener
     {
         private Button logout;
         private Button social;
@@ -38,8 +34,7 @@ namespace FitConnectApp
         private Button account;
         private Button stats;
         private GoogleApiClient mGoogleApiClient;
-        private Firebase.Auth.FirebaseAuth mAuth;
-        private DatabaseReference userNode;
+        //private FirebaseAuth mAuth;
         public const string TAG = "HomeScreen";
 
         public Button Logout => logout ?? (logout = FindViewById<Button>(Resource.Id.Logout));
@@ -58,14 +53,10 @@ namespace FitConnectApp
                 .AddApi(Auth.GOOGLE_SIGN_IN_API)
                 .Build();
 
-            FirebaseApp fa = FirebaseApp.InitializeApp(this);
-
-            mAuth = Firebase.Auth.FirebaseAuth.GetInstance(fa);
-
             var nav = (NavigationService)ServiceLocator.Current.GetInstance<INavigationService>();
             Logout.Click += (s, e) =>
             {
-                mAuth.SignOut();
+                App.mAuth.SignOut();
                 try
                 {
 
@@ -82,43 +73,29 @@ namespace FitConnectApp
                 }
             };
 
-
             try
             {
-                Log.Debug(TAG, "mAuth UID: " + mAuth.CurrentUser.Uid);
-
-            }
-            catch (Exception ex)
-            {
-                Log.Debug(TAG, ex.ToString());                
-            }
-
-            try
-            {
-
-                var authProvider = new Firebase.Xamarin.Auth.FirebaseAuthProvider(new FirebaseConfig("AIzaSyAFgkDjnvIfOtKkdVxcLw4cMiLqVORf9O0"));
-                var googleAuthToken = App.getAuthToken(this.ApplicationContext, "GOOGLE");
-                Log.Debug(TAG, "Google Authtoken: " + googleAuthToken);
-                var auth = await authProvider.SignInWithOAuthAsync(FirebaseAuthType.Google, googleAuthToken);
-                var firebase = new FirebaseClient("https://fitappconnect.firebaseio.com/");
-                //var db = FirebaseDatabase.GetInstance(fa);
+                                
                 var uid = App.getUid(this.ApplicationContext);
-                object thing = await firebase.Child("users").Child(uid).Child("TestVal")
-                    .WithAuth(auth.FirebaseToken) //App.getAuthToken(this.ApplicationContext, "GOOGLE")
-                    .OnceAsync<object>();
-                //var testVal = await firebase.Child("users").Child(uid).Child("TestVal").
-                //Log.Info(TAG, "App.UserId = " + uid);
-                //Log.Info(TAG, "App.UserId = " + App.appUser.FirebaseUserId);
-                //userNode = db.GetReference("users");
-                //Log.Info(TAG, App.appUser.FirstName);
-                //Log.Info(TAG, App.appUser?.FirebaseUserId);
-                //string thing = userNode.Child(mAuth.CurrentUser.Uid).Child("TestVal").Key;
-                Log.Info(TAG, thing.ToString());
+                
+                try
+                {
+                    Log.Debug(TAG, "TESTVALUE:");
+                    var db = FirebaseDatabase.GetInstance(App.fbApp);                                        
+                    
+                    var test = db.GetReference("users").Child(uid).Child("TestVal").SetValue("Updated!");
+                    var test2 = db.GetReference("users").Child(uid).Child("TestVal").AddValueEventListener(new ValueEventListener());//.AddChildEventListener(new IChildEventListener());
+                 
+                }
+                catch (Exception ex)
+                {
+                    Log.Debug(TAG, ex.ToString());
+                }
+
             }
             catch (Exception ex)
             {
                 Log.Debug(TAG, ex.ToString());
-                //throw;
             }
             
         }
@@ -126,13 +103,13 @@ namespace FitConnectApp
         protected override void OnStart()
         {
             base.OnStart();
-            mAuth.AddAuthStateListener(this);
+            App.mAuth.AddAuthStateListener(this);
             mGoogleApiClient.Connect();
         }
         protected override void OnStop()
         {
             base.OnStop();
-            mAuth.RemoveAuthStateListener(this);
+            App.mAuth.RemoveAuthStateListener(this);
             mGoogleApiClient.Disconnect();
         }
         
