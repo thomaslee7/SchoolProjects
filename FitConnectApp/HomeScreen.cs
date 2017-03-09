@@ -20,6 +20,7 @@ using Android.Gms.Common;
 using static Android.Gms.Common.Apis.GoogleApiClient;
 using Android.Util;
 using Firebase;
+using Firebase.Database;
 
 namespace FitConnectApp
 {
@@ -33,7 +34,7 @@ namespace FitConnectApp
         private Button account;
         private Button stats;
         private GoogleApiClient mGoogleApiClient;
-        private FirebaseAuth mAuth;
+        //private FirebaseAuth mAuth;
         public const string TAG = "HomeScreen";
 
         public Button Logout => logout ?? (logout = FindViewById<Button>(Resource.Id.Logout));
@@ -42,7 +43,7 @@ namespace FitConnectApp
         public Button Account => account ?? (account = FindViewById<Button>(Resource.Id.Account));
         public Button Stats => stats ?? (stats = FindViewById<Button>(Resource.Id.Stats));
 
-        protected override void OnCreate(Bundle savedInstanceState)
+        protected override async void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.HomeScreen);
@@ -52,14 +53,10 @@ namespace FitConnectApp
                 .AddApi(Auth.GOOGLE_SIGN_IN_API)
                 .Build();
 
-            FirebaseApp fa = FirebaseApp.InitializeApp(this);
-
-            mAuth = FirebaseAuth.GetInstance(fa);
-
             var nav = (NavigationService)ServiceLocator.Current.GetInstance<INavigationService>();
             Logout.Click += (s, e) =>
             {
-                mAuth.SignOut();
+                App.mAuth.SignOut();
                 try
                 {
 
@@ -75,19 +72,44 @@ namespace FitConnectApp
                     Log.Debug(TAG, ex.ToString());
                 }
             };
+
+            try
+            {
+                                
+                var uid = App.getUid(this.ApplicationContext);
+                
+                try
+                {
+                    Log.Debug(TAG, "TESTVALUE:");
+                    var db = FirebaseDatabase.GetInstance(App.fbApp);                                        
+                    
+                    var test = db.GetReference("users").Child(uid).Child("TestVal").SetValue("Updated!");
+                    var test2 = db.GetReference("users").Child(uid).Child("TestVal").AddValueEventListener(new ValueEventListener());//.AddChildEventListener(new IChildEventListener());
+                 
+                }
+                catch (Exception ex)
+                {
+                    Log.Debug(TAG, ex.ToString());
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Log.Debug(TAG, ex.ToString());
+            }
             
         }
 
         protected override void OnStart()
         {
             base.OnStart();
-            mAuth.AddAuthStateListener(this);
+            App.mAuth.AddAuthStateListener(this);
             mGoogleApiClient.Connect();
         }
         protected override void OnStop()
         {
             base.OnStop();
-            mAuth.RemoveAuthStateListener(this);
+            App.mAuth.RemoveAuthStateListener(this);
             mGoogleApiClient.Disconnect();
         }
         
@@ -116,9 +138,11 @@ namespace FitConnectApp
             //throw new NotImplementedException();
         }
 
-        public void OnAuthStateChanged(FirebaseAuth auth)
+        public void OnAuthStateChanged(Firebase.Auth.FirebaseAuth auth)
         {
             Log.Debug(TAG, "onAuthStateChanged:");
         }
+
+     
     }
 }

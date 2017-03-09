@@ -169,25 +169,13 @@ namespace FitConnectApp
 			public const int common_google_signin_btn_text_light_pressed = 2130837524;
 			
 			// aapt resource value: 0x7f020015
-			public const int ic_plusone_medium_off_client = 2130837525;
+			public const int Icon = 2130837525;
 			
 			// aapt resource value: 0x7f020016
-			public const int ic_plusone_small_off_client = 2130837526;
+			public const int Icon2 = 2130837526;
 			
 			// aapt resource value: 0x7f020017
-			public const int ic_plusone_standard_off_client = 2130837527;
-			
-			// aapt resource value: 0x7f020018
-			public const int ic_plusone_tall_off_client = 2130837528;
-			
-			// aapt resource value: 0x7f020019
-			public const int Icon = 2130837529;
-			
-			// aapt resource value: 0x7f02001a
-			public const int Icon2 = 2130837530;
-			
-			// aapt resource value: 0x7f02001b
-			public const int logo = 2130837531;
+			public const int logo = 2130837527;
 			
 			static Drawable()
 			{
