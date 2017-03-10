@@ -21,6 +21,7 @@ using static Android.Gms.Common.Apis.GoogleApiClient;
 using Android.Util;
 using Firebase;
 using Firebase.Database;
+using GalaSoft.MvvmLight.Helpers;
 
 namespace FitConnectApp
 {
@@ -42,6 +43,7 @@ namespace FitConnectApp
         public Button Workouts => workouts ?? (workouts = FindViewById<Button>(Resource.Id.Workouts));
         public Button Account => account ?? (account = FindViewById<Button>(Resource.Id.Account));
         public Button Stats => stats ?? (stats = FindViewById<Button>(Resource.Id.Stats));
+        public HomeScreenViewModel Vm => App.Locator.Home;
 
         protected override async void OnCreate(Bundle savedInstanceState)
         {
@@ -54,24 +56,29 @@ namespace FitConnectApp
                 .Build();
 
             var nav = (NavigationService)ServiceLocator.Current.GetInstance<INavigationService>();
-            Logout.Click += (s, e) =>
-            {
-                App.mAuth.SignOut();
-                try
-                {
 
-                    Auth.GoogleSignInApi.SignOut(mGoogleApiClient)
-                        .SetResultCallback(new ResultCallback<IResult>(delegate
-                        {
-                            Log.Debug("HomeScreen", "Auth.GoogleSignInApi.SignOut");
-                            nav.NavigateTo(ViewModelLocator.LoginScreenKey);
-                        }));
-                }
-                catch (Exception ex)
-                {
-                    Log.Debug(TAG, ex.ToString());
-                }
-            };
+            Workouts.SetCommand("Click", Vm.ShowStartWorkout);
+
+            Logout.SetCommand("Click", Vm.Logout, mGoogleApiClient);
+
+            //Logout.Click += (s, e) =>
+            //{
+            //    App.mAuth.SignOut();
+            //    try
+            //    {
+
+            //        Auth.GoogleSignInApi.SignOut(mGoogleApiClient)
+            //            .SetResultCallback(new ResultCallback<IResult>(delegate
+            //            {
+            //                Log.Debug("HomeScreen", "Auth.GoogleSignInApi.SignOut");
+            //                nav.NavigateTo(ViewModelLocator.LoginScreenKey);
+            //            }));
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        Log.Debug(TAG, ex.ToString());
+            //    }
+            //};
 
             try
             {

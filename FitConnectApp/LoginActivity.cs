@@ -26,13 +26,12 @@ using FitConnectApp.Models;
 
 namespace FitConnectApp
 {
-    [Activity(Label = "LoginActivity", MainLauncher = true, Icon = "@drawable/icon")]
+    [Activity(Label = "Login", MainLauncher = true, Icon = "@drawable/icon")]
     public class LoginActivity : ActivityBase, GoogleApiClient.IOnConnectionFailedListener, View.IOnClickListener , IOnCompleteListener, FirebaseAuth.IAuthStateListener
     {
         private static int RC_SIGN_IN = 9001;
         public static string TAG = "LoginActivity";
-
-        //private FirebaseAuth mAuth;
+                
         private GoogleApiClient mGoogleApiClient;
         private TextView mStatusTextView;
         private TextView welcomeText;

@@ -199,6 +199,9 @@ namespace FitConnectApp
 			// aapt resource value: 0x7f07000b
 			public const int Social = 2131165195;
 			
+			// aapt resource value: 0x7f070013
+			public const int StartNewWorkoutBtn = 2131165203;
+			
 			// aapt resource value: 0x7f07000e
 			public const int Stats = 2131165198;
 			
@@ -216,6 +219,9 @@ namespace FitConnectApp
 			
 			// aapt resource value: 0x7f070006
 			public const int auto = 2131165190;
+			
+			// aapt resource value: 0x7f070014
+			public const int button2 = 2131165204;
 			
 			// aapt resource value: 0x7f070007
 			public const int dark = 2131165191;
@@ -281,6 +287,9 @@ namespace FitConnectApp
 			
 			// aapt resource value: 0x7f030001
 			public const int Login = 2130903041;
+			
+			// aapt resource value: 0x7f030002
+			public const int StartWorkout = 2130903042;
 			
 			static Layout()
 			{
