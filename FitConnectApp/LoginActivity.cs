@@ -37,9 +37,14 @@ namespace FitConnectApp
         private TextView mStatusTextView;
         private TextView welcomeText;
         private SignInButton signInButton;
+        private Button basicSignInButton;
         private Button signOutButton;
+        private Button createAccountButton;
+        private EditText usernameField;
+        private EditText passwordField;
 
         private readonly List<Binding> bindings = new List<Binding>();
+        
 
         private LoginViewModel Vm
         {
@@ -52,6 +57,10 @@ namespace FitConnectApp
         public TextView StatusTextView => mStatusTextView ?? (mStatusTextView = FindViewById<TextView>(Resource.Id.statusTextView));
         public SignInButton SignInButton => signInButton ?? (signInButton = FindViewById<SignInButton>(Resource.Id.sign_in_button));
         public Button SignOutButton => signOutButton ?? (signOutButton = FindViewById<Button>(Resource.Id.sign_out_and_disconnect));
+        public EditText UsernameField => usernameField ?? (usernameField = FindViewById<EditText>(Resource.Id.usernameText));
+        public EditText PasswordField => passwordField ?? (passwordField = FindViewById<EditText>(Resource.Id.passwordText));
+        public Button BasicSignInButton => basicSignInButton ?? (basicSignInButton = FindViewById<Button>(Resource.Id.basic_sign_in_button));
+        public Button CreateAccountButton => createAccountButton ?? (createAccountButton = FindViewById<Button>(Resource.Id.create_account_button));
         public TextView WelcomeText => welcomeText ?? (welcomeText = FindViewById<TextView>(Resource.Id.WelcomeText));
 
         protected override void OnCreate(Bundle savedInstanceState)
@@ -107,6 +116,8 @@ namespace FitConnectApp
                 };
 
                 SignInButton.SetOnClickListener(this);
+                BasicSignInButton.SetOnClickListener(this);//non-google sign in button
+                CreateAccountButton.SetOnClickListener(this);
                 SignOutButton.SetOnClickListener(this);
             }
             catch (Exception ex)
@@ -116,19 +127,49 @@ namespace FitConnectApp
             }
         }
 
-        private void signIn()
+        private void signIn(int x)
         {
-            try
+            if (x == 0)
             {
-                Log.Debug(TAG, "creating intent");
-                Intent signInIntent = Auth.GoogleSignInApi.GetSignInIntent(mGoogleApiClient);
-                Log.Debug(TAG, "intent created, invoking signin");
-                StartActivityForResult(signInIntent, RC_SIGN_IN);
+                try
+                {
+                    Log.Debug(TAG, "creating intent");
+                    Intent signInIntent = Auth.GoogleSignInApi.GetSignInIntent(mGoogleApiClient);
+                    Log.Debug(TAG, "intent created, invoking signin");
+                    StartActivityForResult(signInIntent, RC_SIGN_IN);
+                }
+                catch (Exception ex)
+                {
+                    Log.Debug("signIn", ex.ToString());
+                    throw;
+                }
             }
-            catch (Exception ex)
+            if (x == 1)
             {
-                Log.Debug("signIn", ex.ToString());
-                throw;
+                try
+                {
+
+
+                    Log.Debug(TAG, "creating intent");
+                    EditText a = (EditText)FindViewById(Resource.Id.usernameText);
+                    String username = a.Text;
+                    EditText b = (EditText)FindViewById(Resource.Id.passwordText);
+                    String pwd = b.Text;
+                    Log.Debug(TAG, "signIn:" + username);
+                    if (!validateForm())
+                    {
+                        return;
+                    }
+                    App.mAuth.SignInWithEmailAndPassword(username, pwd).AddOnCompleteListener(this, this);
+                    //StartActivityForResult(signInIntent, RC_SIGN_IN);
+                    // Intent signInIntent = App.mAuth.SignInWithEmailAndPassword(username, pwd);
+
+                }
+                catch (Exception ex)
+                {
+                    Log.Debug("signIn", ex.ToString());
+                    throw;
+                }
             }
         }
 
@@ -254,10 +295,16 @@ namespace FitConnectApp
             switch (v.Id)
             {
                 case Resource.Id.sign_in_button:
-                    signIn();
+                    signIn(0);
+                    break;
+                case Resource.Id.basic_sign_in_button:
+                    signIn(1);
                     break;
                 case Resource.Id.sign_out_and_disconnect:
                     signOut();
+                    break;
+                case Resource.Id.create_account_button:
+                    createAccount(UsernameField.Text.ToString(), PasswordField.Text.ToString());
                     break;
                 default:
                     Log.Debug(TAG, "onclick: " + v.Id);
@@ -277,6 +324,39 @@ namespace FitConnectApp
             App.removeAuthToken(this.ApplicationContext, "GOOGLE");
         }
 
+        private Boolean validateForm()
+        {
+            Boolean valid = true;
+            String email = UsernameField.Text.ToString();
+            if(email == null)
+            {
+                valid = false;
+            }
+            String pwd = PasswordField.Text.ToString();
+            if(pwd == null)
+            {
+                valid = false;
+            }
+            return valid;
+        }
+
+        private void createAccount(String email, String password)
+        {
+            Log.Debug(TAG, "createAccount:" + email);
+            if (!validateForm())
+            {
+                return;
+            }
+            try
+            {
+                App.mAuth.CreateUserWithEmailAndPassword(email, password).AddOnCompleteListener(this, this);
+            }
+            catch(Exception ex)
+            {
+                Log.Debug("createAccount", ex.ToString());
+                throw;
+            }
+        }
         public void OnComplete(Task task)
         {
 
@@ -295,6 +375,9 @@ namespace FitConnectApp
                 Toast.MakeText(this, "Authentication failed.", ToastLength.Long).Show();
             }
         }
+
+        
+
 
         public void OnAuthStateChanged(FirebaseAuth auth)
         {

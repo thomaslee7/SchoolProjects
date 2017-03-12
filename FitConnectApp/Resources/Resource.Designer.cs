@@ -217,6 +217,12 @@ namespace FitConnectApp
 			// aapt resource value: 0x7f070006
 			public const int auto = 2131165190;
 			
+			// aapt resource value: 0x7f070013
+			public const int basic_sign_in_button = 2131165203;
+			
+			// aapt resource value: 0x7f070014
+			public const int create_account_button = 2131165204;
+			
 			// aapt resource value: 0x7f070007
 			public const int dark = 2131165191;
 			
@@ -232,17 +238,23 @@ namespace FitConnectApp
 			// aapt resource value: 0x7f070002
 			public const int none = 2131165186;
 			
-			// aapt resource value: 0x7f070011
-			public const int sign_in_button = 2131165201;
-			
 			// aapt resource value: 0x7f070012
-			public const int sign_out_and_disconnect = 2131165202;
+			public const int passwordText = 2131165202;
+			
+			// aapt resource value: 0x7f070015
+			public const int sign_in_button = 2131165205;
+			
+			// aapt resource value: 0x7f070016
+			public const int sign_out_and_disconnect = 2131165206;
 			
 			// aapt resource value: 0x7f070004
 			public const int standard = 2131165188;
 			
 			// aapt resource value: 0x7f070010
 			public const int statusTextView = 2131165200;
+			
+			// aapt resource value: 0x7f070011
+			public const int usernameText = 2131165201;
 			
 			// aapt resource value: 0x7f070005
 			public const int wide = 2131165189;

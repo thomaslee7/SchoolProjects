@@ -43,7 +43,7 @@ namespace FitConnectApp
         public Button Account => account ?? (account = FindViewById<Button>(Resource.Id.Account));
         public Button Stats => stats ?? (stats = FindViewById<Button>(Resource.Id.Stats));
 
-        protected override async void OnCreate(Bundle savedInstanceState)
+        protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.HomeScreen);
@@ -75,17 +75,17 @@ namespace FitConnectApp
 
             try
             {
-                                
+
                 var uid = App.getUid(this.ApplicationContext);
-                
+
                 try
                 {
                     Log.Debug(TAG, "TESTVALUE:");
-                    var db = FirebaseDatabase.GetInstance(App.fbApp);                                        
-                    
+                    var db = FirebaseDatabase.GetInstance(App.fbApp);
+
                     var test = db.GetReference("users").Child(uid).Child("TestVal").SetValue("Updated!");
                     var test2 = db.GetReference("users").Child(uid).Child("TestVal").AddValueEventListener(new ValueEventListener());//.AddChildEventListener(new IChildEventListener());
-                 
+
                 }
                 catch (Exception ex)
                 {
@@ -97,7 +97,7 @@ namespace FitConnectApp
             {
                 Log.Debug(TAG, ex.ToString());
             }
-            
+
         }
 
         protected override void OnStart()
