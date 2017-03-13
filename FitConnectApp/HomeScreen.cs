@@ -43,6 +43,7 @@ namespace FitConnectApp
         public Button Account => account ?? (account = FindViewById<Button>(Resource.Id.Account));
         public Button Stats => stats ?? (stats = FindViewById<Button>(Resource.Id.Stats));
 
+
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
