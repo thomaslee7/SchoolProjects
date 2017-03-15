@@ -240,6 +240,26 @@ namespace FitConnectApp
             base.OnStart();
             App.mAuth.AddAuthStateListener(this);
             mGoogleApiClient.Connect();
+            
+        }
+
+        protected override void OnResume()
+        {
+            base.OnResume();
+            if (App.appUser.IsLoggedIn || !string.IsNullOrWhiteSpace(App.getAuthToken(this, "GOOGLE")))
+            {
+                try
+                {
+                    //NavigationService nav = (NavigationService)ServiceLocator.Current.GetInstance<INavigationService>();
+                    //nav.NavigateTo(ViewModelLocator.HomeScreenKey);
+                    Vm.ShowHomeScreen.Execute(null);
+                }
+                catch (Exception ex)
+                {
+                    Log.Error(TAG, ex.ToString());
+                    //throw;
+                }
+            }
         }
 
         public void OnConnectionFailed(ConnectionResult result)
@@ -281,8 +301,15 @@ namespace FitConnectApp
 
             Log.Debug(TAG, "SignInWithCredential:OnComplete:" + task.IsSuccessful);
 
-            NavigationService nav = (NavigationService)ServiceLocator.Current.GetInstance<INavigationService>();
-            nav.NavigateTo(ViewModelLocator.HomeScreenKey);
+            try
+            {
+                Vm.ShowHomeScreen.Execute(null);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(TAG, ex.ToString());
+                //throw;
+            }
    
             // If sign in fails, display a message to the user. If sign in succeeds
             // the auth state listener will be notified and logic to handle the

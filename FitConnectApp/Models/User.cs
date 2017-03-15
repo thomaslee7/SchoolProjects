@@ -19,6 +19,7 @@ namespace FitConnectApp.Models
         private string _lastName;
         private string _firebaseUID;
         private string _firebaseToken;
+        private bool _isLoggedIn;
 
         public string FirstName
         {
@@ -63,6 +64,18 @@ namespace FitConnectApp.Models
             set
             {
                 Set(() => FirebaseToken, ref _firebaseToken, value);
+            }
+        }
+
+        public bool IsLoggedIn
+        {
+            get
+            {
+                return _isLoggedIn;
+            }
+            set
+            {
+                Set(() => IsLoggedIn, ref _isLoggedIn, value);
             }
         }
     }

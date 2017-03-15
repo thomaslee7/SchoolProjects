@@ -72,6 +72,7 @@ namespace FitConnectApp.ViewModel
                                 Log.Debug("HomeScreen", "Auth.GoogleSignInApi.SignOut");
                                 _navService.NavigateTo(ViewModelLocator.LoginScreenKey);
                             }));
+                        App.removeAuthToken(Android.App.Application.Context.ApplicationContext, "GOOGLE");
                     }
                     catch (Exception ex)
                     {
