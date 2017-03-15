@@ -1,41 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:minWidth="25px"
-    android:minHeight="25px">
-    <GridLayout
+    android:orientation="vertical">
+    <ScrollView
         android:minWidth="25px"
         android:minHeight="25px"
+        android:id="@+id/scrollView1"
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/gridLayout1"
-        android:rowCount="8"
-        android:columnCount="1">
-        <ScrollView
+        android:fillViewport="true"
+        android:layout_weight="1">
+        <LinearLayout
             android:minWidth="25px"
             android:minHeight="25px"
-            android:id="@+id/scrollView1"
-            android:layout_row="0"
-            android:layout_column="0"
-            android:layout_rowSpan="6"
-            android:layout_columnWeight="1"
-            android:layout_rowWeight="1">
-            <FrameLayout
-                android:minWidth="25px"
-                android:minHeight="25px"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/exerciseCardsFrame"
-                android:layout_marginBottom="1.5dp" />
-        </ScrollView>
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/exerciseCardsFrame"
+            android:layout_marginBottom="1.5dp"
+            android:orientation="vertical" />
+    </ScrollView>
+    <LinearLayout
+        android:id="@+id/buttons"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
         <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="Add Exercise"
-            android:id="@+id/AddExercise"
-            android:layout_column="0"
-            android:layout_row="7"
-            android:layout_columnWeight="1"
-            android:layout_rowSpan="1" />
-    </GridLayout>
+            android:id="@+id/AddExercise" />
+    </LinearLayout>
 </LinearLayout>

@@ -9,7 +9,7 @@ using Android.Runtime;
 using Android.Util;
 using Android.Views;
 using Android.Widget;
-using Android.Support.V4.App;
+//using Android.Support.V4.App;
 using FitConnectApp.ViewModel;
 using GalaSoft.MvvmLight.Helpers;
 using GalaSoft.MvvmLight.Views;
@@ -35,7 +35,21 @@ namespace FitConnectApp.Activities.WorkoutActivities
 
                 SetContentView(Resource.Layout.CreateWorkoutScreen);
                 //AddExercise.SetCommand(eventName: "Click", command: Vm.AddExercise, commandParameter: FragmentManager);
-                AddExercise.Click += AddExerciseCard;                
+                AddExercise.Click += AddExerciseCard;
+
+                // use this to add blank exercise cards
+                //ExerciseCardFragment card;
+                //FragmentTransaction tx = FragmentManager.BeginTransaction();
+                //for (int i = 0; i < 40; i++)
+                //{
+                //    card = new ExerciseCardFragment();
+                //    Guid exercisetag = new Guid();
+                //    Log.Debug(TAG, i.ToString());
+                //    //App.Locator.CreateWorkout.ExerciseTags.Add(exercisetag);
+                //    tx.Add(Resource.Id.exerciseCardsFrame, card, exercisetag.ToString());
+
+                //}
+                //tx.Commit();
             }
             catch (Exception ex)
             {
@@ -46,19 +60,6 @@ namespace FitConnectApp.Activities.WorkoutActivities
         public void AddExerciseCard(object sender, EventArgs e)
         {
             Vm.AddExercise.Execute(FragmentManager);
-            //if (FindViewById(Resource.Id.exerciseCardsFrame) != null)
-            //{
-            //    Log.Debug(TAG, "Adding exercise card");                
-            //    ExerciseCardFragment card = new ExerciseCardFragment();
-
-            //    Bundle bundle = new Bundle();
-            //    bundle.PutString("exname", App.Locator.ExerciseSelect.SelectedExerciseName);
-            //    bundle.PutInt("exid", App.Locator.ExerciseSelect.SelectedExerciseId);
-
-            //    card.Arguments.PutBundle("exdata", bundle);
-            //    FragmentManager.BeginTransaction().Add(Resource.Id.exerciseCardsFrame, card);
-
-            //}
         }
     }
 }

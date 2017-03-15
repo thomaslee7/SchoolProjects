@@ -22,10 +22,23 @@ namespace FitConnectApp.ViewModel
         private const string TAG = "CreateWorkoutViewModel";
         private RelayCommand<FragmentManager> _addExercise;
         private INavigationService _navService;
+        private List<Guid> exerciseTags;
+        public List<Guid> ExerciseTags
+        {
+            get
+            {
+                return exerciseTags;
+            }
+            set
+            {
+                Set(() => ExerciseTags, ref exerciseTags, value);
+            }
+        }
                 
         public CreateWorkoutViewModel(INavigationService navService)
         {
             _navService = navService;
+            ExerciseTags = new List<Guid>();
         }
 
         public RelayCommand<FragmentManager> AddExercise

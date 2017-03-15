@@ -93,8 +93,6 @@ namespace FitConnectApp.Activities.WorkoutActivities
             ExericseList = addSpinnerData(snapshot, SelectExerciseName);
         }
 
-
-
         private Dictionary<int, Tuple<int, string>> addSpinnerData(DataSnapshot snapshot, Spinner spinner)
         {
             var list = new Dictionary<int, Tuple<int, string>>();

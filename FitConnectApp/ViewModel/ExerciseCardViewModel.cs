@@ -43,7 +43,7 @@ namespace FitConnectApp.ViewModel
         }
         public ExerciseCardViewModel(int id, string name)
         {
-            ExerciseName = name;
+            ExerciseName = name ?? "TEST! " + Guid.NewGuid().ToString();
             ExerciseId = id;
         }
     }

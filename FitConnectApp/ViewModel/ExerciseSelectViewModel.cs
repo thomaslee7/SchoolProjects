@@ -93,9 +93,13 @@ namespace FitConnectApp.ViewModel
                         bundle.PutString("exname", App.Locator.ExerciseSelect.SelectedExerciseName);
                         bundle.PutInt("exid", App.Locator.ExerciseSelect.SelectedExerciseId);
 
+                        Guid exercisetag = new Guid();
+                        App.Locator.CreateWorkout.ExerciseTags.Add(exercisetag);
+
                         card.Arguments = bundle;
                         FragmentTransaction tx = fragment.FragmentManager.BeginTransaction();
-                        tx.Add(Resource.Id.exerciseCardsFrame, card);
+                        tx.Add(Resource.Id.exerciseCardsFrame, card, exercisetag.ToString());
+                        //tx.AddToBackStack(null);
                         tx.Commit();
 
                     }
