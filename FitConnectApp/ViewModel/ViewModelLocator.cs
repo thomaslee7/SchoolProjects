@@ -26,6 +26,9 @@ namespace FitConnectApp.ViewModel
     {
         public const string HomeScreenKey = "HomeScreen";
         public const string LoginScreenKey = "LoginScreen";
+        public const string StartWorkoutKey = "StartWorkoutScreen";
+        public const string CreateWorkoutKey = "CreateWorkoutScreen";
+        //public const string ExerciseSelectKey = "ExerciseSelectScreen";
 
         /// <summary>
         /// Initializes a new instance of the ViewModelLocator class.
@@ -44,8 +47,11 @@ namespace FitConnectApp.ViewModel
             ////    // Create run time view services and models
             ////    SimpleIoc.Default.Register<IDataService, DataService>();
             ////}
-
             SimpleIoc.Default.Register<LoginViewModel>();
+            SimpleIoc.Default.Register<HomeScreenViewModel>();
+            SimpleIoc.Default.Register<StartWorkoutViewModel>();
+            SimpleIoc.Default.Register<CreateWorkoutViewModel>();
+            SimpleIoc.Default.Register<ExerciseSelectViewModel>();
         }
 
         public LoginViewModel Login
@@ -56,6 +62,36 @@ namespace FitConnectApp.ViewModel
             }
         }
 
+        public HomeScreenViewModel Home
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<HomeScreenViewModel>();
+            }
+        }
+
+        public StartWorkoutViewModel StartWorkout
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<StartWorkoutViewModel>();
+            }
+        }
+        public CreateWorkoutViewModel CreateWorkout
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<CreateWorkoutViewModel>();
+            }
+        }
+
+        public ExerciseSelectViewModel ExerciseSelect
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<ExerciseSelectViewModel>();
+            }
+        }
         public static void Cleanup()
         {
             // TODO Clear the ViewModels
