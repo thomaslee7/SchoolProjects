@@ -32,5 +32,11 @@
             android:layout_height="wrap_content"
             android:text="Add Exercise"
             android:id="@+id/AddExercise" />
+        <Button
+            android:text="save"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/saveWorkoutBtn"
+            android:gravity="center" />
     </LinearLayout>
 </LinearLayout>

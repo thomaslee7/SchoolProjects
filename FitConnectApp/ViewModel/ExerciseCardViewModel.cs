@@ -10,41 +10,45 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using GalaSoft.MvvmLight;
+using FitConnectApp.Models;
+using GalaSoft.MvvmLight.Command;
 
 namespace FitConnectApp.ViewModel
 {
     public class ExerciseCardViewModel : ViewModelBase
     {
-        private string exerciseName;
-        private int exerciseId;
+        private ExerciseData exData;
+        private RelayCommand<ExerciseSetData> saveSetData;
 
-        public string ExerciseName
+        public ExerciseData ExData
         {
             get
             {
-                return exerciseName;
+                return exData;
             }
             set
             {
-                Set(() => ExerciseName, ref exerciseName, value);
+                Set(() => ExData, ref exData, value);
             }
         }
 
-        public int ExerciseId
-        {
-            get
-            {
-                return exerciseId;
-            }
-            set
-            {
-                Set(() => ExerciseId, ref exerciseId, value);
-            }
-        }
         public ExerciseCardViewModel(int id, string name)
         {
-            ExerciseName = name ?? "TEST! " + Guid.NewGuid().ToString();
-            ExerciseId = id;
+            var exerciseList = App.Locator.CreateWorkout.Workout.Exercises;
+            ExData = new ExerciseData { ExName = name ?? "TEST! " + Guid.NewGuid().ToString() };
+            exerciseList.Add(exerciseList.Count +1, ExData);
         }
+
+        public RelayCommand<ExerciseSetData> SaveSetData
+        {
+            get
+            {
+                return saveSetData ?? (saveSetData = new RelayCommand<ExerciseSetData>((set) => 
+                {
+                    ExData.SetData.Add(ExData.SetData.Count + 1, set);
+                }));
+            }
+        }
+
     }
 }

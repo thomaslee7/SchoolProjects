@@ -22,8 +22,10 @@ namespace FitConnectApp.Activities.WorkoutActivities
     {
         const string TAG = "CreateWorkout";
         private Button addExercise;
+        private Button saveWorkout;
 
         public Button AddExercise => addExercise ?? (addExercise = FindViewById<Button>(Resource.Id.AddExercise));
+        public Button SaveWorkout => saveWorkout ?? (saveWorkout = FindViewById<Button>(Resource.Id.saveWorkoutBtn));
         private CreateWorkoutViewModel Vm => App.Locator.CreateWorkout;      
 
         protected override void OnCreate(Bundle savedInstanceState)
@@ -36,6 +38,8 @@ namespace FitConnectApp.Activities.WorkoutActivities
                 SetContentView(Resource.Layout.CreateWorkoutScreen);
                 //AddExercise.SetCommand(eventName: "Click", command: Vm.AddExercise, commandParameter: FragmentManager);
                 AddExercise.Click += AddExerciseCard;
+                SaveWorkout.SetCommand(Vm.SaveWorkout);
+
 
                 // use this to add blank exercise cards
                 //ExerciseCardFragment card;

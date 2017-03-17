@@ -149,6 +149,7 @@
     <Compile Include="Activities\WorkoutActivities\CreateWorkoutActivity.cs" />
     <Compile Include="Activities\WorkoutActivities\ExerciseCardFragment.cs" />
     <Compile Include="Activities\WorkoutActivities\ExerciseSelectFragment.cs" />
+    <Compile Include="Models\WorkoutData.cs" />
     <Compile Include="ValueEventListener.cs" />
     <Compile Include="App.cs" />
     <Compile Include="ChildEventListener.cs" />
