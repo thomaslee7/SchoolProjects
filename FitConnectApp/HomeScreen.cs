@@ -10,6 +10,7 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using GalaSoft.MvvmLight.Views;
+using GalaSoft.MvvmLight.Helpers;
 using Microsoft.Practices.ServiceLocation;
 using Android.Gms.Auth.Api;
 using Android.Gms.Common.Apis;
@@ -42,9 +43,9 @@ namespace FitConnectApp
         public Button Workouts => workouts ?? (workouts = FindViewById<Button>(Resource.Id.Workouts));
         public Button Account => account ?? (account = FindViewById<Button>(Resource.Id.Account));
         public Button Stats => stats ?? (stats = FindViewById<Button>(Resource.Id.Stats));
+        public HomeScreenViewModel Vm => App.Locator.Home;
 
-
-        protected override void OnCreate(Bundle savedInstanceState)
+        protected override async void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.HomeScreen);
@@ -55,50 +56,31 @@ namespace FitConnectApp
                 .Build();
 
             var nav = (NavigationService)ServiceLocator.Current.GetInstance<INavigationService>();
-            Logout.Click += (s, e) =>
-            {
-                App.mAuth.SignOut();
-                try
-                {
-
-                    Auth.GoogleSignInApi.SignOut(mGoogleApiClient)
-                        .SetResultCallback(new ResultCallback<IResult>(delegate
-                        {
-                            Log.Debug("HomeScreen", "Auth.GoogleSignInApi.SignOut");
-                            nav.NavigateTo(ViewModelLocator.LoginScreenKey);
-                        }));
-                }
-                catch (Exception ex)
-                {
-                    Log.Debug(TAG, ex.ToString());
-                }
-            };
+            
+            Workouts.SetCommand("Click", Vm.ShowStartWorkout);
+            Account.SetCommand("Click", Vm.ShowAccount);
+            Stats.SetCommand("Click", Vm.ShowStats);
+            Logout.SetCommand("Click", Vm.Logout, mGoogleApiClient);
 
             try
             {
-
                 var uid = App.getUid(this.ApplicationContext);
 
                 try
                 {
-                    Log.Debug(TAG, "TESTVALUE:");
-                    var db = FirebaseDatabase.GetInstance(App.fbApp);
-
-                    var test = db.GetReference("users").Child(uid).Child("TestVal").SetValue("Updated!");
-                    var test2 = db.GetReference("users").Child(uid).Child("TestVal").AddValueEventListener(new ValueEventListener());//.AddChildEventListener(new IChildEventListener());
 
                 }
-                catch (Exception ex)
+                catch(Exception ex)
                 {
                     Log.Debug(TAG, ex.ToString());
                 }
-
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
                 Log.Debug(TAG, ex.ToString());
             }
 
+            
         }
 
         protected override void OnStart()

@@ -26,6 +26,10 @@ namespace FitConnectApp.ViewModel
     {
         public const string HomeScreenKey = "HomeScreen";
         public const string LoginScreenKey = "LoginScreen";
+        public const string StartWorkoutKey = "StartWorkoutScreen";
+        public const string CreateWorkoutKey = "CreateWorkoutScreen";
+        public const string AccountScreenKey = "AccountScreen";
+        public const string StatsScreenKey = "StatsScreen";
 
         /// <summary>
         /// Initializes a new instance of the ViewModelLocator class.
@@ -46,6 +50,11 @@ namespace FitConnectApp.ViewModel
             ////}
 
             SimpleIoc.Default.Register<LoginViewModel>();
+            SimpleIoc.Default.Register<HomeScreenViewModel>();
+            SimpleIoc.Default.Register<StartWorkoutViewModel>();
+            SimpleIoc.Default.Register<CreateWorkoutViewModel>();
+            SimpleIoc.Default.Register<StatsViewModel>();
+            SimpleIoc.Default.Register<AccountViewModel>();
         }
 
         public LoginViewModel Login
@@ -55,7 +64,53 @@ namespace FitConnectApp.ViewModel
                 return ServiceLocator.Current.GetInstance<LoginViewModel>();
             }
         }
+        public HomeScreenViewModel Home
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<HomeScreenViewModel>();
+            }
+        }
 
+        public StartWorkoutViewModel StartWorkout
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<StartWorkoutViewModel>();
+            }
+        }
+
+        public CreateWorkoutViewModel CreateWorkout
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<CreateWorkoutViewModel>();
+            }
+        }
+
+        public AccountViewModel Account
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<AccountViewModel>();
+            }
+        }
+
+        public StatsViewModel Stats
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<StatsViewModel>();
+            }
+        }
+
+        public ExerciseSelectViewModel ExerciseSelect
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<ExerciseSelectViewModel>();
+            }
+        }
         public static void Cleanup()
         {
             // TODO Clear the ViewModels

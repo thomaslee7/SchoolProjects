@@ -10,6 +10,7 @@ using Android.Preferences;
 using Android.Util;
 using FitConnectApp.Models;
 using Firebase;
+using FitConnectApp.Activities.WorkoutActivities;
 
 namespace FitConnectApp
 {
@@ -36,6 +37,10 @@ namespace FitConnectApp
 
                     nav.Configure(ViewModelLocator.HomeScreenKey, typeof(HomeScreen));
                     nav.Configure(ViewModelLocator.LoginScreenKey, typeof(LoginActivity));
+                    nav.Configure(ViewModelLocator.AccountScreenKey, typeof(AccountActivity));
+                    nav.Configure(ViewModelLocator.StatsScreenKey, typeof(StatsActivity));
+                    nav.Configure(ViewModelLocator.StartWorkoutKey, typeof(StartWorkoutActivity));
+                    nav.Configure(ViewModelLocator.CreateWorkoutKey, typeof(CreateWorkoutActivity));
 
                     locator = new ViewModelLocator();
                 }
@@ -144,7 +149,6 @@ namespace FitConnectApp
             catch (System.Exception ex)
             {
                 Log.Debug(TAG, ex.ToString());
-                //throw;
             }
 
             return null;
@@ -160,7 +164,7 @@ namespace FitConnectApp
                 }
                 return appuser;
             }
-            
+
         }
     }
 }

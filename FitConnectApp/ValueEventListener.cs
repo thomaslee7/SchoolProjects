@@ -9,14 +9,19 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
-using Firebase.Database;
 using Android.Util;
+using Firebase.Database;
 
-namespace FitConnectApp
+namespace FitConnectApp.Activities.WorkoutActivities.Listeners
 {
-    class ValueEventListener : Java.Lang.Object, IValueEventListener
+    public class ValueEventListener : Java.Lang.Object, IValueEventListener
     {
-        
+        private Action<DataSnapshot> dataChangedAction;
+
+        public ValueEventListener(Action<DataSnapshot> action)
+        {
+            dataChangedAction = action;
+        }
         public void OnCancelled(DatabaseError error)
         {
             Log.Debug("VEL OnCancelled", error.ToString());
@@ -24,8 +29,7 @@ namespace FitConnectApp
 
         public void OnDataChange(DataSnapshot snapshot)
         {
-            var thing = snapshot.Value;
-            Log.Debug("VEL OnDataChange", snapshot.Value.ToString());
+            dataChangedAction(snapshot);
         }
     }
 }

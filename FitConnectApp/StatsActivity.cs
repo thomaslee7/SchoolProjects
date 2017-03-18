@@ -18,7 +18,7 @@ using GalaSoft.MvvmLight.Views;
 
 namespace FitConnectApp
 {
-    class StatsActivity : ActivityBase
+   public class StatsActivity : ActivityBase
     {
         protected override void OnCreate(Bundle savedInstanceState)
         {

@@ -19,14 +19,14 @@ using GalaSoft.MvvmLight.Views;
 namespace FitConnectApp
 {
     [Activity(Label = "Account")]
-    class AccountActivity : ActivityBase
+    public class AccountActivity : ActivityBase
     {
         private EditText _usernameField;
         private Button _logout;
 
 
         public EditText UsernameField => _usernameField = FindViewById<EditText>(Resource.Id.usernameField);
-  
+        public AccountViewModel Vm => App.Locator.Account;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {

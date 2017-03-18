@@ -1,8 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using Android.App;
 using Android.Content;
 using Android.OS;
@@ -13,13 +14,18 @@ using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using Android.Util;
 using GalaSoft.MvvmLight.Views;
+using FitConnectApp.Models;
 
 namespace FitConnectApp.ViewModel
 {
-    class AccountViewModel : ViewModelBase
+    public class AccountViewModel : ViewModelBase
     {
+        private User  _currentUser;
         private RelayCommand _account;
         private INavigationService _navService;
+
+        private const string TAG = "AccountViewModel";
+
 
         public AccountViewModel(INavigationService navService)
         {
@@ -30,10 +36,11 @@ namespace FitConnectApp.ViewModel
         {
             get
             {
+                Log.Debug("AccountVM", "Account RC");
                 return _account ??
-                    (_account = new RelayCommand(() => Log.Debug("AccountVM",
-                    "Account RC")));
+                    (_account = new RelayCommand(() => _navService.NavigateTo(ViewModelLocator.AccountScreenKey)));
             }
         }
+
     }
 }
