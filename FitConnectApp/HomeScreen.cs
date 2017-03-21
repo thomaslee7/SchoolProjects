@@ -42,11 +42,8 @@ namespace FitConnectApp
         public Button Workouts => workouts ?? (workouts = FindViewById<Button>(Resource.Id.Workouts));
         public Button Account => account ?? (account = FindViewById<Button>(Resource.Id.Account));
         public Button Stats => stats ?? (stats = FindViewById<Button>(Resource.Id.Stats));
-<<<<<<< HEAD
         public HomeScreenViewModel Vm => App.Locator.Home;
-=======
-		public HomeScreenViewModel Vm = App.Locator.Home;
->>>>>>> 277ba4f... * font-awesome.css: * font-awesome.min.css: * fontawesome-webfont.eot: * fontawesome-webfont.svg: * fontawesome-webfont.ttf: * fontawesome-webfont.woff: * fontawesome-webfont.woff2: add font awesome for glyphs and styling
+	public HomeScreenViewModel Vm = App.Locator.Home;
 
         protected override async void OnCreate(Bundle savedInstanceState)
         {
@@ -58,17 +55,15 @@ namespace FitConnectApp
                 .AddApi(Auth.GOOGLE_SIGN_IN_API)
                 .Build();
 
-<<<<<<< HEAD
             var nav = (NavigationService)ServiceLocator.Current.GetInstance<INavigationService>();
 
             Workouts.SetCommand("Click", Vm.ShowStartWorkout);
 
             Logout.SetCommand("Click", Vm.Logout, mGoogleApiClient);
-=======
+
             //var nav = (NavigationService)ServiceLocator.Current.GetInstance<INavigationService>();
             
 			Social.SetCommand("Click", Vm.ShowSocial);
->>>>>>> 277ba4f... * font-awesome.css: * font-awesome.min.css: * fontawesome-webfont.eot: * fontawesome-webfont.svg: * fontawesome-webfont.ttf: * fontawesome-webfont.woff: * fontawesome-webfont.woff2: add font awesome for glyphs and styling
 
 			Logout.SetCommand("Click", Vm.Logout, mGoogleApiClient);   
             
@@ -78,21 +73,18 @@ namespace FitConnectApp
                  
                 try
                 {
-<<<<<<< HEAD
                     //Log.Debug(TAG, "TESTVALUE:");
                     //var db = FirebaseDatabase.GetInstance(App.fbApp);                                        
                     
                     //var test = db.GetReference("users").Child(uid).Child("TestVal").SetValue("Updated!");
                     //var test2 = db.GetReference("users").Child(uid).Child("TestVal").AddValueEventListener(new ValueEventListener());//.AddChildEventListener(new IChildEventListener());
                  
-=======
                     Log.Debug(TAG, "TESTVALUE:");
                     var db = FirebaseDatabase.GetInstance(App.fbApp);
 
 					var test = db.GetReference("users").Child(uid).Child("TestVal").SetValue("Updated!");
 					var test2 = db.GetReference("users").Child(uid).Child("TestVal").AddValueEventListener(new ValueEventListener());//.AddChildEventListener(new IChildEventListener());
                   
->>>>>>> 277ba4f... * font-awesome.css: * font-awesome.min.css: * fontawesome-webfont.eot: * fontawesome-webfont.svg: * fontawesome-webfont.ttf: * fontawesome-webfont.woff: * fontawesome-webfont.woff2: add font awesome for glyphs and styling
                 }
                 catch (Exception ex)
                 {
