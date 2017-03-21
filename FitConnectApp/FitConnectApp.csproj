@@ -172,7 +172,6 @@
     <AndroidResource Include="Resources\layout\HomeScreen.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
-<<<<<<< HEAD
     <AndroidResource Include="Resources\layout\StartWorkout.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
@@ -185,7 +184,6 @@
     <AndroidResource Include="Resources\layout\ExerciseCard.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
-=======
     <AndroidResource Include="Resources\layout\Social.axml" />
     <None Include="fonts\FontAwesome.otf" />
     <None Include="fonts\fontawesome-webfont.woff2" />
@@ -195,7 +193,6 @@
     <None Include="fonts\fontawesome-webfont.eot" />
     <None Include="Content\font-awesome.min.css" />
     <None Include="Content\font-awesome.css" />
->>>>>>> 277ba4f... * font-awesome.css: * font-awesome.min.css: * fontawesome-webfont.eot: * fontawesome-webfont.svg: * fontawesome-webfont.ttf: * fontawesome-webfont.woff: * fontawesome-webfont.woff2: add font awesome for glyphs and styling
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\Login.axml">
