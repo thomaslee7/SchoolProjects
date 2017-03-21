@@ -13,22 +13,13 @@ using GalaSoft.MvvmLight;
 
 namespace FitConnectApp.Models
 {
-<<<<<<< HEAD
     public class User : ObservableObject //part of MVVM, implements INotifiy property changed for us
     {
         private string _firstName;
         private string _lastName;
         private string _firebaseUID;
         private string _firebaseToken;
-        private bool _isLoggedIn;
-=======
-    public class User : ObservableObject
-    {
-		private string _firstName;
-        private string _lastName;
-        private string _firebaseUID;
-        private string _firebaseToken;
->>>>>>> 277ba4f... * font-awesome.css: * font-awesome.min.css: * fontawesome-webfont.eot: * fontawesome-webfont.svg: * fontawesome-webfont.ttf: * fontawesome-webfont.woff: * fontawesome-webfont.woff2: add font awesome for glyphs and styling
+		private bool _isLoggedIn;
 
         public string FirstName
         {
@@ -75,7 +66,6 @@ namespace FitConnectApp.Models
                 Set(() => FirebaseToken, ref _firebaseToken, value);
             }
         }
-<<<<<<< HEAD
 
         public bool IsLoggedIn
         {
@@ -88,7 +78,5 @@ namespace FitConnectApp.Models
                 Set(() => IsLoggedIn, ref _isLoggedIn, value);
             }
         }
-=======
->>>>>>> 277ba4f... * font-awesome.css: * font-awesome.min.css: * fontawesome-webfont.eot: * fontawesome-webfont.svg: * fontawesome-webfont.ttf: * fontawesome-webfont.woff: * fontawesome-webfont.woff2: add font awesome for glyphs and styling
     }
 }

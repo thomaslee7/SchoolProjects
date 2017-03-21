@@ -26,13 +26,10 @@ namespace FitConnectApp.ViewModel
     {
         public const string HomeScreenKey = "HomeScreen";
         public const string LoginScreenKey = "LoginScreen";
-<<<<<<< HEAD
         public const string StartWorkoutKey = "StartWorkoutScreen";
         public const string CreateWorkoutKey = "CreateWorkoutScreen";
         //public const string ExerciseSelectKey = "ExerciseSelectScreen";
-=======
 		public const string SocialScreenKey = "SocialScreen";
->>>>>>> 277ba4f... * font-awesome.css: * font-awesome.min.css: * fontawesome-webfont.eot: * fontawesome-webfont.svg: * fontawesome-webfont.ttf: * fontawesome-webfont.woff: * fontawesome-webfont.woff2: add font awesome for glyphs and styling
 
         /// <summary>
         /// Initializes a new instance of the ViewModelLocator class.
@@ -52,15 +49,11 @@ namespace FitConnectApp.ViewModel
             ////    SimpleIoc.Default.Register<IDataService, DataService>();
             ////}
             SimpleIoc.Default.Register<LoginViewModel>();
-<<<<<<< HEAD
             SimpleIoc.Default.Register<HomeScreenViewModel>();
             SimpleIoc.Default.Register<StartWorkoutViewModel>();
             SimpleIoc.Default.Register<CreateWorkoutViewModel>();
             SimpleIoc.Default.Register<ExerciseSelectViewModel>();
-=======
-			SimpleIoc.Default.Register<HomeScreenViewModel>();
 			SimpleIoc.Default.Register<SocialViewModel>();
->>>>>>> 277ba4f... * font-awesome.css: * font-awesome.min.css: * fontawesome-webfont.eot: * fontawesome-webfont.svg: * fontawesome-webfont.ttf: * fontawesome-webfont.woff: * fontawesome-webfont.woff2: add font awesome for glyphs and styling
         }
 
         public LoginViewModel Login
@@ -71,23 +64,18 @@ namespace FitConnectApp.ViewModel
             }
         }
 
-<<<<<<< HEAD
-        public HomeScreenViewModel Home
-=======
 		public HomeScreenViewModel Home
->>>>>>> 277ba4f... * font-awesome.css: * font-awesome.min.css: * fontawesome-webfont.eot: * fontawesome-webfont.svg: * fontawesome-webfont.ttf: * fontawesome-webfont.woff: * fontawesome-webfont.woff2: add font awesome for glyphs and styling
         {
-            get
-            {
+            get 
+			{
                 return ServiceLocator.Current.GetInstance<HomeScreenViewModel>();
             }
         }
 
-<<<<<<< HEAD
-        public StartWorkoutViewModel StartWorkout
-        {
-            get
-            {
+		public StartWorkoutViewModel StartWorkout
+		{
+			get 
+			{
                 return ServiceLocator.Current.GetInstance<StartWorkoutViewModel>();
             }
         }
@@ -106,7 +94,7 @@ namespace FitConnectApp.ViewModel
                 return ServiceLocator.Current.GetInstance<ExerciseSelectViewModel>();
             }
         }
-=======
+
 		public SocialViewModel Social
 		{
 			get
@@ -115,7 +103,6 @@ namespace FitConnectApp.ViewModel
 			}
 		}
 
->>>>>>> 277ba4f... * font-awesome.css: * font-awesome.min.css: * fontawesome-webfont.eot: * fontawesome-webfont.svg: * fontawesome-webfont.ttf: * fontawesome-webfont.woff: * fontawesome-webfont.woff2: add font awesome for glyphs and styling
         public static void Cleanup()
         {
             // TODO Clear the ViewModels
