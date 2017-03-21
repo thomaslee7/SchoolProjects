@@ -37,13 +37,9 @@ namespace FitConnectApp
 
                     nav.Configure(ViewModelLocator.HomeScreenKey, typeof(HomeScreen));
                     nav.Configure(ViewModelLocator.LoginScreenKey, typeof(LoginActivity));
-<<<<<<< HEAD
                     nav.Configure(ViewModelLocator.StartWorkoutKey, typeof(StartWorkoutActivity));
                     nav.Configure(ViewModelLocator.CreateWorkoutKey, typeof(CreateWorkoutActivity));
-
-=======
-					nav.Configure(ViewModelLocator.SocialScreenKey, typeof(SocialActivity));
->>>>>>> 277ba4f... * font-awesome.css: * font-awesome.min.css: * fontawesome-webfont.eot: * fontawesome-webfont.svg: * fontawesome-webfont.ttf: * fontawesome-webfont.woff: * fontawesome-webfont.woff2: add font awesome for glyphs and styling
+		    nav.Configure(ViewModelLocator.SocialScreenKey, typeof(SocialActivity));
                     locator = new ViewModelLocator();
                 }
 
