@@ -31,7 +31,11 @@ namespace FitConnectApp
     {
         private static int RC_SIGN_IN = 9001;
         public static string TAG = "LoginActivity";
+<<<<<<< HEAD
                 
+=======
+
+>>>>>>> 277ba4f... * font-awesome.css: * font-awesome.min.css: * fontawesome-webfont.eot: * fontawesome-webfont.svg: * fontawesome-webfont.ttf: * fontawesome-webfont.woff: * fontawesome-webfont.woff2: add font awesome for glyphs and styling
         private GoogleApiClient mGoogleApiClient;
         private TextView mStatusTextView;
         private TextView welcomeText;
