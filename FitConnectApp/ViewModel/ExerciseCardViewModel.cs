@@ -36,7 +36,7 @@ namespace FitConnectApp.ViewModel
         {
             var exerciseList = App.Locator.CreateWorkout.Workout.Exercises;
             ExData = new ExerciseData { ExName = name ?? "TEST! " + Guid.NewGuid().ToString() };
-            exerciseList.Add(exerciseList.Count +1, ExData);
+            exerciseList.Add(exerciseList.Count, ExData);
         }
 
         public RelayCommand<ExerciseSetData> SaveSetData
@@ -45,10 +45,9 @@ namespace FitConnectApp.ViewModel
             {
                 return saveSetData ?? (saveSetData = new RelayCommand<ExerciseSetData>((set) => 
                 {
-                    ExData.SetData.Add(ExData.SetData.Count + 1, set);
+                    ExData.SetData.Add(ExData.SetData.Count, set);
                 }));
             }
         }
-
     }
 }

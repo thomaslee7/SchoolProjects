@@ -70,7 +70,7 @@ namespace FitConnectApp.Models
 
         public WorkoutData()
         {
-            WorkoutId = new Guid();
+            WorkoutId = Guid.NewGuid();
             Exercises = new Dictionary<int, ExerciseData>();
         }
     }
@@ -128,6 +128,24 @@ namespace FitConnectApp.Models
         private int reps;
         private int rpe;
         private string notes;
+        private Guid setId;
+
+        public ExerciseSetData()
+        {
+            SetId = Guid.NewGuid();
+        }
+
+        public Guid SetId
+        {
+            get
+            {
+                return setId;
+            }
+            set
+            {
+                Set(() => SetId, ref setId, value);
+            }
+        }
 
         public double Weight
         {

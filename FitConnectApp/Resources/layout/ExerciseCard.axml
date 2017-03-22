@@ -5,13 +5,16 @@
     android:layout_height="wrap_content"
     android:minWidth="25px"
     android:minHeight="25px"
-    android:layout_weight="1">
+    android:id="@+id/fragmentContainer"
+    android:background="@color/common_google_signin_btn_text_light_default">
     <TextView
         android:text="Name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/ExerciseName"
-        android:layout_weight="1" />
+        android:height="25dp"
+        android:layout_marginLeft="5px"
+        android:layout_marginTop="5px" />
     <Space
         android:layout_width="match_parent"
         android:layout_height="15dp"
@@ -23,7 +26,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/exDataTable">
         <TableRow
-            android:id="@+id/header">
+            android:id="@+id/tableHeader">
             <TextView
                 android:text="SET"
                 android:layout_width="match_parent"
@@ -76,7 +79,7 @@
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/linearLayout1"
+            android:id="@+id/exerciseControls"
             android:gravity="center">
             <EditText
                 android:inputType="number"
