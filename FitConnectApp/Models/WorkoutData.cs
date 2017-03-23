@@ -128,6 +128,7 @@ namespace FitConnectApp.Models
         private int reps;
         private int rpe;
         private string notes;
+        private int setNum;
         private Guid setId;
 
         public ExerciseSetData()
@@ -144,6 +145,18 @@ namespace FitConnectApp.Models
             set
             {
                 Set(() => SetId, ref setId, value);
+            }
+        }
+
+        public int SetNumber
+        {
+            get
+            {
+                return setNum;
+            }
+            set
+            {
+                Set(() => SetNumber, ref setNum, value);
             }
         }
 

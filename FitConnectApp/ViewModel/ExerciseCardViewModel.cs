@@ -12,6 +12,7 @@ using Android.Widget;
 using GalaSoft.MvvmLight;
 using FitConnectApp.Models;
 using GalaSoft.MvvmLight.Command;
+using FitConnectApp.Activities.WorkoutActivities;
 
 namespace FitConnectApp.ViewModel
 {
@@ -19,6 +20,7 @@ namespace FitConnectApp.ViewModel
     {
         private ExerciseData exData;
         private RelayCommand<ExerciseSetData> saveSetData;
+        private RelayCommand<FragmentManager> _editExercise;
 
         public ExerciseData ExData
         {
@@ -46,6 +48,22 @@ namespace FitConnectApp.ViewModel
                 return saveSetData ?? (saveSetData = new RelayCommand<ExerciseSetData>((set) => 
                 {
                     ExData.SetData.Add(ExData.SetData.Count, set);
+                }));
+            }
+        }
+
+        public RelayCommand<FragmentManager> EditExercise
+        {
+            get
+            {
+                return _editExercise ?? (_editExercise = new RelayCommand<FragmentManager>((manager) =>
+                {
+                    var transaction = manager.BeginTransaction();
+                    ExerciseSelectFragment addExerciseFragment = new ExerciseSelectFragment { Editing = true, ExCardVm = this };
+                    addExerciseFragment.Show(transaction, "Add new exercise");
+                    //ExData.ExName = App.Locator.ExerciseSelect.SelectedExerciseName;
+                    //ExData.ExId = App.Locator.ExerciseSelect.SelectedExerciseId;
+                    
                 }));
             }
         }

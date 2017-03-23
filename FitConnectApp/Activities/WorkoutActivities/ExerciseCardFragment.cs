@@ -15,6 +15,7 @@ using GalaSoft.MvvmLight.Helpers;
 using FitConnectApp.Models;
 using System.Reflection;
 using Android.Text;
+using Android.Text.Method;
 
 namespace FitConnectApp.Activities.WorkoutActivities
 {
@@ -58,7 +59,9 @@ namespace FitConnectApp.Activities.WorkoutActivities
             Done = view.FindViewById<Button>(Resource.Id.addSet);
             Note.Click += Note_Click;
             Done.Click += Done_Click;
-            
+
+            ExName.SetCommand("Click", Vm.EditExercise, this.FragmentManager);
+
             bindings.Add(this.SetBinding(() => Vm.ExData.ExName, () => ExName.Text));
             
             return view;            
@@ -100,7 +103,7 @@ namespace FitConnectApp.Activities.WorkoutActivities
 
             Vm.SaveSetData.Execute(set);
 
-            Log.Debug("Doneclick", "Set guid: " + set.SetId.ToString());
+            //Log.Debug("Doneclick", "Set guid: " + set.SetId.ToString());
 
             TableRow row = new TableRow(this.Context);
             row.Tag = set.SetId.ToString();
@@ -109,54 +112,30 @@ namespace FitConnectApp.Activities.WorkoutActivities
 
             var tvlp = new TableRow.LayoutParams(ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.WrapContent, 1f);
 
-            var setTv = new TextView(this.Context);
-            setTv.Text = (Vm.ExData.SetData.Count).ToString();
-            setTv.LayoutParameters = tvlp;
-            setTv.Gravity = GravityFlags.Center;
-            
-            var weightTv = CreateTextView(InputTypes.ClassNumber, set.Weight.ToString(), nameof(set.Weight));
-            //    new TextView(this.Context);
-            //weightTv.Text = set.Weight.ToString();
-            //weightTv.LayoutParameters = tvlp;
-            //weightTv.Gravity = GravityFlags.Center;
-            //weightTv.Tag = nameof(set.Weight);
-            //weightTv.Click += EditCell;
-            //weightTv.SetRawInputType(InputTypes.NumberFlagDecimal);
+            var setTv = CreateTextView(set.SetNumber.ToString(), nameof(set.SetNumber));            
+
+            Binding<int, string> setnum = new Binding<int, string>(set, nameof(set.SetNumber), setTv, nameof(setTv.Text), BindingMode.TwoWay);
+            bindings.Add(setnum);
+
+            var weightTv = CreateTextView(set.Weight.ToString(), nameof(set.Weight), EditCell);
 
             Binding<double, string> weight = new Binding<double, string>(set, nameof(set.Weight), weightTv, nameof(weightTv.Text), BindingMode.TwoWay);
             bindings.Add(weight);
 
-            var repsTv = CreateTextView(InputTypes.ClassNumber, set.Reps.ToString(), nameof(set.Reps));
-            //    new TextView(this.Context);
-            //repsTv.Tag = nameof(set.Reps);
-            //repsTv.Text = set.Reps.ToString();
-            //repsTv.LayoutParameters = tvlp;
-            //repsTv.Gravity = GravityFlags.Center;
-            //repsTv.Click += EditCell;
-            //repsTv.SetRawInputType(InputTypes.NumberFlagDecimal);
+            var repsTv = CreateTextView(set.Reps.ToString(), nameof(set.Reps), EditCell);
+            repsTv.KeyListener = DigitsKeyListener.GetInstance(false, true);
+
 
             Binding<int, string> reps = new Binding<int, string>(set, nameof(set.Reps), repsTv, nameof(repsTv.Text), BindingMode.TwoWay);
             bindings.Add(reps);
             
-            var rpeTv = CreateTextView(InputTypes.ClassNumber, set.Rpe.ToString(), nameof(set.Rpe));
-            //    = new TextView(this.Context);
-            //rpeTv.Text = set.Rpe.ToString();
-            //rpeTv.LayoutParameters = tvlp;
-            //rpeTv.Gravity = GravityFlags.Center;
-            //rpeTv.Tag = nameof(set.Rpe);
-            //rpeTv.Click += EditCell;
+            var rpeTv = CreateTextView(set.Rpe.ToString(), nameof(set.Rpe), EditCell);
+
             Binding<int, string> rpe = new Binding<int, string>(set, nameof(set.Rpe), rpeTv, nameof(rpeTv.Text), BindingMode.TwoWay);
             bindings.Add(rpe);
 
-            var notesTv = CreateTextView(InputTypes.ClassText, (string.IsNullOrWhiteSpace(SetNotes) ? "N/A" : "Note"), nameof(set.Notes));
-            //    new TextView(this.Context);
-            //notesTv.Text = (string.IsNullOrWhiteSpace(SetNotes) ? "N/A" : "Note");
-            //notesTv.LayoutParameters = tvlp;
-            //notesTv.Gravity = GravityFlags.Center;
-            //notesTv.Tag = nameof(set.Notes);
-            //notesTv.Click += EditCell;
-
-
+            var notesTv = CreateTextView((string.IsNullOrWhiteSpace(SetNotes) ? "N/A" : "Note"), nameof(set.Notes));
+ 
             row.AddView(setTv);
             row.AddView(weightTv);
             row.AddView(repsTv);
@@ -167,7 +146,7 @@ namespace FitConnectApp.Activities.WorkoutActivities
             SetNotes = "";
         }
         
-        private TextView CreateTextView(InputTypes celltype, string data, string tag)
+        private TextView CreateTextView(string data, string tag, EventHandler handler = null)
         {
             var tvlp = new TableRow.LayoutParams(ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.WrapContent, 1f);
 
@@ -176,9 +155,8 @@ namespace FitConnectApp.Activities.WorkoutActivities
             view.LayoutParameters = tvlp;
             view.Gravity = GravityFlags.Center;
             view.Tag = tag;
-            view.Click += EditCell;
-            view.SetRawInputType(celltype);
-
+            view.Click += handler;            
+            
             return view;
         }
 
@@ -195,7 +173,8 @@ namespace FitConnectApp.Activities.WorkoutActivities
                 Weight = (validWeight ? w : 0),
                 Reps = (validReps ? r : 0),
                 Notes = SetNotes,
-                Rpe = (validRpe ? rpe : 0)
+                Rpe = (validRpe ? rpe : 0),
+                SetNumber = Vm.ExData.SetData.Count + 1                
             };
 
             return set;
@@ -204,21 +183,21 @@ namespace FitConnectApp.Activities.WorkoutActivities
         private ExerciseSetData GetSetDataFromTable(Java.Lang.Object rowTag)
         {
             return Vm.ExData.SetData.Where(ex => ex.Value.SetId.ToString() == rowTag.ToString()).Select(kvp => kvp.Value).FirstOrDefault();
-            //Log.Debug("GETDATA", set.Weight + " x " + set.Reps + "; id: " + set.SetId);            
         }
 
         private void EditCell(object sender, EventArgs e)
         {
             var cell = (TextView)sender;
             var parentRow = (TableRow)cell.Parent;
-            //Log.Debug("EditCell", "row guid: " + parentRow.Tag.ToString());
 
             ExerciseSetData set = GetSetDataFromTable(parentRow.Tag);
 
             AlertDialog.Builder alert = new AlertDialog.Builder(this.Context);
-            alert.SetTitle("Edit " + cell.Tag);
+            alert.SetTitle("Edit set #" + set.SetNumber + " " + cell.Tag);
             LinearLayout layout = new LinearLayout(this.Context);
+
             EditText text = new EditText(this.Context);
+            text.InputType = getCellPropertyType(cell, set);
 
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.MatchParent, 1f);
             text.LayoutParameters = lp;
@@ -230,8 +209,7 @@ namespace FitConnectApp.Activities.WorkoutActivities
             alert.SetPositiveButton("Save", (senderAlert, args) => {
                 if(set != null)
                 {
-                    SetPropertyValue(set, cell.Tag.ToString(), text.Text);
-                    
+                    SetPropertyValue(set, cell.Tag.ToString(), text.Text);                    
                 }
             });
 
@@ -240,12 +218,18 @@ namespace FitConnectApp.Activities.WorkoutActivities
 
             });
 
-            //alert.SetNeutralButton("Delete", (senderAlert, args) =>
-            //{
-                
-            //});
-
             alert.Show();
+        }
+
+        private InputTypes getCellPropertyType(TextView cell, ExerciseSetData set)
+        {
+
+            Type type = set.GetType();
+            PropertyInfo propertyInfo = type.GetProperty(cell.Tag.ToString());
+            if (propertyInfo.PropertyType == typeof(double) || propertyInfo.PropertyType == typeof(int))
+                return InputTypes.ClassNumber | InputTypes.NumberFlagDecimal;
+            else
+                return InputTypes.ClassText;
         }
 
         //private void Edit_Notes(object sender, EventArgs e)
