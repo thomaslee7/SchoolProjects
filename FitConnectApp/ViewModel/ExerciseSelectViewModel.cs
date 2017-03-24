@@ -91,16 +91,8 @@ namespace FitConnectApp.ViewModel
                             Log.Debug(TAG, "Adding exercise card");
                             ExerciseCardFragment card = new ExerciseCardFragment();
 
-                            Bundle bundle = new Bundle();
-                            bundle.PutString("exname", App.Locator.ExerciseSelect.SelectedExerciseName);
-                            bundle.PutInt("exid", App.Locator.ExerciseSelect.SelectedExerciseId);
-
-                            Guid exercisetag = new Guid();
-                            App.Locator.CreateWorkout.ExerciseTags.Add(exercisetag);
-
-                            card.Arguments = bundle;
                             FragmentTransaction tx = data.Item1.FragmentManager.BeginTransaction();
-                            tx.Add(Resource.Id.exerciseCardsFrame, card, exercisetag.ToString());
+                            tx.Add(Resource.Id.exerciseCardsFrame, card);
                             //tx.AddToBackStack(null);
                             tx.Commit();
 

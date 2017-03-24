@@ -16,11 +16,13 @@ using FitConnectApp.Models;
 using System.Reflection;
 using Android.Text;
 using Android.Text.Method;
+using GalaSoft.MvvmLight.Messaging;
 
 namespace FitConnectApp.Activities.WorkoutActivities
 {
-    public class ExerciseCardFragment : Fragment
+    public class ExerciseCardFragment : Fragment, View.IOnDragListener, View.IOnTouchListener
     {
+        private const string TAG = "ExCardFragment";
         private readonly List<Binding> bindings = new List<Binding>();
         //private ExerciseData exData;
         public ExerciseCardViewModel Vm { get; set; }     
@@ -31,7 +33,10 @@ namespace FitConnectApp.Activities.WorkoutActivities
         public Button Note { get; set; }
         public EditText Weight { get; set; }
         public EditText Reps { get; set; }        
+        public TextView dragElement { get; set; }
+        public TextView ExNo { get; set; }
         public TableLayout Table { get; set; }
+        public LinearLayout FragmentContainer { get; set; }
         public string SetNotes { get; set; }
 
         private View view;
@@ -57,13 +62,27 @@ namespace FitConnectApp.Activities.WorkoutActivities
             Reps = view.FindViewById<EditText>(Resource.Id.reps);
             Note = view.FindViewById<Button>(Resource.Id.addNote);
             Done = view.FindViewById<Button>(Resource.Id.addSet);
+            ExNo = view.FindViewById<TextView>(Resource.Id.ExNumber);
+            dragElement = view.FindViewById<TextView>(Resource.Id.dragElement);
+            FragmentContainer = view.FindViewById<LinearLayout>(Resource.Id.fragmentContainer);
+            
             Note.Click += Note_Click;
             Done.Click += Done_Click;
 
             ExName.SetCommand("Click", Vm.EditExercise, this.FragmentManager);
 
             bindings.Add(this.SetBinding(() => Vm.ExData.ExName, () => ExName.Text));
+            bindings.Add(this.SetBinding(() => Vm.ExData.ExNumber, () => ExNo.Text));
+
+            GalaSoft.MvvmLight.Messaging.Messenger.Default.Register<DragMessage>(this, (msg) => {
+                if(Vm.ExData.ExerciseInstanceId == msg.Id)
+                    Vm.ExData.ExNumber = msg.Order;
+            });
+
+            FragmentContainer.Tag = Vm.ExData.ExerciseInstanceId.ToString();
             
+            view.SetOnDragListener(this);
+            dragElement.SetOnTouchListener(this);
             return view;            
         }
 
@@ -283,6 +302,38 @@ namespace FitConnectApp.Activities.WorkoutActivities
             else if(propertyInfo.PropertyType == typeof(string))
                 propertyInfo.SetValue(instance, value);
         }
-        
+
+        public bool OnDrag(View v, DragEvent e)
+        {
+            switch (e.Action)
+            {
+                case DragAction.Drop:
+                    try
+                    {
+                        Log.Debug(TAG, "Drop Detected on ex: " + Vm.ExData.ExName);
+                        var dropMsg = new DropMessage { Id = Vm.ExData.ExerciseInstanceId, Order = Vm.ExData.ExNumber };
+                        GalaSoft.MvvmLight.Messaging.Messenger.Default.Send(dropMsg);
+                    }
+                    catch (Exception ex)
+                    {
+                        Log.Debug(TAG, ex.ToString());
+                    }
+                    break;
+
+                default:                    
+                    break;
+            }
+            return true;
+        }
+
+        public bool OnTouch(View v, MotionEvent e)
+        {
+            var dragMessage = new DragMessage { Order = Vm.ExData.ExNumber, Id = Vm.ExData.ExerciseInstanceId };
+            GalaSoft.MvvmLight.Messaging.Messenger.Default.Send(dragMessage);
+
+            ClipData cd = ClipData.NewPlainText("", "");
+            View.DragShadowBuilder builder = new View.DragShadowBuilder(view);
+            return view.StartDrag(cd, builder, View, 0);             
+        }
     }
 }

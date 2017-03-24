@@ -13,11 +13,14 @@ using GalaSoft.MvvmLight;
 using FitConnectApp.Models;
 using GalaSoft.MvvmLight.Command;
 using FitConnectApp.Activities.WorkoutActivities;
+using GalaSoft.MvvmLight.Helpers;
+using Android.Util;
 
 namespace FitConnectApp.ViewModel
 {
     public class ExerciseCardViewModel : ViewModelBase
     {
+        private const string TAG = "ExerciseCardViewModel";
         private ExerciseData exData;
         private RelayCommand<ExerciseSetData> saveSetData;
         private RelayCommand<FragmentManager> _editExercise;
@@ -37,8 +40,10 @@ namespace FitConnectApp.ViewModel
         public ExerciseCardViewModel(int id, string name)
         {
             var exerciseList = App.Locator.CreateWorkout.Workout.Exercises;
-            ExData = new ExerciseData { ExName = name ?? "TEST! " + Guid.NewGuid().ToString() };
+            ExData = new ExerciseData { ExName = name ?? "TEST! " + Guid.NewGuid().ToString(), ExNumber = exerciseList.Count + 1 };
             exerciseList.Add(exerciseList.Count, ExData);
+            Log.Debug(TAG, "Exnumber for " + ExData.ExName + ": " + ExData.ExNumber);
+            //Binding<int, int> b = new Binding<int, int>(ExData, nameof(ExData.ExNumber), App.Locator.CreateWorkout.Workout.Exercises)
         }
 
         public RelayCommand<ExerciseSetData> SaveSetData
@@ -60,9 +65,7 @@ namespace FitConnectApp.ViewModel
                 {
                     var transaction = manager.BeginTransaction();
                     ExerciseSelectFragment addExerciseFragment = new ExerciseSelectFragment { Editing = true, ExCardVm = this };
-                    addExerciseFragment.Show(transaction, "Add new exercise");
-                    //ExData.ExName = App.Locator.ExerciseSelect.SelectedExerciseName;
-                    //ExData.ExId = App.Locator.ExerciseSelect.SelectedExerciseId;
+                    addExerciseFragment.Show(transaction, "Add new exercise");                    
                     
                 }));
             }

@@ -78,12 +78,15 @@ namespace FitConnectApp.Models
     public class ExerciseData : ObservableObject
     {
         private string exName;
-        private int exId;
+        private int exNumber; //the order of the exercise
+        private int exId; //currently the database ID of the exercise
+        private Guid exerciseInstanceId;
         private Dictionary<int, ExerciseSetData> setData;
 
         public ExerciseData()
         {            
             SetData = new Dictionary<int, ExerciseSetData>();
+            ExerciseInstanceId = Guid.NewGuid();
         }
 
         public string ExName
@@ -98,6 +101,18 @@ namespace FitConnectApp.Models
             }
         }
         
+        public int ExNumber
+        {
+            get
+            {
+                return exNumber;
+            }
+            set
+            {
+                Set(() => ExNumber, ref exNumber, value);
+            }
+        }
+
         public int ExId
         {
             get
@@ -109,6 +124,19 @@ namespace FitConnectApp.Models
                 Set(() => ExId, ref exId, value);
             }
         }
+
+        public Guid ExerciseInstanceId
+        {
+            get
+            {
+                return exerciseInstanceId;
+            }
+            set
+            {
+                Set(() => ExerciseInstanceId, ref exerciseInstanceId, value);
+            }
+        }
+
         public Dictionary<int, ExerciseSetData> SetData
         {
             get
