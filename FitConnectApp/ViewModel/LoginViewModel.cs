@@ -41,7 +41,7 @@ namespace FitConnectApp.ViewModel
             }
         }
 
-        public RelayCommand NavigateCommand
+        public RelayCommand ShowHomeScreen
         {
             get
             {
