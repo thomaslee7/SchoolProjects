@@ -14,21 +14,28 @@ using GalaSoft.MvvmLight.Views;
 using Android.App;
 using GalaSoft.MvvmLight.Messaging;
 using FitConnectApp.Models;
+using static Android.App.DatePickerDialog;
 
 namespace FitConnectApp.Activities.WorkoutActivities
 {
     [Activity(Label = "Create Workout")]
-    public class CreateWorkoutActivity : ActivityBase, View.IOnDragListener
+    public class CreateWorkoutActivity : ActivityBase, View.IOnDragListener, IOnDateSetListener
     {
         const string TAG = "CreateWorkout";
         private Button addExercise;
         private Button saveWorkout;
         private LinearLayout exerciseCardsFrame;
-        private DragMessage dragMessage;        
+        public LinearLayout workoutScreen;
+        private DragMessage dragMessage;
+        private TextView workoutDate;
+
+        private readonly List<Binding> bindings = new List<Binding>();
 
         public Button AddExercise => addExercise ?? (addExercise = FindViewById<Button>(Resource.Id.AddExercise));
         public Button SaveWorkout => saveWorkout ?? (saveWorkout = FindViewById<Button>(Resource.Id.saveWorkoutBtn));
         public LinearLayout ExerciseCardsFrame => exerciseCardsFrame ?? (exerciseCardsFrame = FindViewById<LinearLayout>(Resource.Id.exerciseCardsFrame));
+        public LinearLayout WorkoutScreen => workoutScreen ?? (workoutScreen = FindViewById<LinearLayout>(Resource.Id.workoutScreen));
+        public TextView WorkoutDate => workoutDate ?? (workoutDate= FindViewById<TextView>(Resource.Id.workoutDate));
         private CreateWorkoutViewModel Vm => App.Locator.CreateWorkout;      
 
         protected override void OnCreate(Bundle savedInstanceState)
@@ -42,6 +49,10 @@ namespace FitConnectApp.Activities.WorkoutActivities
                 //AddExercise.SetCommand(eventName: "Click", command: Vm.AddExercise, commandParameter: FragmentManager);
                 AddExercise.Click += AddExerciseCard;
                 SaveWorkout.SetCommand(Vm.SaveWorkout);
+                WorkoutDate.Click += WorkoutDate_Click;
+                Binding b = this.SetBinding(() => Vm.Workout.Date, () => WorkoutDate.Text).ConvertSourceToTarget((date) => { return date.ToShortDateString(); });
+                
+                bindings.Add(b);
 
                 ExerciseCardsFrame.SetOnDragListener(this);
 
@@ -71,7 +82,12 @@ namespace FitConnectApp.Activities.WorkoutActivities
                 Log.Error(TAG, ex.ToString());                
             }
         }
-        
+
+        private void WorkoutDate_Click(object sender, EventArgs e)
+        {
+            DatePickerDialog d = new DatePickerDialog(this, this, DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
+            d.Show();
+        }
 
         public void AddExerciseCard(object sender, EventArgs e)
         {
@@ -128,6 +144,12 @@ namespace FitConnectApp.Activities.WorkoutActivities
                 DragMessage msg = new DragMessage { Id = cardId, Order = i + 1 };
                 GalaSoft.MvvmLight.Messaging.Messenger.Default.Send<DragMessage, ExerciseCardFragment>(msg);
             }
+        }
+
+        public void OnDateSet(DatePicker view, int year, int month, int dayOfMonth)
+        {
+            Vm.Workout.Date = new DateTime(year, month, dayOfMonth);
+
         }
     }
 }

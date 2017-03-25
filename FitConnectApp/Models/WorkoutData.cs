@@ -18,7 +18,7 @@ namespace FitConnectApp.Models
         private Guid workoutId;
         private DateTime date;
         private string workoutNotes;
-        private Dictionary<int, ExerciseData> exercises;
+        private Dictionary<int, ExerciseData> exercises;        
 
         public Guid WorkoutId
         {
@@ -72,14 +72,15 @@ namespace FitConnectApp.Models
         {
             WorkoutId = Guid.NewGuid();
             Exercises = new Dictionary<int, ExerciseData>();
+            Date = DateTime.Now;
         }
     }
 
     public class ExerciseData : ObservableObject
     {
         private string exName;
-        private int exNumber; //the order of the exercise
-        private int exId; //currently the database ID of the exercise
+        private int exNumber; 
+        private int exId; 
         private Guid exerciseInstanceId;
         private Dictionary<int, ExerciseSetData> setData;
 
@@ -101,7 +102,8 @@ namespace FitConnectApp.Models
             }
         }
         
-        public int ExNumber
+        //The ordering of the exercise
+        public int ExNumber 
         {
             get
             {
@@ -113,7 +115,8 @@ namespace FitConnectApp.Models
             }
         }
 
-        public int ExId
+        // The Exercise ID (key) from the database to look up the exercise name, not unique
+        public int ExId 
         {
             get
             {
@@ -125,7 +128,8 @@ namespace FitConnectApp.Models
             }
         }
 
-        public Guid ExerciseInstanceId
+        //Exercise ID from the app itself, in case there are more than one copy of an exercise in a workout, unique
+        public Guid ExerciseInstanceId 
         {
             get
             {
