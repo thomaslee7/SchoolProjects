@@ -29,6 +29,7 @@ namespace FitConnectApp.ViewModel
         public const string StartWorkoutKey = "StartWorkoutScreen";
         public const string CreateWorkoutKey = "CreateWorkoutScreen";
         //public const string ExerciseSelectKey = "ExerciseSelectScreen";
+		public const string SocialScreenKey = "SocialScreen";
 
         /// <summary>
         /// Initializes a new instance of the ViewModelLocator class.
@@ -52,6 +53,7 @@ namespace FitConnectApp.ViewModel
             SimpleIoc.Default.Register<StartWorkoutViewModel>();
             SimpleIoc.Default.Register<CreateWorkoutViewModel>();
             SimpleIoc.Default.Register<ExerciseSelectViewModel>();
+			SimpleIoc.Default.Register<SocialViewModel>();
         }
 
         public LoginViewModel Login
@@ -62,18 +64,18 @@ namespace FitConnectApp.ViewModel
             }
         }
 
-        public HomeScreenViewModel Home
+		public HomeScreenViewModel Home
         {
-            get
-            {
+            get 
+			{
                 return ServiceLocator.Current.GetInstance<HomeScreenViewModel>();
             }
         }
 
-        public StartWorkoutViewModel StartWorkout
-        {
-            get
-            {
+		public StartWorkoutViewModel StartWorkout
+		{
+			get 
+			{
                 return ServiceLocator.Current.GetInstance<StartWorkoutViewModel>();
             }
         }
@@ -92,6 +94,15 @@ namespace FitConnectApp.ViewModel
                 return ServiceLocator.Current.GetInstance<ExerciseSelectViewModel>();
             }
         }
+
+		public SocialViewModel Social
+		{
+			get
+			{
+				return ServiceLocator.Current.GetInstance<SocialViewModel>();
+			}
+		}
+
         public static void Cleanup()
         {
             // TODO Clear the ViewModels

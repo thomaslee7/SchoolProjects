@@ -42,8 +42,7 @@ namespace FitConnectApp.ViewModel
             var exerciseList = App.Locator.CreateWorkout.Workout.Exercises;
             ExData = new ExerciseData { ExName = name ?? "TEST! " + Guid.NewGuid().ToString(), ExNumber = exerciseList.Count + 1 };
             exerciseList.Add(exerciseList.Count, ExData);
-            Log.Debug(TAG, "Exnumber for " + ExData.ExName + ": " + ExData.ExNumber);
-            //Binding<int, int> b = new Binding<int, int>(ExData, nameof(ExData.ExNumber), App.Locator.CreateWorkout.Workout.Exercises)
+            Log.Debug(TAG, "Exnumber for " + ExData.ExName + ": " + ExData.ExNumber);            
         }
 
         public RelayCommand<ExerciseSetData> SaveSetData

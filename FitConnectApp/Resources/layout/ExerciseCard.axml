@@ -6,7 +6,8 @@
     android:minWidth="25px"
     android:minHeight="25px"
     android:id="@+id/fragmentContainer"
-    android:background="@color/common_google_signin_btn_text_light_default">
+    android:background="@color/common_google_signin_btn_text_light_default"
+    android:paddingBottom="4px">
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
@@ -21,21 +22,18 @@
             android:id="@+id/ExerciseName"
             android:height="25dp"
             android:layout_marginLeft="5px"
-            android:layout_marginTop="5px" />
+            android:layout_marginTop="5px"
+            android:layout_weight="1" />
         <TextView
-            android:text="Touch to drag"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/dragElement"
             android:height="25dp"
-            android:layout_marginLeft="5px"
             android:layout_marginTop="5px"
-            android:gravity="right" />
-        <TextView
-            android:text="Ex#: "
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:id="@+id/ExNumber" />
+            android:gravity="right"
+            android:layout_weight="1"
+            android:text="@string/fa_arrows"
+            android:layout_marginRight="7px" />
     </LinearLayout>
     <Space
         android:layout_width="match_parent"
