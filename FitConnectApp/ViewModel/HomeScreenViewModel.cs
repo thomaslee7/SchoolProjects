@@ -24,6 +24,8 @@ namespace FitConnectApp.ViewModel
         private User _currentUser;
         private INavigationService _navService;
         private RelayCommand _showStartWorkout;
+        private RelayCommand _showAccount;
+        private RelayCommand _showStats;
         private RelayCommand<GoogleApiClient> _logout;
 
         private const string TAG = "HomeScreenViewModel"; 
@@ -57,6 +59,24 @@ namespace FitConnectApp.ViewModel
             }
         }
 
+        public RelayCommand ShowAccount
+        {
+            get
+            {
+                return _showAccount ??
+                    (_showAccount = new RelayCommand(() =>
+                        _navService.NavigateTo(ViewModelLocator.AccountScreenKey)));
+            }
+        }
+        public RelayCommand ShowStats
+        {
+            get
+            {
+                return _showStats ??
+                    (_showStats = new RelayCommand(() =>
+                        _navService.NavigateTo(ViewModelLocator.StatsScreenKey)));
+            }
+        }
         public RelayCommand<GoogleApiClient> Logout
         {
             get

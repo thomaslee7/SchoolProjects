@@ -146,9 +146,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AccountActivity.cs" />
     <Compile Include="Activities\WorkoutActivities\CreateWorkoutActivity.cs" />
     <Compile Include="Activities\WorkoutActivities\ExerciseCardFragment.cs" />
     <Compile Include="Activities\WorkoutActivities\ExerciseSelectFragment.cs" />
+    <Compile Include="StatsActivity.cs" />
     <Compile Include="ValueEventListener.cs" />
     <Compile Include="App.cs" />
     <Compile Include="ChildEventListener.cs" />
@@ -159,12 +161,14 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\FirebaseDataservice.cs" />
     <Compile Include="StartWorkoutActivity.cs" />
+    <Compile Include="ViewModel\AccountViewModel.cs" />
     <Compile Include="ViewModel\CreateWorkoutViewModel.cs" />
     <Compile Include="ViewModel\ExerciseCardViewModel.cs" />
     <Compile Include="ViewModel\ExerciseSelectViewModel.cs" />
     <Compile Include="ViewModel\HomeScreenViewModel.cs" />
     <Compile Include="ViewModel\LoginViewModel.cs" />
     <Compile Include="ViewModel\StartWorkoutViewModel.cs" />
+    <Compile Include="ViewModel\StatsViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -187,6 +191,12 @@
       <SubType>Designer</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\layout\ExerciseCard.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\Account.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\Stats.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>
