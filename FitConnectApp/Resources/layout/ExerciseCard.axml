@@ -5,11 +5,136 @@
     android:layout_height="wrap_content"
     android:minWidth="25px"
     android:minHeight="25px"
-    android:layout_weight="1">
-    <TextView
-        android:text="Name"
+    android:id="@+id/fragmentContainer"
+    android:background="@color/common_google_signin_btn_text_light_default">
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/ExerciseName"
-        android:layout_weight="1" />
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:id="@+id/nameBar">
+        <TextView
+            android:text="Name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/ExerciseName"
+            android:height="25dp"
+            android:layout_marginLeft="5px"
+            android:layout_marginTop="5px" />
+        <TextView
+            android:text="Touch to drag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/dragElement"
+            android:height="25dp"
+            android:layout_marginLeft="5px"
+            android:layout_marginTop="5px"
+            android:gravity="right" />
+        <TextView
+            android:text="Ex#: "
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/ExNumber" />
+    </LinearLayout>
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="15dp"
+        android:id="@+id/space1" />
+    <TableLayout
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/exDataTable">
+        <TableRow
+            android:id="@+id/tableHeader">
+            <TextView
+                android:text="SET"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/SetTextView"
+                android:layout_weight="1"
+                android:gravity="center" />
+            <TextView
+                android:text="WEIGHT"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/weightTextView"
+                android:layout_weight="1"
+                android:gravity="center" />
+            <TextView
+                android:text="REPS"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/repsTextView"
+                android:layout_weight="1"
+                android:gravity="center" />
+            <TextView
+                android:text="RPE"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/rpeTextView"
+                android:layout_weight="1"
+                android:gravity="center" />
+            <TextView
+                android:text="NOTES"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/notesTextView"
+                android:layout_weight="1"
+                android:gravity="center" />
+        </TableRow>
+    </TableLayout>
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="15dp"
+        android:id="@+id/space1" />
+    <LinearLayout
+        android:orientation="vertical"
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/linearLayout2">
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/exerciseControls"
+            android:gravity="center">
+            <EditText
+                android:inputType="number"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/weight"
+                android:layout_weight="0.2"
+                android:hint="Weight" />
+            <EditText
+                android:inputType="number"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/reps"
+                android:layout_weight="0.2"
+                android:hint="Reps" />
+            <Spinner
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/rpeSpinner"
+                android:layout_weight="0.2"
+                android:entries="@array/RpeList" />
+            <Button
+                android:text="Note"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/addNote"
+                android:layout_weight="0.2" />
+            <Button
+                android:text="Done"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/addSet"
+                android:layout_weight="0.2" />
+        </LinearLayout>
+    </LinearLayout>
 </LinearLayout>
