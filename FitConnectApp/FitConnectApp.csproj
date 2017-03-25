@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="..\packages\Xamarin.Build.Download.0.4.2\build\Xamarin.Build.Download.props" Condition="Exists('..\packages\Xamarin.Build.Download.0.4.2\build\Xamarin.Build.Download.props')" />
   <PropertyGroup>
@@ -144,6 +144,7 @@
     <Compile Include="Activities\WorkoutActivities\ExerciseSelectFragment.cs" />
     <Compile Include="Models\DragMessage.cs" />
     <Compile Include="Models\WorkoutData.cs" />
+    <Compile Include="Services\FontManager.cs" />
     <Compile Include="ValueEventListener.cs" />
     <Compile Include="App.cs" />
     <Compile Include="ChildEventListener.cs" />
@@ -187,12 +188,24 @@
       <SubType>Designer</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\layout\Social.axml" />
-    <None Include="fonts\FontAwesome.otf" />
-    <None Include="fonts\fontawesome-webfont.woff2" />
-    <None Include="fonts\fontawesome-webfont.woff" />
-    <None Include="fonts\fontawesome-webfont.ttf" />
-    <None Include="fonts\fontawesome-webfont.svg" />
-    <None Include="fonts\fontawesome-webfont.eot" />
+    <AndroidAsset Include="fonts\FontAwesome.otf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </AndroidAsset>
+    <AndroidAsset Include="fonts\fontawesome-webfont.woff2">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </AndroidAsset>
+    <AndroidAsset Include="fonts\fontawesome-webfont.woff">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </AndroidAsset>
+    <AndroidAsset Include="fonts\fontawesome-webfont.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </AndroidAsset>
+    <AndroidAsset Include="fonts\fontawesome-webfont.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </AndroidAsset>
+    <AndroidAsset Include="fonts\fontawesome-webfont.eot">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </AndroidAsset>
     <None Include="Content\font-awesome.min.css" />
     <None Include="Content\font-awesome.css" />
   </ItemGroup>
@@ -220,7 +233,9 @@
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\Icon2.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Renderer\" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

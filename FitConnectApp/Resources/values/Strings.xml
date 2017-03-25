@@ -14,6 +14,8 @@
     <string name="ApplicationId">1:257464791047:android:a55322b7e60d7a25</string>
     <string name="ClientId">257464791047-svtu5ge67kd0h4sut35ua3nkh590mte9.apps.googleusercontent.com</string>
     <string name="SenderId">257464791047</string>
+    <string name="fa_calendar">&#xf073;</string>
+    <string name="fa_arrows">&#xf047;</string>
   <string-array name="RpeList">
     <item>RPE</item>
     <item>1</item>

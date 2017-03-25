@@ -17,6 +17,8 @@ using System.Reflection;
 using Android.Text;
 using Android.Text.Method;
 using GalaSoft.MvvmLight.Messaging;
+using Android.Graphics;
+using FitConnectApp.Services;
 
 namespace FitConnectApp.Activities.WorkoutActivities
 {
@@ -24,7 +26,7 @@ namespace FitConnectApp.Activities.WorkoutActivities
     {
         private const string TAG = "ExCardFragment";
         private readonly List<Binding> bindings = new List<Binding>();
-        //private ExerciseData exData;
+        
         public ExerciseCardViewModel Vm { get; set; }     
         
         public TextView ExName { get; set; }
@@ -34,7 +36,7 @@ namespace FitConnectApp.Activities.WorkoutActivities
         public EditText Weight { get; set; }
         public EditText Reps { get; set; }        
         public TextView dragElement { get; set; }
-        public TextView ExNo { get; set; }
+        //public TextView ExNo { get; set; }
         public TableLayout Table { get; set; }
         public LinearLayout FragmentContainer { get; set; }
         public string SetNotes { get; set; }
@@ -62,7 +64,7 @@ namespace FitConnectApp.Activities.WorkoutActivities
             Reps = view.FindViewById<EditText>(Resource.Id.reps);
             Note = view.FindViewById<Button>(Resource.Id.addNote);
             Done = view.FindViewById<Button>(Resource.Id.addSet);
-            ExNo = view.FindViewById<TextView>(Resource.Id.ExNumber);
+            //ExNo = view.FindViewById<TextView>(Resource.Id.ExNumber);
             dragElement = view.FindViewById<TextView>(Resource.Id.dragElement);
             FragmentContainer = view.FindViewById<LinearLayout>(Resource.Id.fragmentContainer);
             
@@ -72,7 +74,7 @@ namespace FitConnectApp.Activities.WorkoutActivities
             ExName.SetCommand("Click", Vm.EditExercise, this.FragmentManager);
 
             bindings.Add(this.SetBinding(() => Vm.ExData.ExName, () => ExName.Text));
-            bindings.Add(this.SetBinding(() => Vm.ExData.ExNumber, () => ExNo.Text));
+            //bindings.Add(this.SetBinding(() => Vm.ExData.ExNumber, () => ExNo.Text));
 
             GalaSoft.MvvmLight.Messaging.Messenger.Default.Register<DragMessage>(this, (msg) => {
                 if(Vm.ExData.ExerciseInstanceId == msg.Id)
@@ -80,7 +82,10 @@ namespace FitConnectApp.Activities.WorkoutActivities
             });
 
             FragmentContainer.Tag = Vm.ExData.ExerciseInstanceId.ToString();
-            
+
+            Typeface iconFont = FontManager.getTypeface(this.Context, FontManager.FONTAWESOME);
+            FontManager.markAsIconContainer(dragElement, iconFont);
+
             view.SetOnDragListener(this);
             dragElement.SetOnTouchListener(this);
             return view;            

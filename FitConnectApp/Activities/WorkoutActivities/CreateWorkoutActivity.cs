@@ -15,6 +15,8 @@ using Android.App;
 using GalaSoft.MvvmLight.Messaging;
 using FitConnectApp.Models;
 using static Android.App.DatePickerDialog;
+using Android.Graphics;
+using FitConnectApp.Services;
 
 namespace FitConnectApp.Activities.WorkoutActivities
 {
@@ -25,9 +27,11 @@ namespace FitConnectApp.Activities.WorkoutActivities
         private Button addExercise;
         private Button saveWorkout;
         private LinearLayout exerciseCardsFrame;
-        public LinearLayout workoutScreen;
+        private LinearLayout workoutScreen;
+        private LinearLayout dateContainer;
         private DragMessage dragMessage;
         private TextView workoutDate;
+        private TextView workoutDateIcon;
 
         private readonly List<Binding> bindings = new List<Binding>();
 
@@ -35,7 +39,9 @@ namespace FitConnectApp.Activities.WorkoutActivities
         public Button SaveWorkout => saveWorkout ?? (saveWorkout = FindViewById<Button>(Resource.Id.saveWorkoutBtn));
         public LinearLayout ExerciseCardsFrame => exerciseCardsFrame ?? (exerciseCardsFrame = FindViewById<LinearLayout>(Resource.Id.exerciseCardsFrame));
         public LinearLayout WorkoutScreen => workoutScreen ?? (workoutScreen = FindViewById<LinearLayout>(Resource.Id.workoutScreen));
+        public LinearLayout DateContainer => dateContainer ?? (dateContainer = FindViewById<LinearLayout>(Resource.Id.dateContainer));
         public TextView WorkoutDate => workoutDate ?? (workoutDate= FindViewById<TextView>(Resource.Id.workoutDate));
+        public TextView WorkoutDateIcon => workoutDateIcon ?? (workoutDateIcon = FindViewById<TextView>(Resource.Id.workoutDateIcon));
         private CreateWorkoutViewModel Vm => App.Locator.CreateWorkout;      
 
         protected override void OnCreate(Bundle savedInstanceState)
@@ -49,7 +55,7 @@ namespace FitConnectApp.Activities.WorkoutActivities
                 //AddExercise.SetCommand(eventName: "Click", command: Vm.AddExercise, commandParameter: FragmentManager);
                 AddExercise.Click += AddExerciseCard;
                 SaveWorkout.SetCommand(Vm.SaveWorkout);
-                WorkoutDate.Click += WorkoutDate_Click;
+                DateContainer.Click += WorkoutDate_Click;
                 Binding b = this.SetBinding(() => Vm.Workout.Date, () => WorkoutDate.Text).ConvertSourceToTarget((date) => { return date.ToShortDateString(); });
                 
                 bindings.Add(b);
@@ -63,6 +69,10 @@ namespace FitConnectApp.Activities.WorkoutActivities
                 GalaSoft.MvvmLight.Messaging.Messenger.Default.Register<DropMessage>(this, (msg) => {
                     ReorderDroppedCard(msg);
                 });
+                
+                //https://code.tutsplus.com/tutorials/how-to-use-fontawesome-in-an-android-app--cms-24167 this helped get font awesome going.
+                Typeface iconFont = FontManager.getTypeface(this, FontManager.FONTAWESOME);
+                FontManager.markAsIconContainer(WorkoutDateIcon, iconFont);
                 // use this to add blank exercise cards
                 //ExerciseCardFragment card;
                 //FragmentTransaction tx = FragmentManager.BeginTransaction();
@@ -85,7 +95,7 @@ namespace FitConnectApp.Activities.WorkoutActivities
 
         private void WorkoutDate_Click(object sender, EventArgs e)
         {
-            DatePickerDialog d = new DatePickerDialog(this, this, DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
+            DatePickerDialog d = new DatePickerDialog(this, this, Vm.Workout.Date.Year, Vm.Workout.Date.Month -1, Vm.Workout.Date.Day );
             d.Show();
         }
 
@@ -148,8 +158,7 @@ namespace FitConnectApp.Activities.WorkoutActivities
 
         public void OnDateSet(DatePicker view, int year, int month, int dayOfMonth)
         {
-            Vm.Workout.Date = new DateTime(year, month, dayOfMonth);
-
+            Vm.Workout.Date = new DateTime(year, month+1, dayOfMonth);
         }
     }
 }
