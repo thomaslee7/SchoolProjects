@@ -53,9 +53,12 @@ namespace FitConnectApp
             // EditText a = FindViewById<EditText>(Resource.Id.genderText);
             if (GenderField.Text == "")
             {
-                db.GetReference("user").Child(uid).Child("gender").AddValueEventListener(new ValueEventListener(genUpdate));
-                db.GetReference("user").Child(uid).Child("height").AddValueEventListener(new ValueEventListener(heightUpdate));
-                db.GetReference("user").Child(uid).Child("weight").AddValueEventListener(new ValueEventListener(weightUpdate));
+                db.GetReference("users").Child(uid).Child("gender").SetValue("");
+                db.GetReference("users").Child(uid).Child("height").SetValue("");
+                db.GetReference("users").Child(uid).Child("weight").SetValue("");
+                db.GetReference("users").Child(uid).Child("gender").AddValueEventListener(new ValueEventListener(genUpdate));
+                db.GetReference("users").Child(uid).Child("height").AddValueEventListener(new ValueEventListener(heightUpdate));
+                db.GetReference("users").Child(uid).Child("weight").AddValueEventListener(new ValueEventListener(weightUpdate));
             }
             //db.GetReference("users").Child(uid).AddChildEventListener(new ValueEventListener(onHeightChange));
             //var db = FirebaseDatabase.GetInstance(App.fbApp);
@@ -81,21 +84,21 @@ namespace FitConnectApp
                     String a = FindViewById<EditText>(Resource.Id.genderText).Text;
                     Log.Debug(TAG, a);
                     genderUpdate.Add("gender", a);
-                    db.GetReference("user").Child(uid).UpdateChildren(genderUpdate);
+                    db.GetReference("users").Child(uid).UpdateChildren(genderUpdate);
                     break;
                 case Resource.Id.heightUpdateButton:
                     Dictionary<String, Java.Lang.Object> heightUpdate = new Dictionary<string, Java.Lang.Object>();
                     string b = FindViewById<EditText>(Resource.Id.heightText).Text;
                     Log.Debug(TAG, b);
                     heightUpdate.Add("height", b);
-                    db.GetReference("user").Child(uid).UpdateChildren(heightUpdate);
+                    db.GetReference("users").Child(uid).UpdateChildren(heightUpdate);
                     break;
                 case Resource.Id.weightUpdateButton:
                     Dictionary<String, Java.Lang.Object> weightUpdate = new Dictionary<string, Java.Lang.Object>();
                     string c = FindViewById<EditText>(Resource.Id.weightText).Text;
                     Log.Debug(TAG, c);
                     weightUpdate.Add("weight", c);
-                    db.GetReference("user").Child(uid).UpdateChildren(weightUpdate);
+                    db.GetReference("users").Child(uid).UpdateChildren(weightUpdate);
                     break;
                 default:
                     Log.Debug(TAG, "onclick: " + v.Id);
