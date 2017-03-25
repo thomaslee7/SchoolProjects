@@ -19,7 +19,7 @@ namespace FitConnectApp.Models
         private string _lastName;
         private string _firebaseUID;
         private string _firebaseToken;
-        private bool _isLoggedIn;
+		private bool _isLoggedIn;
 
         public string FirstName
         {
