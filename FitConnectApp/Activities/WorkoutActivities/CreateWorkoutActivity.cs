@@ -34,6 +34,7 @@ namespace FitConnectApp.Activities.WorkoutActivities
         private TextView workoutDateIcon;
 
         private readonly List<Binding> bindings = new List<Binding>();
+        private Dictionary<Guid, ExerciseCardFragment> cards;
 
         public Button AddExercise => addExercise ?? (addExercise = FindViewById<Button>(Resource.Id.AddExercise));
         public Button SaveWorkout => saveWorkout ?? (saveWorkout = FindViewById<Button>(Resource.Id.saveWorkoutBtn));
@@ -53,12 +54,16 @@ namespace FitConnectApp.Activities.WorkoutActivities
 
                 SetContentView(Resource.Layout.CreateWorkoutScreen);
                 //AddExercise.SetCommand(eventName: "Click", command: Vm.AddExercise, commandParameter: FragmentManager);
-                AddExercise.Click += AddExerciseCard;
+                AddExercise.Click += ShowExerciseSelect;
+
                 SaveWorkout.SetCommand(Vm.SaveWorkout);
                 DateContainer.Click += WorkoutDate_Click;
-                Binding b = this.SetBinding(() => Vm.Workout.Date, () => WorkoutDate.Text).ConvertSourceToTarget((date) => { return date.ToShortDateString(); });
-                
+
+                Binding b = this.SetBinding(() => Vm.Workout.Date, () => WorkoutDate.Text).ConvertSourceToTarget((date) => { return date.ToShortDateString(); });                
                 bindings.Add(b);
+
+                App.Locator.CreateWorkout.AddCardToActivity += AddExerciseCard;
+                cards = new Dictionary<Guid, ExerciseCardFragment>();
 
                 ExerciseCardsFrame.SetOnDragListener(this);
 
@@ -73,19 +78,7 @@ namespace FitConnectApp.Activities.WorkoutActivities
                 //https://code.tutsplus.com/tutorials/how-to-use-fontawesome-in-an-android-app--cms-24167 this helped get font awesome going.
                 Typeface iconFont = FontManager.getTypeface(this, FontManager.FONTAWESOME);
                 FontManager.markAsIconContainer(WorkoutDateIcon, iconFont);
-                // use this to add blank exercise cards
-                //ExerciseCardFragment card;
-                //FragmentTransaction tx = FragmentManager.BeginTransaction();
-                //for (int i = 0; i < 40; i++)
-                //{
-                //    card = new ExerciseCardFragment();
-                //    Guid exercisetag = new Guid();
-                //    Log.Debug(TAG, i.ToString());
-                //    //App.Locator.CreateWorkout.ExerciseTags.Add(exercisetag);
-                //    tx.Add(Resource.Id.exerciseCardsFrame, card, exercisetag.ToString());
-
-                //}
-                //tx.Commit();
+                                
             }
             catch (Exception ex)
             {
@@ -99,9 +92,50 @@ namespace FitConnectApp.Activities.WorkoutActivities
             d.Show();
         }
 
-        public void AddExerciseCard(object sender, EventArgs e)
+        public void ShowExerciseSelect(object sender, EventArgs e)
         {
-            Vm.AddExercise.Execute(FragmentManager);
+            //Vm.AddExercise.Execute(FragmentManager);
+            var transaction = FragmentManager.BeginTransaction();
+            ExerciseSelectFragment addExerciseFragment = new ExerciseSelectFragment();
+            addExerciseFragment.Show(transaction, "Add new exercise");
+        }
+
+        public void AddExerciseCard()
+        {
+            //if (cards == null)
+            //    cards = new Dictionary<Guid, ExerciseCardFragment>();
+
+            Log.Debug(TAG, "Adding exercise card");
+            ExerciseCardFragment card = new ExerciseCardFragment();
+            card.Vm = new ExerciseCardViewModel(App.Locator.ExerciseSelect.SelectedExerciseId, App.Locator.ExerciseSelect.SelectedExerciseName);
+            card.Vm.RemoveCardFromActivity += RemoveExerciseCard;
+
+            FragmentTransaction tx = FragmentManager.BeginTransaction();
+            tx.Add(Resource.Id.exerciseCardsFrame, card);
+            //tx.AddToBackStack(null);
+            tx.Commit();
+
+            cards.Add(card.Vm.ExData.ExerciseInstanceId, card);
+        }
+
+        private void RemoveExerciseCard(Guid exerciseInstanceId)
+        {
+            try
+            {
+                var tx = FragmentManager.BeginTransaction();
+                tx.Remove(cards[exerciseInstanceId]);
+                tx.Commit();
+
+                //var exercise = Vm.Workout.Exercises.Where(ex => ex.ExerciseInstanceId == exerciseInstanceId).FirstOrDefault();
+                //Vm.Workout.Exercises.Remove(exercise);
+                cards.Remove(exerciseInstanceId);
+
+                UpdateCardOrderNumbers();
+            }
+            catch (Exception ex)
+            {
+                Log.Error(TAG, ex.ToString());
+            }
         }
 
         public bool OnDrag(View v, DragEvent e)

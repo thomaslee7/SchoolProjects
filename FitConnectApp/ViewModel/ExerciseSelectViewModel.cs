@@ -88,13 +88,14 @@ namespace FitConnectApp.ViewModel
                     {
                         try
                         {
-                            Log.Debug(TAG, "Adding exercise card");
-                            ExerciseCardFragment card = new ExerciseCardFragment();
+                            App.Locator.CreateWorkout.AddExerciseCard.Execute(null);
+                            //Log.Debug(TAG, "Adding exercise card");
+                            //ExerciseCardFragment card = new ExerciseCardFragment();
 
-                            FragmentTransaction tx = data.Item1.FragmentManager.BeginTransaction();
-                            tx.Add(Resource.Id.exerciseCardsFrame, card);
-                            //tx.AddToBackStack(null);
-                            tx.Commit();
+                            //FragmentTransaction tx = data.Item1.FragmentManager.BeginTransaction();
+                            //tx.Add(Resource.Id.exerciseCardsFrame, card);
+                            ////tx.AddToBackStack(null);
+                            //tx.Commit();
 
                         }
                         catch (Exception ex)
