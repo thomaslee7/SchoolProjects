@@ -18,8 +18,8 @@ namespace FitConnectApp.Models
         private Guid workoutId;
         private DateTime date;
         private string workoutNotes;
-        private Dictionary<int, ExerciseData> exercises;        
-
+        ///private Dictionary<int, ExerciseData> exercises;
+        private List<ExerciseData> exercises;
         public Guid WorkoutId
         {
             get
@@ -56,7 +56,8 @@ namespace FitConnectApp.Models
             }
         }
 
-        public Dictionary<int, ExerciseData> Exercises
+        //public Dictionary<int, ExerciseData> Exercises
+        public List<ExerciseData> Exercises
         {
             get
             {
@@ -71,7 +72,7 @@ namespace FitConnectApp.Models
         public WorkoutData()
         {
             WorkoutId = Guid.NewGuid();
-            Exercises = new Dictionary<int, ExerciseData>();
+            Exercises = new List<ExerciseData>(); //Dictionary<int, ExerciseData>();
             Date = DateTime.Now;
         }
     }

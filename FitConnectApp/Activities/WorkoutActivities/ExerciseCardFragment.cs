@@ -19,6 +19,7 @@ using Android.Text.Method;
 using GalaSoft.MvvmLight.Messaging;
 using Android.Graphics;
 using FitConnectApp.Services;
+using Android.Views.InputMethods;
 
 namespace FitConnectApp.Activities.WorkoutActivities
 {
@@ -36,6 +37,7 @@ namespace FitConnectApp.Activities.WorkoutActivities
         public EditText Weight { get; set; }
         public EditText Reps { get; set; }        
         public TextView dragElement { get; set; }
+        public TextView deleteExercise { get; set; }
         //public TextView ExNo { get; set; }
         public TableLayout Table { get; set; }
         public LinearLayout FragmentContainer { get; set; }
@@ -51,9 +53,7 @@ namespace FitConnectApp.Activities.WorkoutActivities
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
-            // Use this to return your custom view for this Fragment            
-            Vm = new ExerciseCardViewModel(App.Locator.ExerciseSelect.SelectedExerciseId, App.Locator.ExerciseSelect.SelectedExerciseName);
-            
+                        
             view = inflater.Inflate(Resource.Layout.ExerciseCard, container, false);
 
             ExName = view.FindViewById<TextView>(Resource.Id.ExerciseName);
@@ -64,12 +64,15 @@ namespace FitConnectApp.Activities.WorkoutActivities
             Reps = view.FindViewById<EditText>(Resource.Id.reps);
             Note = view.FindViewById<Button>(Resource.Id.addNote);
             Done = view.FindViewById<Button>(Resource.Id.addSet);
-            //ExNo = view.FindViewById<TextView>(Resource.Id.ExNumber);
+            //ExNo = view.FindViewById<TextView>(Resource.Id.ExNumber); 
+
             dragElement = view.FindViewById<TextView>(Resource.Id.dragElement);
+            deleteExercise = view.FindViewById<TextView>(Resource.Id.deleteExercise);
             FragmentContainer = view.FindViewById<LinearLayout>(Resource.Id.fragmentContainer);
             
             Note.Click += Note_Click;
             Done.Click += Done_Click;
+            deleteExercise.Click += DeleteExercise_Click;
 
             ExName.SetCommand("Click", Vm.EditExercise, this.FragmentManager);
 
@@ -85,10 +88,16 @@ namespace FitConnectApp.Activities.WorkoutActivities
 
             Typeface iconFont = FontManager.getTypeface(this.Context, FontManager.FONTAWESOME);
             FontManager.markAsIconContainer(dragElement, iconFont);
+            FontManager.markAsIconContainer(deleteExercise, iconFont);
 
             view.SetOnDragListener(this);
             dragElement.SetOnTouchListener(this);
             return view;            
+        }
+
+        private void DeleteExercise_Click(object sender, EventArgs e)
+        {
+            Vm.DeleteExercise.Execute(null);
         }
 
         private void Note_Click(object sender, EventArgs e)
@@ -126,9 +135,7 @@ namespace FitConnectApp.Activities.WorkoutActivities
             ExerciseSetData set = GetSetDataFromControls();
 
             Vm.SaveSetData.Execute(set);
-
-            //Log.Debug("Doneclick", "Set guid: " + set.SetId.ToString());
-
+            
             TableRow row = new TableRow(this.Context);
             row.Tag = set.SetId.ToString();
             var lp = new TableRow.LayoutParams(TableRow.LayoutParams.MatchParent, TableRow.LayoutParams.MatchParent);
@@ -137,29 +144,25 @@ namespace FitConnectApp.Activities.WorkoutActivities
             var tvlp = new TableRow.LayoutParams(ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.WrapContent, 1f);
 
             var setTv = CreateTextView(set.SetNumber.ToString(), nameof(set.SetNumber));            
-
             Binding<int, string> setnum = new Binding<int, string>(set, nameof(set.SetNumber), setTv, nameof(setTv.Text), BindingMode.TwoWay);
             bindings.Add(setnum);
 
             var weightTv = CreateTextView(set.Weight.ToString(), nameof(set.Weight), EditCell);
-
             Binding<double, string> weight = new Binding<double, string>(set, nameof(set.Weight), weightTv, nameof(weightTv.Text), BindingMode.TwoWay);
             bindings.Add(weight);
 
-            var repsTv = CreateTextView(set.Reps.ToString(), nameof(set.Reps), EditCell);
-            repsTv.KeyListener = DigitsKeyListener.GetInstance(false, true);
-
-
+            var repsTv = CreateTextView(set.Reps.ToString(), nameof(set.Reps), EditCell);            
             Binding<int, string> reps = new Binding<int, string>(set, nameof(set.Reps), repsTv, nameof(repsTv.Text), BindingMode.TwoWay);
             bindings.Add(reps);
             
             var rpeTv = CreateTextView(set.Rpe.ToString(), nameof(set.Rpe), EditCell);
-
             Binding<int, string> rpe = new Binding<int, string>(set, nameof(set.Rpe), rpeTv, nameof(rpeTv.Text), BindingMode.TwoWay);
             bindings.Add(rpe);
 
-            var notesTv = CreateTextView((string.IsNullOrWhiteSpace(SetNotes) ? "N/A" : "Note"), nameof(set.Notes));
- 
+            var notesTv = CreateTextView((string.IsNullOrWhiteSpace(SetNotes) ? "N/A" : "Note"), nameof(set.Notes), EditCell);
+            Binding<string, string> notes = new Binding<string, string>(set, nameof(set.Notes), notesTv, nameof(notesTv.Text), BindingMode.TwoWay)
+                .ConvertSourceToTarget((value) => { return string.IsNullOrWhiteSpace(value) ? "N/A" : "Note"; });
+
             row.AddView(setTv);
             row.AddView(weightTv);
             row.AddView(repsTv);
@@ -216,35 +219,65 @@ namespace FitConnectApp.Activities.WorkoutActivities
 
             ExerciseSetData set = GetSetDataFromTable(parentRow.Tag);
 
-            AlertDialog.Builder alert = new AlertDialog.Builder(this.Context);
-            alert.SetTitle("Edit set #" + set.SetNumber + " " + cell.Tag);
-            LinearLayout layout = new LinearLayout(this.Context);
-
-            EditText text = new EditText(this.Context);
-            text.InputType = getCellPropertyType(cell, set);
-
-            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.MatchParent, 1f);
-            text.LayoutParameters = lp;
+            AlertDialog.Builder builder = new AlertDialog.Builder(this.Context);            
+            AlertDialog alert = builder.Create();
             
-            text.Text = cell.Text;
-            layout.AddView(text);
+            alert.SetTitle("Edit set #" + set.SetNumber + " " + cell.Tag);
+            LinearLayout layout = new LinearLayout(this.Context);            
+
+            if(cell.Tag.ToString() == nameof(set.Rpe))
+            {
+                alert.Window.SetSoftInputMode(SoftInput.StateHidden);
+
+                Spinner rpeSpinner = new Spinner(this.Context);
+                var rpelist = Resources.GetStringArray(Resource.Array.RpeList);
+
+                var adapter = new ArrayAdapter<string>(this.Context, Android.Resource.Layout.SimpleSpinnerItem, rpelist);
+                adapter.SetDropDownViewResource(Android.Resource.Layout.SimpleSpinnerDropDownItem);
+                rpeSpinner.Adapter = adapter;
+                rpeSpinner.SetSelection(set.Rpe);
+                layout.AddView(rpeSpinner);
+
+                alert.SetButton("Save", (senderAlert, args) => { 
+                    if (set != null)
+                    {
+                        SetPropertyValue(set, cell.Tag.ToString(), rpeSpinner.SelectedItem.ToString());
+                    }
+                });
+            }
+            else
+            {
+                EditText text = new EditText(this.Context);
+                text.InputType = getCellPropertyType(cell, set);
+
+                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.MatchParent, 1f);
+                text.LayoutParameters = lp;
+            
+                text.Text = GetPropertyValue(set, cell.Tag.ToString());
+                layout.AddView(text);
+
+                alert.Window.SetSoftInputMode(SoftInput.StateVisible);
+
+                alert.SetButton("Save", (senderAlert, args) => { 
+                    if (set != null)
+                    {
+                        SetPropertyValue(set, cell.Tag.ToString(), text.Text);
+                    }
+                });
+            }
 
             alert.SetView(layout);
-            alert.SetPositiveButton("Save", (senderAlert, args) => {
-                if(set != null)
-                {
-                    SetPropertyValue(set, cell.Tag.ToString(), text.Text);                    
-                }
-            });
 
-            alert.SetNegativeButton("Cancel", (senderAlert, args) =>
+            alert.SetButton2("Cancel", (senderAlert, args) => 
             {
 
             });
+            
 
+            
             alert.Show();
         }
-
+        
         private InputTypes getCellPropertyType(TextView cell, ExerciseSetData set)
         {
 
@@ -255,48 +288,9 @@ namespace FitConnectApp.Activities.WorkoutActivities
             else
                 return InputTypes.ClassText;
         }
+        
 
-        //private void Edit_Notes(object sender, EventArgs e)
-        //{
-        //    var cell = (TextView)sender;
-        //    var parentRow = (TableRow)cell.Parent;            
-
-        //    ExerciseSetData set = GetSetDataFromTable(parentRow.Tag);
-
-        //    AlertDialog.Builder alert = new AlertDialog.Builder(this.Context);
-        //    alert.SetTitle("Edit " + cell.Tag);
-        //    LinearLayout layout = new LinearLayout(this.Context);
-        //    EditText text = new EditText(this.Context);
-
-        //    LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.MatchParent, 1f);
-        //    text.LayoutParameters = lp;
-
-        //    text.Text = cell.Text;
-        //    layout.AddView(text);
-
-        //    alert.SetView(layout);
-        //    alert.SetPositiveButton("Save", (senderAlert, args) => {
-        //        if (set != null)
-        //        {
-        //            SetPropertyValue(set, cell.Tag.ToString(), text.Text);
-
-        //        }
-        //    });
-
-        //    alert.SetNegativeButton("Cancel", (senderAlert, args) =>
-        //    {
-
-        //    });
-
-        //    //alert.SetNeutralButton("Delete", (senderAlert, args) =>
-        //    //{
-
-        //    //});
-
-        //    alert.Show();
-        //}
-
-        void SetPropertyValue(object instance, string propertyName, object value)
+        private void SetPropertyValue(object instance, string propertyName, object value)
         {
             Type type = instance.GetType();
             PropertyInfo propertyInfo = type.GetProperty(propertyName);
@@ -306,6 +300,13 @@ namespace FitConnectApp.Activities.WorkoutActivities
                 propertyInfo.SetValue(instance, int.Parse(value.ToString()));
             else if(propertyInfo.PropertyType == typeof(string))
                 propertyInfo.SetValue(instance, value);
+        }
+
+        private string GetPropertyValue(object instance, string propertyName)
+        {
+            Type type = instance.GetType();
+            PropertyInfo propertyInfo = type.GetProperty(propertyName);
+            return propertyInfo.GetValue(instance)?.ToString();
         }
 
         public bool OnDrag(View v, DragEvent e)

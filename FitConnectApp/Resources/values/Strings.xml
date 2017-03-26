@@ -16,6 +16,7 @@
     <string name="SenderId">257464791047</string>
     <string name="fa_calendar">&#xf073;</string>
     <string name="fa_arrows">&#xf047;</string>
+    <string name="fa_delete">&#xf014;</string>
   <string-array name="RpeList">
     <item>RPE</item>
     <item>1</item>
