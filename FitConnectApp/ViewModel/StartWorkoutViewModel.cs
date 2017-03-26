@@ -30,8 +30,6 @@ namespace FitConnectApp.ViewModel
             get
             {
                 Log.Debug("StartWorkoutVM", "StartNew workout RC");
-                //return _startNewWorkout ?? 
-                //    (_startNewWorkout = new RelayCommand(() => Log.Debug("StartWorkoutVM", "StartNew workout RC")));
                 return _startNewWorkout ??
                     (_startNewWorkout = new RelayCommand(() => _navService.NavigateTo(ViewModelLocator.CreateWorkoutKey)));
             }

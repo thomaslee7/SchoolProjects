@@ -28,7 +28,7 @@ namespace FitConnectApp.ViewModel
         public const string LoginScreenKey = "LoginScreen";
         public const string StartWorkoutKey = "StartWorkoutScreen";
         public const string CreateWorkoutKey = "CreateWorkoutScreen";
-        //public const string ExerciseSelectKey = "ExerciseSelectScreen";
+        public const string ExerciseSelectKey = "ExerciseSelectScreen";
 		public const string SocialScreenKey = "SocialScreen";
 
         /// <summary>

@@ -230,8 +230,13 @@ namespace FitConnectApp
 			// aapt resource value: 0x7f080023
 			public const int MuscleGroup = 2131230755;
 			
+<<<<<<< HEAD
 			// aapt resource value: 0x7f080016
 			public const int SetTextView = 2131230742;
+=======
+			// aapt resource value: 0x7f07001e
+			public const int StartNewWorkoutBtn = 2131165214;
+>>>>>>> ecbae36... syncing up merge conflict changes
 			
 			// aapt resource value: 0x7f080027
 			public const int Social = 2131230759;
@@ -263,8 +268,13 @@ namespace FitConnectApp
 			// aapt resource value: 0x7f080006
 			public const int auto = 2131230726;
 			
+<<<<<<< HEAD
 			// aapt resource value: 0x7f080030
 			public const int button2 = 2131230768;
+=======
+			// aapt resource value: 0x7f07001f
+			public const int button2 = 2131165215;
+>>>>>>> ecbae36... syncing up merge conflict changes
 			
 			// aapt resource value: 0x7f08000b
 			public const int buttons = 2131230731;
@@ -284,6 +294,7 @@ namespace FitConnectApp
 			// aapt resource value: 0x7f08001c
 			public const int exerciseControls = 2131230748;
 			
+<<<<<<< HEAD
 			// aapt resource value: 0x7f08000e
 			public const int fragmentContainer = 2131230734;
 			
@@ -335,9 +346,13 @@ namespace FitConnectApp
 
 			// aapt resource value: 0x7f070013
 			public const int linearLayout1 = 2131165203;
+=======
+			// aapt resource value: 0x7f07001b
+			public const int linearLayoutSocial = 2131165211;
+>>>>>>> ecbae36... syncing up merge conflict changes
 			
-			// aapt resource value: 0x7f070015
-			public const int listView1 = 2131165205;
+			// aapt resource value: 0x7f07001d
+			public const int listView_SocialConnections = 2131165213;
 			
 			// aapt resource value: 0x7f070002
 			public const int none = 2131165186;
@@ -360,12 +375,20 @@ namespace FitConnectApp
 			// aapt resource value: 0x7f080017
 			public const int weightTextView = 2131230743;
 			
+<<<<<<< HEAD
 
 			// aapt resource value: 0x7f070014
 			public const int textView1 = 2131165204;
       
 			// aapt resource value: 0x7f080005
 			public const int wide = 2131230725;
+=======
+			// aapt resource value: 0x7f07001c
+			public const int textView_SocialTitle = 2131165212;
+			
+			// aapt resource value: 0x7f070005
+			public const int wide = 2131165189;
+>>>>>>> ecbae36... syncing up merge conflict changes
 			
 			static Id()
 			{
@@ -412,10 +435,10 @@ namespace FitConnectApp
 			public const int Login = 2130903044;
 			
 			// aapt resource value: 0x7f030005
-			public const int StartWorkout = 2130903045;
+			public const int Social = 2130903045;
 			
-			// aapt resource value: 0x7f030002
-			public const int Social = 2130903042;
+			// aapt resource value: 0x7f030006
+			public const int StartWorkout = 2130903046;
 			
 			static Layout()
 			{

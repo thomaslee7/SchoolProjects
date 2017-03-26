@@ -52,7 +52,7 @@ namespace FitConnectApp.ViewModel
 		{
 			get
 			{
-				Log.Debug("SocialScreen", "Navigate to my social connections ");
+				//Log.Debug("SocialScreen", "Navigate to my social connections ");
 				return _showSocial ??
 					(
 						_showSocial = new RelayCommand(() =>

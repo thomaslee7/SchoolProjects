@@ -59,11 +59,7 @@ namespace FitConnectApp
             var nav = (NavigationService)ServiceLocator.Current.GetInstance<INavigationService>();
 
             Workouts.SetCommand("Click", Vm.ShowStartWorkout);
-
-            Logout.SetCommand("Click", Vm.Logout, mGoogleApiClient);
-
-            //var nav = (NavigationService)ServiceLocator.Current.GetInstance<INavigationService>();
-            
+						            
 			Social.SetCommand("Click", Vm.ShowSocial);
 
 			Logout.SetCommand("Click", Vm.Logout, mGoogleApiClient);   

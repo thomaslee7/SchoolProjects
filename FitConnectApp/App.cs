@@ -39,7 +39,7 @@ namespace FitConnectApp
                     nav.Configure(ViewModelLocator.LoginScreenKey, typeof(LoginActivity));
                     nav.Configure(ViewModelLocator.StartWorkoutKey, typeof(StartWorkoutActivity));
                     nav.Configure(ViewModelLocator.CreateWorkoutKey, typeof(CreateWorkoutActivity));
-		    nav.Configure(ViewModelLocator.SocialScreenKey, typeof(SocialActivity));
+		    		nav.Configure(ViewModelLocator.SocialScreenKey, typeof(SocialActivity));
                     locator = new ViewModelLocator();
                 }
 

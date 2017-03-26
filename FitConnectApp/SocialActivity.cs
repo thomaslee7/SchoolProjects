@@ -9,6 +9,7 @@ using Android.Content;
 
 namespace FitConnectApp
 {
+	[Activity(Label = "My Connections")]
 	public class SocialActivity : ActivityBase
 	{
 		public SocialViewModel Vm = App.Locator.Social;
@@ -18,7 +19,7 @@ namespace FitConnectApp
 		{
 			base.OnCreate(savedInstanceState);
 			connections = new string[] { "p1", "p2", "p3", "p4" };
-			IListAdapter ListAdapter = new ArrayAdapter<string>(this, FitConnectApp.Resource.Id.listView1, connections);
+			//IListAdapter ListAdapter = new ArrayAdapter<string>(this, FitConnectApp.Resource.Id.listView_SocialConnections, connections);
 		}
 	}
 }

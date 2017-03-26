@@ -30,7 +30,8 @@ namespace FitConnectApp.ViewModel
 			get 
 			{
 				return _showSocial ??
-					(_showSocial = new RelayCommand(() => Log.Debug("ShowSocialVM", "Here are your connections")));
+					(_showSocial = new RelayCommand(() => _navService.NavigateTo(ViewModelLocator.SocialScreenKey)));
+					                                //Log.Debug("ShowSocialVM", "Here are your connections")));
 			}
 		}
 	}
