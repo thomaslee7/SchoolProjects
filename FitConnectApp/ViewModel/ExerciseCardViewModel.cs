@@ -10,41 +10,93 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using GalaSoft.MvvmLight;
+using FitConnectApp.Models;
+using GalaSoft.MvvmLight.Command;
+using FitConnectApp.Activities.WorkoutActivities;
+using GalaSoft.MvvmLight.Helpers;
+using Android.Util;
 
 namespace FitConnectApp.ViewModel
 {
     public class ExerciseCardViewModel : ViewModelBase
     {
-        private string exerciseName;
-        private int exerciseId;
+        private const string TAG = "ExerciseCardViewModel";
+        private ExerciseData exData;
+        private RelayCommand<ExerciseSetData> saveSetData;
+        private RelayCommand<FragmentManager> _editExercise;
+        private RelayCommand deleteExercise;
+        private Action<Guid> removeCardFromActivity;
 
-        public string ExerciseName
+        public ExerciseData ExData
         {
             get
             {
-                return exerciseName;
+                return exData;
             }
             set
             {
-                Set(() => ExerciseName, ref exerciseName, value);
+                Set(() => ExData, ref exData, value);
             }
         }
 
-        public int ExerciseId
+        public Action<Guid> RemoveCardFromActivity
         {
             get
             {
-                return exerciseId;
+                return removeCardFromActivity;
             }
             set
             {
-                Set(() => ExerciseId, ref exerciseId, value);
+                Set(() => RemoveCardFromActivity, ref removeCardFromActivity, value);
             }
         }
+
         public ExerciseCardViewModel(int id, string name)
         {
-            ExerciseName = name ?? "TEST! " + Guid.NewGuid().ToString();
-            ExerciseId = id;
+            var exerciseList = App.Locator.CreateWorkout.Workout.Exercises;
+            ExData = new ExerciseData { ExName = name ?? "TEST! " + Guid.NewGuid().ToString(), ExNumber = exerciseList.Count + 1 };
+            //exerciseList.Add(exerciseList.Count, ExData);
+            exerciseList.Add(ExData);
+            Log.Debug(TAG, "Exnumber for " + ExData.ExName + ": " + ExData.ExNumber);            
+        }
+
+        public RelayCommand<ExerciseSetData> SaveSetData
+        {
+            get
+            {
+                return saveSetData ?? (saveSetData = new RelayCommand<ExerciseSetData>((set) => 
+                {
+                    ExData.SetData.Add(ExData.SetData.Count, set);
+                }));
+            }
+        }
+
+        public RelayCommand<FragmentManager> EditExercise
+        {
+            get
+            {
+                return _editExercise ?? (_editExercise = new RelayCommand<FragmentManager>((manager) =>
+                {
+                    var transaction = manager.BeginTransaction();
+                    ExerciseSelectFragment addExerciseFragment = new ExerciseSelectFragment { Editing = true, ExCardVm = this };
+                    addExerciseFragment.Show(transaction, "Add new exercise"); 
+                }));
+            }
+        }
+
+        public RelayCommand DeleteExercise
+        {
+            get
+            {
+                return deleteExercise ?? (deleteExercise = new RelayCommand( () =>
+                {
+                    var exList = App.Locator.CreateWorkout.Workout.Exercises;
+                    //var key = exList.Where(kvp => kvp.Value == exData).Select(kvp => kvp.Key).FirstOrDefault();                    
+                    exList.Remove(exData);
+                    if (RemoveCardFromActivity != null)
+                        RemoveCardFromActivity(exData.ExerciseInstanceId);
+                }));
+            }
         }
     }
 }

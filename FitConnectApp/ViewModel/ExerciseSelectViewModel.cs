@@ -20,7 +20,7 @@ namespace FitConnectApp.ViewModel
     {
         private const string TAG = "ExerciseSelectViewModel";
 
-        private RelayCommand<ExerciseSelectFragment> dismiss;
+        private RelayCommand<Tuple<ExerciseSelectFragment, bool>> dismiss;
         private RelayCommand<int> setExerciseType;
         private RelayCommand<int> setMuscleGroup;
         private RelayCommand<Tuple<int, string>> setExerciseName;
@@ -77,35 +77,31 @@ namespace FitConnectApp.ViewModel
             }
         }
 
-        public RelayCommand<ExerciseSelectFragment> Dismiss
+        public RelayCommand<Tuple<ExerciseSelectFragment, bool>> Dismiss
         {
             get
             {
-                return dismiss ?? (dismiss = new RelayCommand<ExerciseSelectFragment>((fragment) => {
-                    fragment.Dismiss();
+                return dismiss ?? (dismiss = new RelayCommand<Tuple<ExerciseSelectFragment, bool>>((data) => {
+                    data.Item1.Dismiss();
 
-                    try
+                    if (!data.Item2)
                     {
-                        Log.Debug(TAG, "Adding exercise card");
-                        ExerciseCardFragment card = new ExerciseCardFragment();
+                        try
+                        {
+                            App.Locator.CreateWorkout.AddExerciseCard.Execute(null);
+                            //Log.Debug(TAG, "Adding exercise card");
+                            //ExerciseCardFragment card = new ExerciseCardFragment();
 
-                        Bundle bundle = new Bundle();
-                        bundle.PutString("exname", App.Locator.ExerciseSelect.SelectedExerciseName);
-                        bundle.PutInt("exid", App.Locator.ExerciseSelect.SelectedExerciseId);
+                            //FragmentTransaction tx = data.Item1.FragmentManager.BeginTransaction();
+                            //tx.Add(Resource.Id.exerciseCardsFrame, card);
+                            ////tx.AddToBackStack(null);
+                            //tx.Commit();
 
-                        Guid exercisetag = new Guid();
-                        App.Locator.CreateWorkout.ExerciseTags.Add(exercisetag);
-
-                        card.Arguments = bundle;
-                        FragmentTransaction tx = fragment.FragmentManager.BeginTransaction();
-                        tx.Add(Resource.Id.exerciseCardsFrame, card, exercisetag.ToString());
-                        //tx.AddToBackStack(null);
-                        tx.Commit();
-
-                    }
-                    catch (Exception ex)
-                    {
-                        Log.Error(TAG, ex.ToString());                        
+                        }
+                        catch (Exception ex)
+                        {
+                            Log.Error(TAG, ex.ToString());                        
+                        }
                     }
                 }));
             }

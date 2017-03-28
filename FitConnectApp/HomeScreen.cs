@@ -21,6 +21,7 @@ using Android.Util;
 using Firebase;
 using Firebase.Database;
 using GalaSoft.MvvmLight.Helpers;
+using FitConnectApp.Activities.WorkoutActivities.Listeners;
 
 namespace FitConnectApp
 {
@@ -42,7 +43,8 @@ namespace FitConnectApp
         public Button Workouts => workouts ?? (workouts = FindViewById<Button>(Resource.Id.Workouts));
         public Button Account => account ?? (account = FindViewById<Button>(Resource.Id.Account));
         public Button Stats => stats ?? (stats = FindViewById<Button>(Resource.Id.Stats));
-        public HomeScreenViewModel Vm => App.Locator.Home;
+        //public HomeScreenViewModel Vm => App.Locator.Home;
+		public HomeScreenViewModel Vm = App.Locator.Home;
 
         protected override async void OnCreate(Bundle savedInstanceState)
         {
@@ -65,7 +67,18 @@ namespace FitConnectApp
             Logout.SetCommand("Click", Vm.Logout, mGoogleApiClient);
 
             try
+            Logout.SetCommand("Click", Vm.Logout, mGoogleApiClient);
+
+            //var nav = (NavigationService)ServiceLocator.Current.GetInstance<INavigationService>();
+            
+			Social.SetCommand("Click", Vm.ShowSocial);
+
+			Logout.SetCommand("Click", Vm.Logout, mGoogleApiClient);   
+            
+			try
             {
+				var uid = App.getUid(this.ApplicationContext);
+                 
                                 
                 var uid = App.getUid(this.ApplicationContext);
 
@@ -104,13 +117,13 @@ namespace FitConnectApp
                 {
                     Log.Debug(TAG, ex.ToString());
                 }
-
+ 
             }
             catch (Exception ex)
             {
                 Log.Debug(TAG, ex.ToString());
             }
-            
+             
         }
 
         protected override void OnStart()

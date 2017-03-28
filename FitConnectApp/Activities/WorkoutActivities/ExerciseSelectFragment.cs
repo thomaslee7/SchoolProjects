@@ -28,6 +28,8 @@ namespace FitConnectApp.Activities.WorkoutActivities
         public Dictionary<int, Tuple<int, string>> ExerciseTypeList { get; set; }
         public Dictionary<int, Tuple<int, string>> MuscleGroupList { get; set; }
         public Dictionary<int, Tuple<int, string>> ExericseList { get; set; }
+        public bool Editing { get; set; } = false;
+        public ExerciseCardViewModel ExCardVm { get; set; }
         private ExerciseSelectViewModel Vm => App.Locator.ExerciseSelect;
                 
         public override void OnCreate(Bundle savedInstanceState)
@@ -40,7 +42,7 @@ namespace FitConnectApp.Activities.WorkoutActivities
         {
             // Use this to return your custom view for this Fragment
             var view = inflater.Inflate(Resource.Layout.ExerciseSelect, container, false);
-            view.FindViewById<Button>(Resource.Id.AddExDone).SetCommand("Click", Vm.Dismiss, this);
+            view.FindViewById<Button>(Resource.Id.AddExDone).SetCommand("Click", Vm.Dismiss, new Tuple<ExerciseSelectFragment,bool>(this, Editing));
 
             var db = FirebaseDatabase.GetInstance(App.fbApp);
 
@@ -61,8 +63,7 @@ namespace FitConnectApp.Activities.WorkoutActivities
                 
 
         private void exerciseType_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
-        {
-            //Vm.SelectedExerciseTypeId = ExerciseTypeList[e.Position].Item1;
+        {            
             Vm.SetExerciseType.Execute(ExerciseTypeList[e.Position].Item1);
         }
 
@@ -76,6 +77,11 @@ namespace FitConnectApp.Activities.WorkoutActivities
         private void exerciseName_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
         {
             Vm.SetExerciseName.Execute(new Tuple<int, string>(ExericseList[e.Position].Item1, ExericseList[e.Position].Item2));
+            if(ExCardVm != null)
+            {
+                ExCardVm.ExData.ExName = App.Locator.ExerciseSelect.SelectedExerciseName;
+                ExCardVm.ExData.ExId = App.Locator.ExerciseSelect.SelectedExerciseId;
+            }
         }
 
         public void OnExTypeDataChange(DataSnapshot snapshot)

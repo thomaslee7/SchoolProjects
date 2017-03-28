@@ -21,6 +21,7 @@
     <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <AndroidUseSharedRuntime>False</AndroidUseSharedRuntime>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>True</DebugSymbols>
@@ -30,16 +31,9 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <AndroidUseSharedRuntime>False</AndroidUseSharedRuntime>
     <AndroidLinkMode>None</AndroidLinkMode>
     <EmbedAssembliesIntoApk>True</EmbedAssembliesIntoApk>
-    <BundleAssemblies>False</BundleAssemblies>
-    <AndroidCreatePackagePerAbi>False</AndroidCreatePackagePerAbi>
     <Debugger>.Net (Xamarin)</Debugger>
-    <AotAssemblies>False</AotAssemblies>
-    <EnableLLVM>False</EnableLLVM>
-    <AndroidEnableMultiDex>False</AndroidEnableMultiDex>
-    <EnableProguard>False</EnableProguard>
     <AndroidKeyStore>True</AndroidKeyStore>
     <AndroidSigningKeyStore>external\debug.keystore</AndroidSigningKeyStore>
     <AndroidSigningStorePass>android</AndroidSigningStorePass>
@@ -55,7 +49,6 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <AndroidUseSharedRuntime>False</AndroidUseSharedRuntime>
     <AndroidLinkMode>SdkOnly</AndroidLinkMode>
     <EmbedAssembliesIntoApk>True</EmbedAssembliesIntoApk>
   </PropertyGroup>
@@ -150,7 +143,9 @@
     <Compile Include="Activities\WorkoutActivities\CreateWorkoutActivity.cs" />
     <Compile Include="Activities\WorkoutActivities\ExerciseCardFragment.cs" />
     <Compile Include="Activities\WorkoutActivities\ExerciseSelectFragment.cs" />
-    <Compile Include="StatsActivity.cs" />
+    <Compile Include="Models\DragMessage.cs" />
+    <Compile Include="Models\WorkoutData.cs" />
+    <Compile Include="Services\FontManager.cs" />
     <Compile Include="ValueEventListener.cs" />
     <Compile Include="App.cs" />
     <Compile Include="ChildEventListener.cs" />
@@ -170,6 +165,8 @@
     <Compile Include="ViewModel\StartWorkoutViewModel.cs" />
     <Compile Include="ViewModel\StatsViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
+    <Compile Include="SocialActivity.cs" />
+    <Compile Include="ViewModel\SocialViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="external\debug.keystore" />
@@ -193,6 +190,27 @@
     <AndroidResource Include="Resources\layout\ExerciseCard.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
+    <AndroidResource Include="Resources\layout\Social.axml" />
+    <AndroidAsset Include="fonts\FontAwesome.otf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </AndroidAsset>
+    <AndroidAsset Include="fonts\fontawesome-webfont.woff2">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </AndroidAsset>
+    <AndroidAsset Include="fonts\fontawesome-webfont.woff">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </AndroidAsset>
+    <AndroidAsset Include="fonts\fontawesome-webfont.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </AndroidAsset>
+    <AndroidAsset Include="fonts\fontawesome-webfont.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </AndroidAsset>
+    <AndroidAsset Include="fonts\fontawesome-webfont.eot">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </AndroidAsset>
+    <None Include="Content\font-awesome.min.css" />
+    <None Include="Content\font-awesome.css" />
     <AndroidResource Include="Resources\layout\Account.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
@@ -224,7 +242,9 @@
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\Icon2.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Renderer\" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
