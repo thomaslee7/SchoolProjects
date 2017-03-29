@@ -56,7 +56,14 @@ namespace FitConnectApp.Activities.WorkoutActivities
                 //AddExercise.SetCommand(eventName: "Click", command: Vm.AddExercise, commandParameter: FragmentManager);
                 AddExercise.Click += ShowExerciseSelect;
 
-                SaveWorkout.SetCommand(Vm.SaveWorkout);
+                try
+                {
+                    SaveWorkout.SetCommand("Click", Vm.SaveWorkout, this.ApplicationContext);
+                }
+                catch (Exception ex)
+                {
+                    Log.Error(TAG, ex.ToString());                    
+                }
                 DateContainer.Click += WorkoutDate_Click;
 
                 Binding b = this.SetBinding(() => Vm.Workout.Date, () => WorkoutDate.Text).ConvertSourceToTarget((date) => { return date.ToShortDateString(); });                
@@ -78,7 +85,11 @@ namespace FitConnectApp.Activities.WorkoutActivities
                 //https://code.tutsplus.com/tutorials/how-to-use-fontawesome-in-an-android-app--cms-24167 this helped get font awesome going.
                 Typeface iconFont = FontManager.getTypeface(this, FontManager.FONTAWESOME);
                 FontManager.markAsIconContainer(WorkoutDateIcon, iconFont);
-                                
+
+                //LoadExerciseCards();
+
+
+
             }
             catch (Exception ex)
             {
@@ -116,6 +127,35 @@ namespace FitConnectApp.Activities.WorkoutActivities
             tx.Commit();
 
             cards.Add(card.Vm.ExData.ExerciseInstanceId, card);
+        }
+
+        private void LoadExerciseCards()
+        {
+            try
+            {
+                for (int i = 0; i < Vm.Workout.Exercises.Count; i ++)
+                {
+                    var exercise = Vm.Workout.Exercises[i];
+                    ExerciseCardFragment card = new ExerciseCardFragment();
+                    card.Vm = new ExerciseCardViewModel(exercise.ExId, exercise.ExName, exercise);
+
+
+                    FragmentTransaction tx = FragmentManager.BeginTransaction();
+                    tx.Add(Resource.Id.exerciseCardsFrame, card);
+                    //tx.AddToBackStack(null);
+                    tx.Commit();
+
+                    //card.Vm.ExData.SetData = exercise.SetData;
+
+                    card.Vm.RemoveCardFromActivity += RemoveExerciseCard;
+                    cards.Add(card.Vm.ExData.ExerciseInstanceId, card);
+
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Error(TAG, ex.ToString());
+            }
         }
 
         private void RemoveExerciseCard(Guid exerciseInstanceId)

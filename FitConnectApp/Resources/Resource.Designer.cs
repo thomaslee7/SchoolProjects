@@ -260,8 +260,8 @@ namespace FitConnectApp
 			// aapt resource value: 0x7f080006
 			public const int auto = 2131230726;
 			
-			// aapt resource value: 0x7f080037
-			public const int button2 = 2131230775;
+			// aapt resource value: 0x7f080038
+			public const int button2 = 2131230776;
 			
 			// aapt resource value: 0x7f08000f
 			public const int buttons = 2131230735;
@@ -307,6 +307,9 @@ namespace FitConnectApp
 			
 			// aapt resource value: 0x7f080035
 			public const int listView1 = 2131230773;
+			
+			// aapt resource value: 0x7f080037
+			public const int loadSavedWorkout = 2131230775;
 			
 			// aapt resource value: 0x7f080013
 			public const int nameBar = 2131230739;
