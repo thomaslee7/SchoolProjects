@@ -66,22 +66,13 @@ namespace FitConnectApp
 
             Logout.SetCommand("Click", Vm.Logout, mGoogleApiClient);
 
-            try
-            Logout.SetCommand("Click", Vm.Logout, mGoogleApiClient);
-
-            //var nav = (NavigationService)ServiceLocator.Current.GetInstance<INavigationService>();
             
-			Social.SetCommand("Click", Vm.ShowSocial);
-
-			Logout.SetCommand("Click", Vm.Logout, mGoogleApiClient);   
+			Social.SetCommand("Click", Vm.ShowSocial); 
             
 			try
             {
 				var uid = App.getUid(this.ApplicationContext);
                  
-                                
-                var uid = App.getUid(this.ApplicationContext);
-
                 try
                 {
 
