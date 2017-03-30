@@ -162,7 +162,7 @@ namespace FitConnectApp.Activities.WorkoutActivities
 
             var tvlp = new TableRow.LayoutParams(ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.WrapContent, 1f);
 
-            var setTv = CreateTextView(set.SetNumber.ToString(), nameof(set.SetNumber));
+            var setTv = CreateTextView(set.SetNumber.ToString(), nameof(set.SetNumber));            
             Binding<int, string> setnum = new Binding<int, string>(set, nameof(set.SetNumber), setTv, nameof(setTv.Text), BindingMode.TwoWay);
             bindings.Add(setnum);
 
@@ -201,7 +201,8 @@ namespace FitConnectApp.Activities.WorkoutActivities
             view.LayoutParameters = tvlp;
             view.Gravity = GravityFlags.Center;
             view.Tag = tag;
-            view.Click += handler;            
+            view.Click += handler;
+            view.TextSize = 18;
             
             return view;
         }

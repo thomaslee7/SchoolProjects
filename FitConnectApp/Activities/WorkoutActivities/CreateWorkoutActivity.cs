@@ -20,7 +20,7 @@ using FitConnectApp.Services;
 
 namespace FitConnectApp.Activities.WorkoutActivities
 {
-    [Activity(Label = "Create Workout")]
+    [Activity(Label = "Create Workout", ScreenOrientation = Android.Content.PM.ScreenOrientation.Portrait)]
     public class CreateWorkoutActivity : ActivityBase, View.IOnDragListener, IOnDateSetListener
     {
         const string TAG = "CreateWorkout";
