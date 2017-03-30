@@ -16,20 +16,24 @@ using FitConnectApp.Models;
 using Firebase.Database;
 using FitConnectApp.Activities.WorkoutActivities.Listeners;
 using System.Reflection;
+using System.Threading.Tasks;
 
 namespace FitConnectApp.ViewModel
 {
     public class StartWorkoutViewModel : ViewModelBase
     {
-        private RelayCommand _startNewWorkout;
-        private RelayCommand<Tuple<Guid, string>> loadWorkout;
-        private INavigationService _navService;
-        private WorkoutData savedWorkoutData;
         private const string TAG = "StartWorkoutViewModel";
+        private RelayCommand _startNewWorkout;        
+        private RelayCommand<LoadWorkout> loadWorkout;
+        private INavigationService _navService;
+        private WorkoutData savedWorkoutData;        
+        private ValueEventListener getData;
+        private string userID;
 
         public StartWorkoutViewModel(INavigationService navService)
         {
             _navService = navService;
+            getData = new ValueEventListener(GetWorkoutData);
         }
 
         public RelayCommand StartNewWorkout
@@ -44,27 +48,28 @@ namespace FitConnectApp.ViewModel
                     }));
             }
         }
-
-        public RelayCommand<Tuple<Guid, string>> LoadWorkout
+                
+        public RelayCommand<LoadWorkout> LoadWorkout
         {
             get
             {             
-                return loadWorkout ??
-                    (loadWorkout = new RelayCommand<Tuple<Guid,string>>((data) => 
+                return loadWorkout ??                    
+                    (loadWorkout = new RelayCommand<LoadWorkout>((data) =>
                     {                        
-                        App.Locator.CreateWorkout.Workout = loadWorkoutData(data.Item1, data.Item2);
-                        _navService.NavigateTo(ViewModelLocator.CreateWorkoutKey);
+                        App.Locator.CreateWorkout.Workout = loadWorkoutData(data.SelectedWorkoutId, data.UserId);
+                        Log.Debug(TAG, "About to navigate to createworkout");                        
                     }));
             }
         }
 
-        private WorkoutData loadWorkoutData(Guid workoutId, string uid)
+        private  WorkoutData loadWorkoutData(Guid workoutId, string uid)
         {
+            userID = uid;
             var db = FirebaseDatabase.GetInstance(App.fbApp);
             savedWorkoutData = new WorkoutData { WorkoutId = workoutId };
 
-            db.GetReference("Workouts").Child(uid).Child(workoutId.ToString()).AddValueEventListener(new ValueEventListener(GetWorkoutData));
-
+            db.GetReference("Workouts").Child(uid).Child(workoutId.ToString()).AddValueEventListener(getData);
+            
             return savedWorkoutData;
         }
 
@@ -74,17 +79,15 @@ namespace FitConnectApp.ViewModel
 
             try
             {
-
-                //int i = 0;
                 foreach (DataSnapshot snap in snapshot.Children.ToEnumerable())
                 {
                     if(snap.ChildrenCount > 0)
                     {
                         var ex = new ExerciseData
-                        {
-                            //ExerciseInstanceId = Guid.Parse(snap.Key),
+                        {                            
                             ExName = snap.Child("Name").GetValue(true).ToString(),                        
-                            ExNumber = int.Parse(snap.Child("ExerciseNumber").GetValue(true).ToString())
+                            ExNumber = int.Parse(snap.Child("ExerciseNumber").GetValue(true).ToString()),
+                            ExerciseInstanceId = Guid.Parse(snap.Key)                            
                         };
 
                         int j = 0;
@@ -94,60 +97,37 @@ namespace FitConnectApp.ViewModel
                             var set = new ExerciseSetData();
                             if(setSnap.ChildrenCount > 0)
                             {
+                                set.SetId = Guid.Parse(setSnap.Key);
                                 set.Weight = int.Parse(setSnap.Child("Weight").GetValue(true).ToString());
                                 set.Reps = int.Parse(setSnap.Child("Reps").GetValue(true).ToString());
                                 set.Rpe = int.Parse(setSnap.Child("Rpe").GetValue(true).ToString());
                                 set.SetNumber = int.Parse(setSnap.Child("SetNumber").GetValue(true).ToString());
                                 set.Notes = setSnap.Child("Notes")?.GetValue(true)?.ToString() ?? "";                            
 
-                                ex.SetData.Add(j, set);
+                                ex.SetData.Add(set);
                                 Log.Debug(TAG, set.Weight.ToString() + " " + set.Reps.ToString() + " " + set.Rpe.ToString() + "; #" + set.SetNumber);
                                 j++;
                             }                            
                         }
-
+                        ex.SetData = ex.SetData.OrderBy(item => item.SetNumber).ToList();
                         savedWorkoutData.Exercises.Add(ex);
                     }
 
                 }
-                
+                savedWorkoutData.Exercises = savedWorkoutData.Exercises.OrderBy(item => item.ExNumber).ToList();
             }
             catch (Exception ex)
             {
                 Log.Debug(TAG, ex.ToString());
             }
 
-           
-            //var workouts = db.GetReference("Workouts").Child(uid);
-            //workouts.Child(workout.WorkoutId.ToString()).Child("Date").SetValue(workout.Date.ToString());
+            Log.Debug(TAG, "Done loading workoutData from database");
 
-            //foreach (var exercise in workout.Exercises)
-            //{
-            //    workouts.Child(workout.WorkoutId.ToString()).Child(exercise.ExerciseInstanceId.ToString()).Child("ExerciseNumber").SetValue(exercise.ExNumber);
-            //    workouts.Child(workout.WorkoutId.ToString()).Child(exercise.ExerciseInstanceId.ToString()).Child("Name").SetValue(exercise.ExName);
-            //    //workouts.Child(workout.WorkoutId.ToString()).Child(exercise.ExerciseInstanceId.ToString()).Child("DbId").SetValue(exercise.ExId);
+            var db = FirebaseDatabase.GetInstance(App.fbApp);
+            db.GetReference("Workouts").Child(userID).Child(savedWorkoutData.WorkoutId.ToString()).RemoveEventListener(getData);
 
-            //    foreach (var set in exercise.SetData)
-            //    {
-            //        var dbSetInfo = workouts.Child(workout.WorkoutId.ToString()).Child(exercise.ExerciseInstanceId.ToString()).Child(set.Value.SetId.ToString());
-            //        dbSetInfo.Child("SetNumber").SetValue(set.Value.SetNumber);
-            //        dbSetInfo.Child("Weight").SetValue(set.Value.Weight);
-            //        dbSetInfo.Child("Reps").SetValue(set.Value.Reps);
-            //        dbSetInfo.Child("Rpe").SetValue(set.Value.Rpe);
-            //        dbSetInfo.Child("Notes").SetValue(set.Value.Notes);
-            //    }
-            //}
+            _navService.NavigateTo(ViewModelLocator.CreateWorkoutKey);             
         }
-        //private void SetPropertyValue(object instance, string propertyName, object value)
-        //{
-        //    Type type = instance.GetType();
-        //    PropertyInfo propertyInfo = type.GetProperty(propertyName);
-        //    if (propertyInfo.PropertyType == typeof(double))
-        //        propertyInfo.SetValue(instance, double.Parse(value.ToString()));
-        //    else if (propertyInfo.PropertyType == typeof(int))
-        //        propertyInfo.SetValue(instance, int.Parse(value.ToString()));
-        //    else if (propertyInfo.PropertyType == typeof(string))
-        //        propertyInfo.SetValue(instance, value);
-        //}
+
     }
 }

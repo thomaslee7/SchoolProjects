@@ -24,8 +24,9 @@ namespace FitConnectApp.ViewModel
     public class CreateWorkoutViewModel : ViewModelBase
     {
         private const string TAG = "CreateWorkoutViewModel";
-        //private RelayCommand<FragmentManager> _addExercise;
+        
         private RelayCommand _addExerciseCard;
+        private RelayCommand navigateHome;
         private RelayCommand<Context> saveWorkout;
         private INavigationService _navService;
 
@@ -62,18 +63,13 @@ namespace FitConnectApp.ViewModel
             Workout = new WorkoutData();
         }
 
-        //public RelayCommand<FragmentManager> AddExercise
-        //{
-        //    get
-        //    {
-        //        return _addExercise ?? (_addExercise = new RelayCommand<FragmentManager>((manager) =>
-        //        {
-        //            var transaction = manager.BeginTransaction();
-        //            ExerciseSelectFragment addExerciseFragment = new ExerciseSelectFragment();
-        //            addExerciseFragment.Show(transaction, "Add new exercise");                    
-        //        }));
-        //    }
-        //}
+        public RelayCommand NavigateHome
+        {
+            get
+            {
+                return navigateHome ?? (navigateHome = new RelayCommand(() => _navService.NavigateTo(ViewModelLocator.HomeScreenKey)));
+            }
+        }
 
         public RelayCommand AddExerciseCard
         {
@@ -105,23 +101,23 @@ namespace FitConnectApp.ViewModel
 
                     try
                     {
-                        var workouts = db.GetReference("Workouts").Child(uid);                        
+                        var workouts = db.GetReference("Workouts").Child(uid);
+                        workouts.Child(Workout.WorkoutId.ToString()).RemoveValue();
                         workouts.Child(workout.WorkoutId.ToString()).Child("Date").SetValue(workout.Date.ToString());
 
                         foreach(var exercise in workout.Exercises)
                         {
                             workouts.Child(workout.WorkoutId.ToString()).Child(exercise.ExerciseInstanceId.ToString()).Child("ExerciseNumber").SetValue(exercise.ExNumber);
-                            workouts.Child(workout.WorkoutId.ToString()).Child(exercise.ExerciseInstanceId.ToString()).Child("Name").SetValue(exercise.ExName);
-                            //workouts.Child(workout.WorkoutId.ToString()).Child(exercise.ExerciseInstanceId.ToString()).Child("DbId").SetValue(exercise.ExId);
+                            workouts.Child(workout.WorkoutId.ToString()).Child(exercise.ExerciseInstanceId.ToString()).Child("Name").SetValue(exercise.ExName);                            
 
                             foreach (var set in exercise.SetData)
                             {
-                                var dbSetInfo = workouts.Child(workout.WorkoutId.ToString()).Child(exercise.ExerciseInstanceId.ToString()).Child(set.Value.SetId.ToString());
-                                dbSetInfo.Child("SetNumber").SetValue(set.Value.SetNumber);
-                                dbSetInfo.Child("Weight").SetValue(set.Value.Weight);
-                                dbSetInfo.Child("Reps").SetValue(set.Value.Reps);
-                                dbSetInfo.Child("Rpe").SetValue(set.Value.Rpe);
-                                dbSetInfo.Child("Notes").SetValue(set.Value.Notes);
+                                var dbSetInfo = workouts.Child(workout.WorkoutId.ToString()).Child(exercise.ExerciseInstanceId.ToString()).Child(set.SetId.ToString());
+                                dbSetInfo.Child("SetNumber").SetValue(set.SetNumber);
+                                dbSetInfo.Child("Weight").SetValue(set.Weight);
+                                dbSetInfo.Child("Reps").SetValue(set.Reps);
+                                dbSetInfo.Child("Rpe").SetValue(set.Rpe);
+                                dbSetInfo.Child("Notes").SetValue(set.Notes);
                             }
                         }                        
                     }

@@ -4,6 +4,7 @@ using Android.Util;
 using Android.Views;
 using Android.Widget;
 using Firebase.Database;
+using FitConnectApp.Activities.WorkoutActivities;
 using FitConnectApp.Activities.WorkoutActivities.Listeners;
 using FitConnectApp.ViewModel;
 using GalaSoft.MvvmLight.Helpers;
@@ -32,6 +33,7 @@ namespace FitConnectApp
         {
             
             base.OnCreate(savedInstanceState);
+            
             SetContentView(Resource.Layout.StartWorkout);
             StartNewWorkout.SetCommand("Click", Vm.StartNewWorkout);
             //LoadSavedWorkout.SetCommand("Click", Vm.LoadSavedWorkout);
@@ -50,11 +52,8 @@ namespace FitConnectApp
             LinearLayout layout = new LinearLayout(this);
             
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.MatchParent, 1f);
-
-            //layout.AddView();
-
+            
             Spinner dateSpinner = new Spinner(this);
-            //var dateList = Resources.GetStringArray(Resource.Array.RpeList);
             var dates = new List<string>();
             try
             {
@@ -74,7 +73,9 @@ namespace FitConnectApp
             alert.SetView(layout);
             alert.SetButton("Load", (senderAlert, args) => {
                 selectedWorkout = dateList[dateSpinner.SelectedItemPosition].Item1;
-                //Vm.LoadWorkout.Execute(new Tuple<Guid, string>(selectedWorkout, uid));
+                var loadWorkout = new LoadWorkout { SelectedWorkoutId = selectedWorkout, UserId = uid }; 
+                Vm.LoadWorkout.Execute(loadWorkout);
+
             });
 
             alert.SetButton2("Cancel", (senderAlert, args) =>
@@ -98,5 +99,10 @@ namespace FitConnectApp
             }
         }
 
+    }
+    public class LoadWorkout
+    {
+        public Guid SelectedWorkoutId;
+        public string UserId { get; set; }
     }
 }

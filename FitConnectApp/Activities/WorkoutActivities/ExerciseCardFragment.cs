@@ -228,7 +228,8 @@ namespace FitConnectApp.Activities.WorkoutActivities
 
         private ExerciseSetData GetSetDataFromTable(Java.Lang.Object rowTag)
         {
-            return Vm.ExData.SetData.Where(ex => ex.Value.SetId.ToString() == rowTag.ToString()).Select(kvp => kvp.Value).FirstOrDefault();
+            //return Vm.ExData.SetData.Where(ex => ex.Value.SetId.ToString() == rowTag.ToString()).Select(kvp => kvp.Value).FirstOrDefault();
+            return Vm.ExData.SetData.Where(ex => ex.SetId.ToString() == rowTag.ToString()).FirstOrDefault();
         }
 
         private void EditCell(object sender, EventArgs e)
@@ -365,21 +366,28 @@ namespace FitConnectApp.Activities.WorkoutActivities
         {
             base.OnDetach();
 
-            try
-            {
-                var cfm = ChildFragmentManager.Class.GetField("mChildFragmentManager");
-                cfm.Accessible = true;
-                cfm.Set(this, null);
+            //try
+            //{
+            //    var cfm = ChildFragmentManager.Class.GetField("mChildFragmentManager");
+            //    cfm.Accessible = true;
+            //    cfm.Set(this, null);
 
-            }
-            catch(NoSuchFieldException ex)
-            {
-                Log.Error(TAG, ex.ToString());
-            }
-            catch(IllegalAccessException ex)
-            {
-                Log.Error(TAG, ex.ToString());
-            }
+            //}
+            //catch (NoSuchFieldException ex)
+            //{
+            //    Log.Error(TAG, ex.ToString());
+            //}
+            //catch (IllegalAccessException ex)
+            //{
+            //    Log.Error(TAG, ex.ToString());
+            //}
+        }
+
+        public override void OnDestroy()
+        {
+            Log.Debug(TAG, "ExIID: " + Vm.ExData.ExerciseInstanceId.ToString() + " on destroy");
+            base.OnDestroy();
+
         }
     }
 }
