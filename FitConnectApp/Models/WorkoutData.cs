@@ -83,11 +83,12 @@ namespace FitConnectApp.Models
         private int exNumber; 
         private int exId; 
         private Guid exerciseInstanceId;
-        private Dictionary<int, ExerciseSetData> setData;
+        //private Dictionary<int, ExerciseSetData> setData;
+        private List<ExerciseSetData> setData;
 
         public ExerciseData()
         {            
-            SetData = new Dictionary<int, ExerciseSetData>();
+            SetData = new List<ExerciseSetData>();
             ExerciseInstanceId = Guid.NewGuid();
         }
 
@@ -142,7 +143,7 @@ namespace FitConnectApp.Models
             }
         }
 
-        public Dictionary<int, ExerciseSetData> SetData
+        public List<ExerciseSetData> SetData
         {
             get
             {

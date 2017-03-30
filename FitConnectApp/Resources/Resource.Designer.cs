@@ -338,8 +338,11 @@ namespace FitConnectApp
 			// aapt resource value: 0x7f080033
 			public const int loginUsernameText = 2131230771;
 			
-			// aapt resource value: 0x7f080015
-			public const int nameBar = 2131230741;
+			// aapt resource value: 0x7f080037
+			public const int loadSavedWorkout = 2131230775;
+			
+			// aapt resource value: 0x7f080013
+			public const int nameBar = 2131230739;
 			
 			// aapt resource value: 0x7f080002
 			public const int none = 2131230722;

@@ -51,11 +51,17 @@ namespace FitConnectApp.ViewModel
             }
         }
 
-        public ExerciseCardViewModel(int id, string name)
+        public ExerciseCardViewModel(int id, string name, ExerciseData data = null)
         {
+            if(data != null)
+            {
+                ExData = data;
+                Log.Debug(TAG, "Loading data for " + ExData.ExName + ": " + ExData.ExNumber);
+                return;
+            }
+
             var exerciseList = App.Locator.CreateWorkout.Workout.Exercises;
-            ExData = new ExerciseData { ExName = name ?? "TEST! " + Guid.NewGuid().ToString(), ExNumber = exerciseList.Count + 1 };
-            //exerciseList.Add(exerciseList.Count, ExData);
+            ExData = new ExerciseData { ExName = name, ExNumber = exerciseList.Count + 1 };            
             exerciseList.Add(ExData);
             Log.Debug(TAG, "Exnumber for " + ExData.ExName + ": " + ExData.ExNumber);            
         }
@@ -66,7 +72,7 @@ namespace FitConnectApp.ViewModel
             {
                 return saveSetData ?? (saveSetData = new RelayCommand<ExerciseSetData>((set) => 
                 {
-                    ExData.SetData.Add(ExData.SetData.Count, set);
+                    ExData.SetData.Add(set);
                 }));
             }
         }

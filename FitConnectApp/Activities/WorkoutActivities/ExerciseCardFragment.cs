@@ -20,6 +20,7 @@ using GalaSoft.MvvmLight.Messaging;
 using Android.Graphics;
 using FitConnectApp.Services;
 using Android.Views.InputMethods;
+using Java.Lang;
 
 namespace FitConnectApp.Activities.WorkoutActivities
 {
@@ -92,7 +93,18 @@ namespace FitConnectApp.Activities.WorkoutActivities
 
             view.SetOnDragListener(this);
             dragElement.SetOnTouchListener(this);
+
+            LoadSetData();
             return view;            
+        }
+
+        private void LoadSetData()
+        {
+            for(int i = 0; i< Vm.ExData.SetData.Count; i++)
+            {
+                var set = Vm.ExData.SetData[i];
+                AddSetToTable(set);
+            }
         }
 
         private void DeleteExercise_Click(object sender, EventArgs e)
@@ -132,10 +144,17 @@ namespace FitConnectApp.Activities.WorkoutActivities
 
         private void Done_Click(object sender, EventArgs e)
         {
-            ExerciseSetData set = GetSetDataFromControls();
+            AddSetToTable();
+        }
 
-            Vm.SaveSetData.Execute(set);
-            
+        private void AddSetToTable(ExerciseSetData set = null)
+        {
+            if(set == null)
+            {
+                set = GetSetDataFromControls();
+                Vm.SaveSetData.Execute(set);
+            }
+
             TableRow row = new TableRow(this.Context);
             row.Tag = set.SetId.ToString();
             var lp = new TableRow.LayoutParams(TableRow.LayoutParams.MatchParent, TableRow.LayoutParams.MatchParent);
@@ -143,7 +162,7 @@ namespace FitConnectApp.Activities.WorkoutActivities
 
             var tvlp = new TableRow.LayoutParams(ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.WrapContent, 1f);
 
-            var setTv = CreateTextView(set.SetNumber.ToString(), nameof(set.SetNumber));            
+            var setTv = CreateTextView(set.SetNumber.ToString(), nameof(set.SetNumber));
             Binding<int, string> setnum = new Binding<int, string>(set, nameof(set.SetNumber), setTv, nameof(setTv.Text), BindingMode.TwoWay);
             bindings.Add(setnum);
 
@@ -151,10 +170,10 @@ namespace FitConnectApp.Activities.WorkoutActivities
             Binding<double, string> weight = new Binding<double, string>(set, nameof(set.Weight), weightTv, nameof(weightTv.Text), BindingMode.TwoWay);
             bindings.Add(weight);
 
-            var repsTv = CreateTextView(set.Reps.ToString(), nameof(set.Reps), EditCell);            
+            var repsTv = CreateTextView(set.Reps.ToString(), nameof(set.Reps), EditCell);
             Binding<int, string> reps = new Binding<int, string>(set, nameof(set.Reps), repsTv, nameof(repsTv.Text), BindingMode.TwoWay);
             bindings.Add(reps);
-            
+
             var rpeTv = CreateTextView(set.Rpe.ToString(), nameof(set.Rpe), EditCell);
             Binding<int, string> rpe = new Binding<int, string>(set, nameof(set.Rpe), rpeTv, nameof(rpeTv.Text), BindingMode.TwoWay);
             bindings.Add(rpe);
@@ -168,7 +187,7 @@ namespace FitConnectApp.Activities.WorkoutActivities
             row.AddView(repsTv);
             row.AddView(rpeTv);
             row.AddView(notesTv);
-            Table.AddView(row);            
+            Table.AddView(row);
 
             SetNotes = "";
         }
@@ -209,7 +228,8 @@ namespace FitConnectApp.Activities.WorkoutActivities
 
         private ExerciseSetData GetSetDataFromTable(Java.Lang.Object rowTag)
         {
-            return Vm.ExData.SetData.Where(ex => ex.Value.SetId.ToString() == rowTag.ToString()).Select(kvp => kvp.Value).FirstOrDefault();
+            //return Vm.ExData.SetData.Where(ex => ex.Value.SetId.ToString() == rowTag.ToString()).Select(kvp => kvp.Value).FirstOrDefault();
+            return Vm.ExData.SetData.Where(ex => ex.SetId.ToString() == rowTag.ToString()).FirstOrDefault();
         }
 
         private void EditCell(object sender, EventArgs e)
@@ -320,7 +340,7 @@ namespace FitConnectApp.Activities.WorkoutActivities
                         var dropMsg = new DropMessage { Id = Vm.ExData.ExerciseInstanceId, Order = Vm.ExData.ExNumber };
                         GalaSoft.MvvmLight.Messaging.Messenger.Default.Send(dropMsg);
                     }
-                    catch (Exception ex)
+                    catch (System.Exception ex)
                     {
                         Log.Debug(TAG, ex.ToString());
                     }
@@ -340,6 +360,34 @@ namespace FitConnectApp.Activities.WorkoutActivities
             ClipData cd = ClipData.NewPlainText("", "");
             View.DragShadowBuilder builder = new View.DragShadowBuilder(view);
             return view.StartDrag(cd, builder, View, 0);             
+        }
+
+        public override void OnDetach()
+        {
+            base.OnDetach();
+
+            //try
+            //{
+            //    var cfm = ChildFragmentManager.Class.GetField("mChildFragmentManager");
+            //    cfm.Accessible = true;
+            //    cfm.Set(this, null);
+
+            //}
+            //catch (NoSuchFieldException ex)
+            //{
+            //    Log.Error(TAG, ex.ToString());
+            //}
+            //catch (IllegalAccessException ex)
+            //{
+            //    Log.Error(TAG, ex.ToString());
+            //}
+        }
+
+        public override void OnDestroy()
+        {
+            Log.Debug(TAG, "ExIID: " + Vm.ExData.ExerciseInstanceId.ToString() + " on destroy");
+            base.OnDestroy();
+
         }
     }
 }
