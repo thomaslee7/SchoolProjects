@@ -60,13 +60,14 @@ namespace FitConnectApp
 
             Workouts.SetCommand("Click", Vm.ShowStartWorkout);
 
+            Account.SetCommand("Click", Vm.ShowAccount);
+
+            Stats.SetCommand("Click", Vm.ShowStats);
+
             Logout.SetCommand("Click", Vm.Logout, mGoogleApiClient);
 
-            //var nav = (NavigationService)ServiceLocator.Current.GetInstance<INavigationService>();
             
-			Social.SetCommand("Click", Vm.ShowSocial);
-
-			Logout.SetCommand("Click", Vm.Logout, mGoogleApiClient);   
+			Social.SetCommand("Click", Vm.ShowSocial); 
             
 			try
             {
@@ -74,11 +75,34 @@ namespace FitConnectApp
                  
                 try
                 {
+
+                    var db = FirebaseDatabase.GetInstance(App.fbApp);
+                    db.GetReference("user").Child(uid);
+                    //var userRef = db.GetReference("users").Child(uid).Ref;
+                    //var node = db.GetReference("user").EqualTo(uid);
+                    //db.GetReference("users").Child(uid).Child("gender").SetValue("unknown");
+                    //db.GetReference("users").Child(uid).Child("height").SetValue("unknown");
+                    //db.GetReference("users").Child(uid).Child("weight").SetValue("unknown");
+                    /**if (db.GetReference("user").Child(uid) != null)
+                    {
+                        db.GetReference("users").Child(uid).Child("gender").SetValue("unk");
+                        db.GetReference("users").Child(uid).Child("height").SetValue("unk");
+                        db.GetReference("users").Child(uid).Child("weight").SetValue("unk");
+                    }
+                    else
+                    {
+                        db.GetReference("users").Child(uid).Child("gender").SetValue("first time");
+                        db.GetReference("users").Child(uid).Child("height").SetValue("first time");
+                        db.GetReference("users").Child(uid).Child("weight").SetValue("first time");
+                    }**/
+                          
+                    
                     //Log.Debug(TAG, "TESTVALUE:");
                     //var db = FirebaseDatabase.GetInstance(App.fbApp);                                        
-                    
+
                     //var test = db.GetReference("users").Child(uid).Child("TestVal").SetValue("Updated!");
-                    //var test2 = db.GetReference("users").Child(uid).Child("TestVal").AddValueEventListener(new ValueEventListener());//.AddChildEventListener(new IChildEventListener());                   
+                    //var test2 = db.GetReference("users").Child(uid).Child("TestVal").AddValueEventListener(new ValueEventListener());//.AddChildEventListener(new IChildEventListener());
+
                 }
                 catch (Exception ex)
                 {
@@ -125,7 +149,7 @@ namespace FitConnectApp
                 Toast.MakeText(this, "Authentication failed.", ToastLength.Long).Show();
             }
         }
-
+        
         public void OnClick(View v)
         {
             //throw new NotImplementedException();

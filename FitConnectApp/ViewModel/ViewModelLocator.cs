@@ -28,6 +28,8 @@ namespace FitConnectApp.ViewModel
         public const string LoginScreenKey = "LoginScreen";
         public const string StartWorkoutKey = "StartWorkoutScreen";
         public const string CreateWorkoutKey = "CreateWorkoutScreen";
+        public const string AccountScreenKey = "AccountScreen";
+        public const string StatsScreenKey = "StatsScreen";
         //public const string ExerciseSelectKey = "ExerciseSelectScreen";
 		public const string SocialScreenKey = "SocialScreen";
 
@@ -54,6 +56,8 @@ namespace FitConnectApp.ViewModel
             SimpleIoc.Default.Register<CreateWorkoutViewModel>();
             SimpleIoc.Default.Register<ExerciseSelectViewModel>();
 			SimpleIoc.Default.Register<SocialViewModel>();
+            SimpleIoc.Default.Register<AccountViewModel>();
+            SimpleIoc.Default.Register<StatsViewModel>();
         }
 
         public LoginViewModel Login
@@ -103,6 +107,20 @@ namespace FitConnectApp.ViewModel
 			}
 		}
 
+        public AccountViewModel Account
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<AccountViewModel>();
+            }
+        }
+        public StatsViewModel Stats
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<StatsViewModel>();
+            }
+        }
         public static void Cleanup()
         {
             // TODO Clear the ViewModels
