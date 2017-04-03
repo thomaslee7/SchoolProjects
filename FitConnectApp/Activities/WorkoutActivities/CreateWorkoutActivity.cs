@@ -20,7 +20,7 @@ using FitConnectApp.Services;
 
 namespace FitConnectApp.Activities.WorkoutActivities
 {
-    [Activity(Label = "Create Workout")]
+    [Activity(Label = "Create Workout", ScreenOrientation = Android.Content.PM.ScreenOrientation.Portrait)]
     public class CreateWorkoutActivity : ActivityBase, View.IOnDragListener, IOnDateSetListener
     {
         const string TAG = "CreateWorkout";
@@ -32,7 +32,7 @@ namespace FitConnectApp.Activities.WorkoutActivities
         private DragMessage dragMessage;
         private TextView workoutDate;
         private TextView workoutDateIcon;
-
+        
         private readonly List<Binding> bindings = new List<Binding>();
         private Dictionary<Guid, ExerciseCardFragment> cards;
 
@@ -50,13 +50,23 @@ namespace FitConnectApp.Activities.WorkoutActivities
             try
             {
                 base.OnCreate(savedInstanceState);
-                // Create your fragment here            
-
+                // Create your fragment here    
+                Log.Error(TAG, "CreateWorkoutActivity OnCreate");
+                Log.Debug(TAG, "FragMan in oncreate: isDestroyed = " + FragmentManager.IsDestroyed);
+                Log.Debug(TAG, "LoadExCards IsFinishing: " + IsFinishing + "; IsDestroyed: " + IsDestroyed);
+                
                 SetContentView(Resource.Layout.CreateWorkoutScreen);
                 //AddExercise.SetCommand(eventName: "Click", command: Vm.AddExercise, commandParameter: FragmentManager);
                 AddExercise.Click += ShowExerciseSelect;
 
-                SaveWorkout.SetCommand(Vm.SaveWorkout);
+                try
+                {
+                    SaveWorkout.SetCommand("Click", Vm.SaveWorkout, this);//this.ApplicationContext
+                }
+                catch (Exception ex)
+                {
+                    Log.Error(TAG, ex.ToString());                    
+                }
                 DateContainer.Click += WorkoutDate_Click;
 
                 Binding b = this.SetBinding(() => Vm.Workout.Date, () => WorkoutDate.Text).ConvertSourceToTarget((date) => { return date.ToShortDateString(); });                
@@ -78,7 +88,9 @@ namespace FitConnectApp.Activities.WorkoutActivities
                 //https://code.tutsplus.com/tutorials/how-to-use-fontawesome-in-an-android-app--cms-24167 this helped get font awesome going.
                 Typeface iconFont = FontManager.getTypeface(this, FontManager.FONTAWESOME);
                 FontManager.markAsIconContainer(WorkoutDateIcon, iconFont);
-                                
+
+                LoadExerciseCards();
+
             }
             catch (Exception ex)
             {
@@ -101,21 +113,54 @@ namespace FitConnectApp.Activities.WorkoutActivities
         }
 
         public void AddExerciseCard()
-        {
-            //if (cards == null)
-            //    cards = new Dictionary<Guid, ExerciseCardFragment>();
+        {            
+            Log.Debug(TAG, "AddExerciseCard IsFinishing: " + IsFinishing + "; IsDestroyed: " + IsDestroyed);
+            if(!IsFinishing && !IsDestroyed)
+            {
+                Log.Debug(TAG, "Adding exercise card");
+                ExerciseCardFragment card = new ExerciseCardFragment();
+                card.Vm = new ExerciseCardViewModel(App.Locator.ExerciseSelect.SelectedExerciseId, App.Locator.ExerciseSelect.SelectedExerciseName);
+                card.Vm.RemoveCardFromActivity += RemoveExerciseCard;
 
-            Log.Debug(TAG, "Adding exercise card");
-            ExerciseCardFragment card = new ExerciseCardFragment();
-            card.Vm = new ExerciseCardViewModel(App.Locator.ExerciseSelect.SelectedExerciseId, App.Locator.ExerciseSelect.SelectedExerciseName);
-            card.Vm.RemoveCardFromActivity += RemoveExerciseCard;
+                FragmentTransaction tx = FragmentManager.BeginTransaction();            
+                
+                Log.Debug(TAG, "FragMan destroyed = " + FragmentManager.IsDestroyed.ToString());                
+                tx.Add(Resource.Id.exerciseCardsFrame, card);
+                //tx.AddToBackStack(null);
+                tx.Commit();
 
-            FragmentTransaction tx = FragmentManager.BeginTransaction();
-            tx.Add(Resource.Id.exerciseCardsFrame, card);
-            //tx.AddToBackStack(null);
-            tx.Commit();
+                cards.Add(card.Vm.ExData.ExerciseInstanceId, card);
+            }
+        }
 
-            cards.Add(card.Vm.ExData.ExerciseInstanceId, card);
+        private void LoadExerciseCards()
+        {   
+            Log.Debug(TAG, "LoadExCards IsFinishing: " + IsFinishing + "; IsDestroyed: " + IsDestroyed);
+            if (!IsFinishing && !IsDestroyed)
+            {
+                try
+                {
+                    for (int i = 0; i < Vm.Workout.Exercises.Count; i++)
+                    {
+                        var exercise = Vm.Workout.Exercises[i];
+                        ExerciseCardFragment card = new ExerciseCardFragment();
+                        card.Vm = new ExerciseCardViewModel(exercise.ExId, exercise.ExName, exercise);
+
+                        FragmentTransaction tx = FragmentManager.BeginTransaction();                        
+                        tx.Add(Resource.Id.exerciseCardsFrame, card);
+                        //tx.AddToBackStack(null);
+                        tx.Commit();
+                        
+                        card.Vm.RemoveCardFromActivity += RemoveExerciseCard;
+                        cards.Add(card.Vm.ExData.ExerciseInstanceId, card);
+
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Log.Error(TAG, ex.ToString());
+                }
+            }
         }
 
         private void RemoveExerciseCard(Guid exerciseInstanceId)
@@ -126,8 +171,6 @@ namespace FitConnectApp.Activities.WorkoutActivities
                 tx.Remove(cards[exerciseInstanceId]);
                 tx.Commit();
 
-                //var exercise = Vm.Workout.Exercises.Where(ex => ex.ExerciseInstanceId == exerciseInstanceId).FirstOrDefault();
-                //Vm.Workout.Exercises.Remove(exercise);
                 cards.Remove(exerciseInstanceId);
 
                 UpdateCardOrderNumbers();
@@ -170,8 +213,12 @@ namespace FitConnectApp.Activities.WorkoutActivities
 
         private void ReorderDroppedCard(DropMessage msg)
         {
-            if (dragMessage != null)
+            if (dragMessage != null && !IsDestroyed && !IsFinishing)
             {
+                Log.Debug(TAG, "cardframe null = " + (ExerciseCardsFrame == null));
+                exerciseCardsFrame = FindViewById<LinearLayout>(Resource.Id.exerciseCardsFrame);
+                Log.Debug(TAG, "frame #children: " + exerciseCardsFrame.ChildCount);
+
                 var card = ExerciseCardsFrame.GetChildAt(dragMessage.Order - 1);
                 ExerciseCardsFrame.RemoveViewAt(dragMessage.Order - 1);
                 ExerciseCardsFrame.AddView(card, msg.Order - 1);
@@ -194,5 +241,13 @@ namespace FitConnectApp.Activities.WorkoutActivities
         {
             Vm.Workout.Date = new DateTime(year, month+1, dayOfMonth);
         }
+
+        protected override void OnDestroy()
+        {
+            Log.Debug(TAG, "WID: " + Vm.Workout.WorkoutId.ToString() + " on destroy");
+                        
+            base.OnDestroy();
+        }
+
     }
 }

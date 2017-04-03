@@ -24,7 +24,7 @@
             android:layout_marginLeft="5px"
             android:layout_marginTop="5px"
             android:layout_weight=".75"
-            android:textSize="20dp" />
+            android:textSize="22dp" />
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="wrap_content"
@@ -74,35 +74,40 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/SetTextView"
                 android:layout_weight="1"
-                android:gravity="center" />
+                android:gravity="center"
+                android:textSize="18dp" />
             <TextView
                 android:text="WEIGHT"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/weightTextView"
                 android:layout_weight="1"
-                android:gravity="center" />
+                android:gravity="center"
+                android:textSize="18dp" />
             <TextView
                 android:text="REPS"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/repsTextView"
                 android:layout_weight="1"
-                android:gravity="center" />
+                android:gravity="center"
+                android:textSize="18dp" />
             <TextView
                 android:text="RPE"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/rpeTextView"
                 android:layout_weight="1"
-                android:gravity="center" />
+                android:gravity="center"
+                android:textSize="18dp" />
             <TextView
                 android:text="NOTES"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/notesTextView"
                 android:layout_weight="1"
-                android:gravity="center" />
+                android:gravity="center"
+                android:textSize="18dp" />
         </TableRow>
     </TableLayout>
     <Space
