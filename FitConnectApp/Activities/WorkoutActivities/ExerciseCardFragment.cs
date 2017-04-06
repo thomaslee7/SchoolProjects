@@ -21,6 +21,7 @@ using Android.Graphics;
 using FitConnectApp.Services;
 using Android.Views.InputMethods;
 using Java.Lang;
+using Android.Support.V7.Widget;
 
 namespace FitConnectApp.Activities.WorkoutActivities
 {
@@ -41,7 +42,8 @@ namespace FitConnectApp.Activities.WorkoutActivities
         public TextView deleteExercise { get; set; }
         //public TextView ExNo { get; set; }
         public TableLayout Table { get; set; }
-        public LinearLayout FragmentContainer { get; set; }
+        //public LinearLayout FragmentContainer { get; set; }
+        public CardView FragmentContainer { get; set; }
         public string SetNotes { get; set; }
 
         private View view;
@@ -69,8 +71,9 @@ namespace FitConnectApp.Activities.WorkoutActivities
 
             dragElement = view.FindViewById<TextView>(Resource.Id.dragElement);
             deleteExercise = view.FindViewById<TextView>(Resource.Id.deleteExercise);
-            FragmentContainer = view.FindViewById<LinearLayout>(Resource.Id.fragmentContainer);
-            
+            //FragmentContainer = view.FindViewById<LinearLayout>(Resource.Id.fragmentContainer);
+            FragmentContainer = view.FindViewById<CardView>(Resource.Id.fragmentContainer);
+
             Note.Click += Note_Click;
             Done.Click += Done_Click;
             deleteExercise.Click += DeleteExercise_Click;
@@ -360,6 +363,7 @@ namespace FitConnectApp.Activities.WorkoutActivities
 
             ClipData cd = ClipData.NewPlainText("", "");
             View.DragShadowBuilder builder = new View.DragShadowBuilder(view);
+            
             return view.StartDrag(cd, builder, View, 0);             
         }
 
