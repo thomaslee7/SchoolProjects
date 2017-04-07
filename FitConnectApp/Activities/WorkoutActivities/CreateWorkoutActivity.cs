@@ -17,11 +17,12 @@ using FitConnectApp.Models;
 using static Android.App.DatePickerDialog;
 using Android.Graphics;
 using FitConnectApp.Services;
+using static Android.App.TimePickerDialog;
 
 namespace FitConnectApp.Activities.WorkoutActivities
 {
     [Activity(Label = "Create Workout", ScreenOrientation = Android.Content.PM.ScreenOrientation.Portrait)]
-    public class CreateWorkoutActivity : ActivityBase, View.IOnDragListener, IOnDateSetListener
+    public class CreateWorkoutActivity : ActivityBase, View.IOnDragListener, IOnDateSetListener, IOnTimeSetListener
     {
         const string TAG = "CreateWorkout";
         private Button addExercise;
@@ -29,10 +30,13 @@ namespace FitConnectApp.Activities.WorkoutActivities
         private LinearLayout exerciseCardsFrame;
         private LinearLayout workoutScreen;
         private LinearLayout dateContainer;
+        private LinearLayout timeContainer;
         private DragMessage dragMessage;
         private TextView workoutDate;
         private TextView workoutDateIcon;
-        
+        private TextView workoutTime;
+        private TextView workoutTimeIcon;
+
         private readonly List<Binding> bindings = new List<Binding>();
         private Dictionary<Guid, ExerciseCardFragment> cards;
         private Guid token = Guid.NewGuid();
@@ -42,8 +46,12 @@ namespace FitConnectApp.Activities.WorkoutActivities
         public LinearLayout ExerciseCardsFrame => exerciseCardsFrame ?? (exerciseCardsFrame = FindViewById<LinearLayout>(Resource.Id.exerciseCardsFrame));
         public LinearLayout WorkoutScreen => workoutScreen ?? (workoutScreen = FindViewById<LinearLayout>(Resource.Id.workoutScreen));
         public LinearLayout DateContainer => dateContainer ?? (dateContainer = FindViewById<LinearLayout>(Resource.Id.dateContainer));
+        public LinearLayout TimeContainer => timeContainer ?? (timeContainer = FindViewById<LinearLayout>(Resource.Id.timeContainer));
         public TextView WorkoutDate => workoutDate ?? (workoutDate= FindViewById<TextView>(Resource.Id.workoutDate));
         public TextView WorkoutDateIcon => workoutDateIcon ?? (workoutDateIcon = FindViewById<TextView>(Resource.Id.workoutDateIcon));
+        public TextView WorkoutTime => workoutTime ?? (workoutTime = FindViewById<TextView>(Resource.Id.workoutTime));
+        public TextView WorkoutTimeIcon => workoutTimeIcon ?? (workoutTimeIcon = FindViewById<TextView>(Resource.Id.workoutTimeIcon));
+
         private CreateWorkoutViewModel Vm => App.Locator.CreateWorkout;      
 
         protected override void OnCreate(Bundle savedInstanceState)
@@ -53,19 +61,17 @@ namespace FitConnectApp.Activities.WorkoutActivities
                 base.OnCreate(savedInstanceState);
                 // Create your fragment here    
                 Log.Error(TAG, "CreateWorkoutActivity OnCreate");
-                Log.Debug(TAG, "FragMan in oncreate: isDestroyed = " + FragmentManager.IsDestroyed);
-                Log.Debug(TAG, "LoadExCards IsFinishing: " + IsFinishing + "; IsDestroyed: " + IsDestroyed);
-                
+                                
                 SetContentView(Resource.Layout.CreateWorkoutScreen);                
                 AddExercise.Click += ShowExerciseSelect;
-
                 
-                SaveWorkout.Click += SaveWorkout_Click;
-                //SaveWorkout.SetCommand("Click", Vm.SaveWorkout, this);
+                SaveWorkout.Click += SaveWorkout_Click;                
                 
                 DateContainer.Click += WorkoutDate_Click;
+                TimeContainer.Click += WorkoutTime_Click;
 
-                Binding b = this.SetBinding(() => Vm.Workout.Date, () => WorkoutDate.Text).ConvertSourceToTarget((date) => { return date.ToShortDateString(); });                
+                Binding b = this.SetBinding(() => Vm.Workout.Date, () => WorkoutDate.Text).ConvertSourceToTarget((date) => { return date.ToShortDateString(); });
+                Binding time = this.SetBinding(() => Vm.Workout.Date, () => WorkoutTime.Text).ConvertSourceToTarget((date) => { return date.ToShortTimeString(); });
                 bindings.Add(b);
 
                 App.Locator.CreateWorkout.AddCardToActivity += AddExerciseCard;
@@ -89,6 +95,7 @@ namespace FitConnectApp.Activities.WorkoutActivities
                 //https://code.tutsplus.com/tutorials/how-to-use-fontawesome-in-an-android-app--cms-24167 this helped get font awesome going.
                 Typeface iconFont = FontManager.getTypeface(this, FontManager.FONTAWESOME);
                 FontManager.markAsIconContainer(WorkoutDateIcon, iconFont);
+                FontManager.markAsIconContainer(WorkoutTimeIcon, iconFont);
 
                 LoadExerciseCards();
 
@@ -97,6 +104,12 @@ namespace FitConnectApp.Activities.WorkoutActivities
             {
                 Log.Error(TAG, ex.ToString());                
             }
+        }
+
+        private void WorkoutTime_Click(object sender, EventArgs e)
+        {
+            TimePickerDialog t = new TimePickerDialog(this, this, Vm.Workout.Date.Hour, Vm.Workout.Date.Minute, false);
+            t.Show();
         }
 
         private void SaveWorkout_Click(object sender, EventArgs e)
@@ -111,8 +124,7 @@ namespace FitConnectApp.Activities.WorkoutActivities
         }
 
         public void ShowExerciseSelect(object sender, EventArgs e)
-        {
-            //Vm.AddExercise.Execute(FragmentManager);
+        {            
             var transaction = FragmentManager.BeginTransaction();
             ExerciseSelectFragment addExerciseFragment = new ExerciseSelectFragment();
             addExerciseFragment.Show(transaction, "Add new exercise");
@@ -245,7 +257,8 @@ namespace FitConnectApp.Activities.WorkoutActivities
 
         public void OnDateSet(DatePicker view, int year, int month, int dayOfMonth)
         {
-            Vm.Workout.Date = new DateTime(year, month+1, dayOfMonth);
+            var date = Vm.Workout.Date;
+            Vm.Workout.Date = new DateTime(year, month+1, dayOfMonth, date.Hour, date.Minute, 0);
         }
 
         protected override void OnDestroy()
@@ -255,5 +268,11 @@ namespace FitConnectApp.Activities.WorkoutActivities
             base.OnDestroy();
         }
 
+        public void OnTimeSet(TimePicker view, int hourOfDay, int minute)
+        {
+            var date = Vm.Workout.Date;
+            Vm.Workout.Date = new DateTime(date.Year, date.Month, date.Day, hourOfDay, minute, 0);
+
+        }
     }
 }

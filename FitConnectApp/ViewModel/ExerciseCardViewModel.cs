@@ -26,6 +26,7 @@ namespace FitConnectApp.ViewModel
         private RelayCommand<FragmentManager> _editExercise;
         private RelayCommand deleteExercise;
         private Action<Guid> removeCardFromActivity;
+        private RelayCommand<Guid> deleteSet;
 
         public ExerciseData ExData
         {
@@ -97,10 +98,29 @@ namespace FitConnectApp.ViewModel
                 return deleteExercise ?? (deleteExercise = new RelayCommand( () =>
                 {
                     var exList = App.Locator.CreateWorkout.Workout.Exercises;
-                    //var key = exList.Where(kvp => kvp.Value == exData).Select(kvp => kvp.Key).FirstOrDefault();                    
+                    
                     exList.Remove(exData);
                     if (RemoveCardFromActivity != null)
                         RemoveCardFromActivity(exData.ExerciseInstanceId);
+                }));
+            }
+        }
+
+        public RelayCommand<Guid> DeleteSet
+        {
+            get
+            {
+                return deleteSet ?? (deleteSet = new RelayCommand<Guid>((setId) =>
+                {
+                    var setToRemove = exData.SetData.Find(set => set.SetId == setId);
+                    int index = exData.SetData.IndexOf(setToRemove);
+                    for(int i = index +1; i < exData.SetData.Count; i++)
+                    {
+                        exData.SetData[i].SetNumber--;
+                    }
+
+                    exData.SetData.Remove(setToRemove);
+                    
                 }));
             }
         }
