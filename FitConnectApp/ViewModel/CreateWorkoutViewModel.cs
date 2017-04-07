@@ -32,6 +32,7 @@ namespace FitConnectApp.ViewModel
 
         private WorkoutData workout;
         private Action addCardToActivity;
+        public Guid MessageRecipientToken { get; set; }
 
         public Action AddCardToActivity
         {
@@ -96,11 +97,11 @@ namespace FitConnectApp.ViewModel
                     Log.Debug(TAG, "NumExercises: " + Workout.Exercises.Count.ToString());
                     var thing = Workout;
 
-                    var db = FirebaseDatabase.GetInstance(App.fbApp);
-                    var test = db.GetReference("WorkoutDateList").Child(uid).Child(workout.WorkoutId.ToString()).SetValue(workout.Date.ToString());
-
                     try
                     {
+                        var db = FirebaseDatabase.GetInstance(App.fbApp);
+                        var test = db.GetReference("WorkoutDateList").Child(uid).Child(workout.WorkoutId.ToString()).SetValue(workout.Date.ToString());
+
                         var workouts = db.GetReference("Workouts").Child(uid);
                         workouts.Child(Workout.WorkoutId.ToString()).RemoveValue();
                         workouts.Child(workout.WorkoutId.ToString()).Child("Date").SetValue(workout.Date.ToString());
@@ -119,17 +120,20 @@ namespace FitConnectApp.ViewModel
                                 dbSetInfo.Child("Rpe").SetValue(set.Rpe);
                                 dbSetInfo.Child("Notes").SetValue(set.Notes);
                             }
-                        }                        
+                        }
+
+                        GalaSoft.MvvmLight.Messaging.Messenger.Default.Send("Workout saved!", MessageRecipientToken);
                     }
                     catch (Exception ex)
                     {
                         Log.Debug(TAG, ex.ToString());
+                        GalaSoft.MvvmLight.Messaging.Messenger.Default.Send("Workout failed to save. Please check your connection and try again.", MessageRecipientToken);
                     }
 
-                    foreach (var item in Workout.Exercises)
-                    {
-                        Log.Debug(TAG, "Numsets for " + item.ExName + ": " + item.SetData.Count);
-                    }
+                    //foreach (var item in Workout.Exercises)
+                    //{
+                    //    Log.Debug(TAG, "Numsets for " + item.ExName + ": " + item.SetData.Count);
+                    //}
                 }));
             }
 

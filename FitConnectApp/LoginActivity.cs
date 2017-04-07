@@ -24,6 +24,7 @@ using Microsoft.Practices.ServiceLocation;
 using Android.Preferences;
 using FitConnectApp.Models;
 
+
 namespace FitConnectApp
 {
     [Activity(Label = "Login", MainLauncher = true, Icon = "@drawable/icon")]
@@ -41,6 +42,7 @@ namespace FitConnectApp
         private Button createAccountButton;
         private EditText loginUsernameField;
         private EditText passwordField;
+        private bool exit = false;
 
         private readonly List<Binding> bindings = new List<Binding>();
 
@@ -408,6 +410,25 @@ namespace FitConnectApp
                 Log.Debug("createAccount", ex.ToString());
                 throw;
             }
+        }
+
+        public override void OnBackPressed()
+        {
+            Toast.MakeText(this, "Press back once again to exit.", ToastLength.Short);
+            if (exit)
+            {            
+                FinishAffinity();
+            }
+            else
+            {
+                Toast.MakeText(this, "Press Back again to Exit.", ToastLength.Short).Show();
+                exit = true;
+                new Handler().PostDelayed(new Java.Lang.Runnable(() =>
+                {
+                    exit = false;
+                }), 3 * 1000);
+
+            }            
         }
     }
 }
