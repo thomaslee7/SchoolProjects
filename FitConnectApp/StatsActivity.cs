@@ -17,6 +17,7 @@ using GalaSoft.MvvmLight.Views;
 using FitConnectApp.Activities.WorkoutActivities.Listeners;
 using Android.Util;
 
+
 namespace FitConnectApp
 {
     [Activity(Label = "Stats")]
@@ -51,26 +52,11 @@ namespace FitConnectApp
             WeightUpdateButton.SetOnClickListener(this);
             GenderUpdateButton.SetOnClickListener(this);
             // EditText a = FindViewById<EditText>(Resource.Id.genderText);
-            if (GenderField.Text == "")
-            {
-                db.GetReference("users").Child(uid).Child("gender").SetValue("");
-                db.GetReference("users").Child(uid).Child("height").SetValue("");
-                db.GetReference("users").Child(uid).Child("weight").SetValue("");
-                db.GetReference("users").Child(uid).Child("gender").AddValueEventListener(new ValueEventListener(genUpdate));
-                db.GetReference("users").Child(uid).Child("height").AddValueEventListener(new ValueEventListener(heightUpdate));
-                db.GetReference("users").Child(uid).Child("weight").AddValueEventListener(new ValueEventListener(weightUpdate));
-            }
-            //db.GetReference("users").Child(uid).AddChildEventListener(new ValueEventListener(onHeightChange));
-            //var db = FirebaseDatabase.GetInstance(App.fbApp);
-            //String gender = db.GetReference("user").Child(uid).Child("gender").
-            //String height = db.GetReference("user").Child(uid).Child("height").ToString();
-            //String weight = db.GetReference("user").Child(uid).Child("weight").ToString();
-
-            //HeightField.Text = height;
-            //WeightField.Text = weight;
-            //GenderField.Text = gender;
+           
+            db.GetReference("users").Child(uid).Child("gender").AddValueEventListener(new ValueEventListener(genUpdate));
+            db.GetReference("users").Child(uid).Child("height").AddValueEventListener(new ValueEventListener(heightUpdate));
+            db.GetReference("users").Child(uid).Child("weight").AddValueEventListener(new ValueEventListener(weightUpdate));
             
-
         }
 
         public void OnClick(View v)
@@ -119,5 +105,10 @@ namespace FitConnectApp
         {
             WeightField.Text = snapshot.Value.ToString();
         }
+        public void userExist(DataSnapshot snapshot)
+        {
+            bool a = snapshot.Exists();
+        }
+       
     }
 }
