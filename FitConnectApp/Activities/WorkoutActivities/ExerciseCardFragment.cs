@@ -34,8 +34,10 @@ namespace FitConnectApp.Activities.WorkoutActivities
         
         public TextView ExName { get; set; }
         public Spinner RpeSpinner { get; set; }
-        public Button Done { get; set; }
-        public Button Note { get; set; }
+        //public Button Done { get; set; }
+        public TextView Done { get; set; }
+        //public Button Note { get; set; }
+        public TextView Note { get; set; }
         public EditText Weight { get; set; }
         public EditText Reps { get; set; }        
         public TextView dragElement { get; set; }
@@ -65,8 +67,10 @@ namespace FitConnectApp.Activities.WorkoutActivities
             RpeSpinner = view.FindViewById<Spinner>(Resource.Id.rpeSpinner);
             Weight = view.FindViewById<EditText>(Resource.Id.weight);
             Reps = view.FindViewById<EditText>(Resource.Id.reps);
-            Note = view.FindViewById<Button>(Resource.Id.addNote);
-            Done = view.FindViewById<Button>(Resource.Id.addSet);
+            //Note = view.FindViewById<Button>(Resource.Id.addNote);
+            Note = view.FindViewById<TextView>(Resource.Id.addNote);
+            //Done = view.FindViewById<Button>(Resource.Id.addSet);
+            Done = view.FindViewById<TextView>(Resource.Id.addSet);
             //ExNo = view.FindViewById<TextView>(Resource.Id.ExNumber); 
 
             dragElement = view.FindViewById<TextView>(Resource.Id.dragElement);
@@ -93,6 +97,8 @@ namespace FitConnectApp.Activities.WorkoutActivities
             Typeface iconFont = FontManager.getTypeface(this.Context, FontManager.FONTAWESOME);
             FontManager.markAsIconContainer(dragElement, iconFont);
             FontManager.markAsIconContainer(deleteExercise, iconFont);
+            FontManager.markAsIconContainer(Done, iconFont);
+            FontManager.markAsIconContainer(Note, iconFont);
 
             view.SetOnDragListener(this);
             dragElement.SetOnTouchListener(this);
@@ -112,7 +118,35 @@ namespace FitConnectApp.Activities.WorkoutActivities
 
         private void DeleteExercise_Click(object sender, EventArgs e)
         {
-            Vm.DeleteExercise.Execute(null);
+            AlertDialog.Builder alert = new AlertDialog.Builder(this.Context);
+            alert.SetTitle("Delete exercise?");
+
+            LinearLayout layout = new LinearLayout(this.Context);
+            TextView text = new TextView(this.Context);
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.MatchParent, 1f);
+            lp.LeftMargin = 15;
+            text.LayoutParameters = lp;
+
+            text.Text = "Are you sure you want to delete this exercise? This cannot be undone.";
+
+            layout.AddView(text);
+            alert.SetView(layout);
+
+            alert.SetPositiveButton("Delete Exercise", (senderAlert, args) => {
+                Vm.DeleteExercise.Execute(null);
+            });
+            
+
+            alert.SetNegativeButton("Cancel", (senderAlert, args) =>
+            {
+
+            });
+            var dialog = alert.Show();
+
+            Button deletebutton = dialog.GetButton((int)DialogButtonType.Positive);
+            deletebutton.SetBackgroundColor(Color.Rgb(243, 46, 28));
+            deletebutton.SetTextColor(Color.White);
+
         }
 
         private void Note_Click(object sender, EventArgs e)
