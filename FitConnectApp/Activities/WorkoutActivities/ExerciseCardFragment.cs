@@ -30,21 +30,17 @@ namespace FitConnectApp.Activities.WorkoutActivities
         private const string TAG = "ExCardFragment";
         private readonly List<Binding> bindings = new List<Binding>();
         
-        public ExerciseCardViewModel Vm { get; set; }     
+        public ExerciseCardViewModel Vm { get; set; } 
         
         public TextView ExName { get; set; }
-        public Spinner RpeSpinner { get; set; }
-        //public Button Done { get; set; }
-        public TextView Done { get; set; }
-        //public Button Note { get; set; }
+        public Spinner RpeSpinner { get; set; }        
+        public TextView Done { get; set; }        
         public TextView Note { get; set; }
         public EditText Weight { get; set; }
         public EditText Reps { get; set; }        
         public TextView dragElement { get; set; }
-        public TextView deleteExercise { get; set; }
-        //public TextView ExNo { get; set; }
-        public TableLayout Table { get; set; }
-        //public LinearLayout FragmentContainer { get; set; }
+        public TextView deleteExercise { get; set; }        
+        public TableLayout Table { get; set; }        
         public CardView FragmentContainer { get; set; }
         public string SetNotes { get; set; }
 
@@ -67,15 +63,11 @@ namespace FitConnectApp.Activities.WorkoutActivities
             RpeSpinner = view.FindViewById<Spinner>(Resource.Id.rpeSpinner);
             Weight = view.FindViewById<EditText>(Resource.Id.weight);
             Reps = view.FindViewById<EditText>(Resource.Id.reps);
-            //Note = view.FindViewById<Button>(Resource.Id.addNote);
-            Note = view.FindViewById<TextView>(Resource.Id.addNote);
-            //Done = view.FindViewById<Button>(Resource.Id.addSet);
-            Done = view.FindViewById<TextView>(Resource.Id.addSet);
-            //ExNo = view.FindViewById<TextView>(Resource.Id.ExNumber); 
+            Note = view.FindViewById<TextView>(Resource.Id.addNote);            
+            Done = view.FindViewById<TextView>(Resource.Id.addSet);            
 
             dragElement = view.FindViewById<TextView>(Resource.Id.dragElement);
-            deleteExercise = view.FindViewById<TextView>(Resource.Id.deleteExercise);
-            //FragmentContainer = view.FindViewById<LinearLayout>(Resource.Id.fragmentContainer);
+            deleteExercise = view.FindViewById<TextView>(Resource.Id.deleteExercise);            
             FragmentContainer = view.FindViewById<CardView>(Resource.Id.fragmentContainer);
 
             Note.Click += Note_Click;
@@ -84,8 +76,7 @@ namespace FitConnectApp.Activities.WorkoutActivities
 
             ExName.SetCommand("Click", Vm.EditExercise, this.FragmentManager);
 
-            bindings.Add(this.SetBinding(() => Vm.ExData.ExName, () => ExName.Text));
-            //bindings.Add(this.SetBinding(() => Vm.ExData.ExNumber, () => ExNo.Text));
+            bindings.Add(this.SetBinding(() => Vm.ExData.ExName, () => ExName.Text));            
 
             GalaSoft.MvvmLight.Messaging.Messenger.Default.Register<DragMessage>(this, (msg) => {
                 if(Vm.ExData.ExerciseInstanceId == msg.Id)
@@ -118,19 +109,21 @@ namespace FitConnectApp.Activities.WorkoutActivities
 
         private void DeleteExercise_Click(object sender, EventArgs e)
         {
-            AlertDialog.Builder alert = new AlertDialog.Builder(this.Context);
-            alert.SetTitle("Delete exercise?");
+            //AlertDialog.Builder alert = new AlertDialog.Builder(this.Context);
+            //alert.SetTitle("Delete exercise?");
 
-            LinearLayout layout = new LinearLayout(this.Context);
-            TextView text = new TextView(this.Context);
-            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.MatchParent, 1f);
-            lp.LeftMargin = 15;
-            text.LayoutParameters = lp;
+            //LinearLayout layout = new LinearLayout(this.Context);
+            //TextView text = new TextView(this.Context);
+            //LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.MatchParent, 1f);
+            //lp.LeftMargin = 15;
+            //text.LayoutParameters = lp;
 
-            text.Text = "Are you sure you want to delete this exercise? This cannot be undone.";
+            //text.Text = "Are you sure you want to delete this exercise? This cannot be undone.";
 
-            layout.AddView(text);
-            alert.SetView(layout);
+            //layout.AddView(text);
+            //alert.SetView(layout);
+
+            var alert = createAlertDialog("Delete exercise?", "Are you sure you want to delete this exercise? This cannot be undone.");
 
             alert.SetPositiveButton("Delete Exercise", (senderAlert, args) => {
                 Vm.DeleteExercise.Execute(null);
@@ -146,8 +139,50 @@ namespace FitConnectApp.Activities.WorkoutActivities
             Button deletebutton = dialog.GetButton((int)DialogButtonType.Positive);
             deletebutton.SetBackgroundColor(Color.Rgb(243, 46, 28));
             deletebutton.SetTextColor(Color.White);
-
         }
+
+        private void DeleteSet_Click(object sender, EventArgs e)
+        {
+            var alert = createAlertDialog("Delete set?", "Are you sure you want to delete this set? This cannot be undone.");
+            TextView tv = (TextView)sender;
+
+            alert.SetPositiveButton("Delete Set", (senderAlert, args) => {
+                View row = tv.Parent as View;
+                Table.RemoveView(row);
+                Vm.DeleteSet.Execute(Guid.Parse(tv.Tag.ToString()));
+            });
+
+            alert.SetNegativeButton("Cancel", (senderAlert, args) =>
+            {
+
+            });
+            var dialog = alert.Show();
+
+            Button deletebutton = dialog.GetButton((int)DialogButtonType.Positive);
+            deletebutton.SetBackgroundColor(Color.Rgb(243, 46, 28));
+            deletebutton.SetTextColor(Color.White);
+        }
+
+        private AlertDialog.Builder createAlertDialog(string title, string alertText)
+        {
+            AlertDialog.Builder alert = new AlertDialog.Builder(this.Context);
+            alert.SetTitle(title);
+
+            LinearLayout layout = new LinearLayout(this.Context);
+            TextView text = new TextView(this.Context);
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.MatchParent, 1f);
+            lp.LeftMargin = 15;
+            lp.RightMargin = 15;
+            text.LayoutParameters = lp;
+
+            text.Text = alertText;
+
+            layout.AddView(text);
+            alert.SetView(layout);            
+            
+            return alert;
+        }
+
 
         private void Note_Click(object sender, EventArgs e)
         {
@@ -199,6 +234,10 @@ namespace FitConnectApp.Activities.WorkoutActivities
 
             var tvlp = new TableRow.LayoutParams(ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.WrapContent, 1f);
 
+            var deleteSetIcon = CreateTextView(GetString(Resource.String.fa_delete_inverted), set.SetId.ToString(), DeleteSet_Click);
+            Typeface iconFont = FontManager.getTypeface(this.Context, FontManager.FONTAWESOME);
+            FontManager.markAsIconContainer(deleteSetIcon, iconFont);
+
             var setTv = CreateTextView(set.SetNumber.ToString(), nameof(set.SetNumber));            
             Binding<int, string> setnum = new Binding<int, string>(set, nameof(set.SetNumber), setTv, nameof(setTv.Text), BindingMode.TwoWay);
             bindings.Add(setnum);
@@ -219,6 +258,7 @@ namespace FitConnectApp.Activities.WorkoutActivities
             Binding<string, string> notes = new Binding<string, string>(set, nameof(set.Notes), notesTv, nameof(notesTv.Text), BindingMode.TwoWay)
                 .ConvertSourceToTarget((value) => { return string.IsNullOrWhiteSpace(value) ? "N/A" : "Note"; });
 
+            row.AddView(deleteSetIcon);
             row.AddView(setTv);
             row.AddView(weightTv);
             row.AddView(repsTv);
@@ -333,8 +373,6 @@ namespace FitConnectApp.Activities.WorkoutActivities
             {
 
             });
-            
-
             
             alert.Show();
         }

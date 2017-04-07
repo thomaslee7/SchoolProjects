@@ -129,11 +129,6 @@ namespace FitConnectApp.ViewModel
                         Log.Debug(TAG, ex.ToString());
                         GalaSoft.MvvmLight.Messaging.Messenger.Default.Send("Workout failed to save. Please check your connection and try again.", MessageRecipientToken);
                     }
-
-                    //foreach (var item in Workout.Exercises)
-                    //{
-                    //    Log.Debug(TAG, "Numsets for " + item.ExName + ": " + item.SetData.Count);
-                    //}
                 }));
             }
 

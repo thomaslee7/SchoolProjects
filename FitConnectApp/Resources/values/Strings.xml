@@ -17,8 +17,10 @@
     <string name="fa_calendar">&#xf073;</string>
     <string name="fa_arrows">&#xf047;</string>
     <string name="fa_delete">&#xf014;</string>
+    <string name="fa_delete_inverted">&#xf1f8;</string>
     <string name="fa_check">&#xf00c;</string>
     <string name="fa_note">&#xf249;</string>
+    <string name="fa_clock">&#xf017;</string>
   <string-array name="RpeList">
     <item>RPE</item>
     <item>1</item>
