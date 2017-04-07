@@ -12,13 +12,13 @@ using Android.Widget;
 
 namespace FitConnectApp.Models
 {
-    class DragMessage
+    public class DragMessage
     {
         public int Order { get; set; }
         public Guid Id { get; set; }
     }
 
-    class DropMessage : DragMessage
+    public class DropMessage : DragMessage
     {
         
     }

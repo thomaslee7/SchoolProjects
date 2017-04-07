@@ -35,6 +35,7 @@ namespace FitConnectApp.Activities.WorkoutActivities
         
         private readonly List<Binding> bindings = new List<Binding>();
         private Dictionary<Guid, ExerciseCardFragment> cards;
+        private Guid token = Guid.NewGuid();
 
         public Button AddExercise => addExercise ?? (addExercise = FindViewById<Button>(Resource.Id.AddExercise));
         public Button SaveWorkout => saveWorkout ?? (saveWorkout = FindViewById<Button>(Resource.Id.saveWorkoutBtn));
@@ -55,18 +56,13 @@ namespace FitConnectApp.Activities.WorkoutActivities
                 Log.Debug(TAG, "FragMan in oncreate: isDestroyed = " + FragmentManager.IsDestroyed);
                 Log.Debug(TAG, "LoadExCards IsFinishing: " + IsFinishing + "; IsDestroyed: " + IsDestroyed);
                 
-                SetContentView(Resource.Layout.CreateWorkoutScreen);
-                //AddExercise.SetCommand(eventName: "Click", command: Vm.AddExercise, commandParameter: FragmentManager);
+                SetContentView(Resource.Layout.CreateWorkoutScreen);                
                 AddExercise.Click += ShowExerciseSelect;
 
-                try
-                {
-                    SaveWorkout.SetCommand("Click", Vm.SaveWorkout, this);//this.ApplicationContext
-                }
-                catch (Exception ex)
-                {
-                    Log.Error(TAG, ex.ToString());                    
-                }
+                
+                SaveWorkout.Click += SaveWorkout_Click;
+                //SaveWorkout.SetCommand("Click", Vm.SaveWorkout, this);
+                
                 DateContainer.Click += WorkoutDate_Click;
 
                 Binding b = this.SetBinding(() => Vm.Workout.Date, () => WorkoutDate.Text).ConvertSourceToTarget((date) => { return date.ToShortDateString(); });                
@@ -84,7 +80,12 @@ namespace FitConnectApp.Activities.WorkoutActivities
                 GalaSoft.MvvmLight.Messaging.Messenger.Default.Register<DropMessage>(this, (msg) => {
                     ReorderDroppedCard(msg);
                 });
-                
+
+                Vm.MessageRecipientToken = token;
+                GalaSoft.MvvmLight.Messaging.Messenger.Default.Register<string>(this, token, (msg) => {
+                    Toast.MakeText(this, msg.ToString(), ToastLength.Short).Show();
+                });
+
                 //https://code.tutsplus.com/tutorials/how-to-use-fontawesome-in-an-android-app--cms-24167 this helped get font awesome going.
                 Typeface iconFont = FontManager.getTypeface(this, FontManager.FONTAWESOME);
                 FontManager.markAsIconContainer(WorkoutDateIcon, iconFont);
@@ -96,6 +97,11 @@ namespace FitConnectApp.Activities.WorkoutActivities
             {
                 Log.Error(TAG, ex.ToString());                
             }
+        }
+
+        private void SaveWorkout_Click(object sender, EventArgs e)
+        {
+            Vm.SaveWorkout.Execute(this);
         }
 
         private void WorkoutDate_Click(object sender, EventArgs e)

@@ -35,6 +35,7 @@ namespace FitConnectApp
         private Button account;
         private Button stats;
         private GoogleApiClient mGoogleApiClient;
+        private bool exit = false;
         //private FirebaseAuth mAuth;
         public const string TAG = "HomeScreen";
 
@@ -158,6 +159,25 @@ namespace FitConnectApp
         public void OnAuthStateChanged(Firebase.Auth.FirebaseAuth auth)
         {
             Log.Debug(TAG, "onAuthStateChanged:");
-        }     
+        }
+
+        public override void OnBackPressed()
+        {            
+            Toast.MakeText(this, "Press back once again to exit.", ToastLength.Short);
+            if (exit)
+            {
+                FinishAffinity();
+            }
+            else
+            {
+                Toast.MakeText(this, "Press Back again to Exit.", ToastLength.Short).Show();
+                exit = true;
+                new Handler().PostDelayed(new Java.Lang.Runnable(() =>
+                {
+                    exit = false;
+                }), 3 * 1000);
+
+            }
+        }
     }
 }

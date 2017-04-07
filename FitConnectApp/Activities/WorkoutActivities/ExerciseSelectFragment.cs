@@ -56,7 +56,8 @@ namespace FitConnectApp.Activities.WorkoutActivities
 
             db.GetReference("ExerciseType").AddValueEventListener(new ValueEventListener(OnExTypeDataChange));
             db.GetReference("MuscleGroup").AddValueEventListener(new ValueEventListener(OnMuscleGroupDataChange));
-            
+            this.Dialog.SetTitle("Select an exercise");
+
             return view; 
 
         }
