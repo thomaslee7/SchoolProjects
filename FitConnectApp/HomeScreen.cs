@@ -66,44 +66,21 @@ namespace FitConnectApp
 
             Logout.SetCommand("Click", Vm.Logout, mGoogleApiClient);
 
-            try
-            Logout.SetCommand("Click", Vm.Logout, mGoogleApiClient);
-
             //var nav = (NavigationService)ServiceLocator.Current.GetInstance<INavigationService>();
             
-			Social.SetCommand("Click", Vm.ShowSocial);
-
-			Logout.SetCommand("Click", Vm.Logout, mGoogleApiClient);   
+			Social.SetCommand("Click", Vm.ShowSocial);  
             
 			try
             {
 				var uid = App.getUid(this.ApplicationContext);
                  
-                                
-                var uid = App.getUid(this.ApplicationContext);
 
                 try
                 {
 
                     var db = FirebaseDatabase.GetInstance(App.fbApp);
                     db.GetReference("user").Child(uid);
-                    //var userRef = db.GetReference("users").Child(uid).Ref;
-                    //var node = db.GetReference("user").EqualTo(uid);
-                    //db.GetReference("users").Child(uid).Child("gender").SetValue("unknown");
-                    //db.GetReference("users").Child(uid).Child("height").SetValue("unknown");
-                    //db.GetReference("users").Child(uid).Child("weight").SetValue("unknown");
-                    /**if (db.GetReference("user").Child(uid) != null)
-                    {
-                        db.GetReference("users").Child(uid).Child("gender").SetValue("unk");
-                        db.GetReference("users").Child(uid).Child("height").SetValue("unk");
-                        db.GetReference("users").Child(uid).Child("weight").SetValue("unk");
-                    }
-                    else
-                    {
-                        db.GetReference("users").Child(uid).Child("gender").SetValue("first time");
-                        db.GetReference("users").Child(uid).Child("height").SetValue("first time");
-                        db.GetReference("users").Child(uid).Child("weight").SetValue("first time");
-                    }**/
+                   
                           
                     
                     //Log.Debug(TAG, "TESTVALUE:");

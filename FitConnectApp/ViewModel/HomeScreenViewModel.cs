@@ -9,13 +9,7 @@ using Android.Util;
 
 namespace FitConnectApp.ViewModel
 {
-	public class HomeScreenViewModel : ViewModelBase
-	{
-		private User _currentUser;
-		private INavigationService _navService;
-		private RelayCommand _showStartWorkout;
-		private RelayCommand _showSocial;
-		private RelayCommand<GoogleApiClient> _logout;
+	
     public class HomeScreenViewModel : ViewModelBase
     {
         private User _currentUser;
@@ -23,6 +17,7 @@ namespace FitConnectApp.ViewModel
         private RelayCommand _showStartWorkout;
         private RelayCommand _showAccount;
         private RelayCommand _showStats;
+        private RelayCommand _showSocial;
         private RelayCommand<GoogleApiClient> _logout;
 
 		private const string TAG = "HomeScreenViewModel";
@@ -68,16 +63,8 @@ namespace FitConnectApp.ViewModel
 					);
 			}
 		}
-
-		public RelayCommand<GoogleApiClient> Logout
-		{
-			get
-			{
-				return _logout ?? (_logout = new RelayCommand<GoogleApiClient>((mGoogleApiClient) =>
-				{
-					App.mAuth.SignOut();
-					try
-					{
+        
+					
         public RelayCommand ShowAccount
         {
             get
@@ -96,6 +83,7 @@ namespace FitConnectApp.ViewModel
                         _navService.NavigateTo(ViewModelLocator.StatsScreenKey)));
             }
         }
+
         public RelayCommand<GoogleApiClient> Logout
         {
             get
