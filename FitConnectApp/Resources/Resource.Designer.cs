@@ -245,6 +245,9 @@ namespace FitConnectApp
 			// aapt resource value: 0x7f08003e
 			public const int StatsTitleText = 2131230782;
 			
+			// aapt resource value: 0x7f080042
+			public const int StatsUpdateButton = 2131230786;
+			
 			// aapt resource value: 0x7f080031
 			public const int WelcomeText = 2131230769;
 			
@@ -305,20 +308,14 @@ namespace FitConnectApp
 			// aapt resource value: 0x7f080014
 			public const int fragmentContainer = 2131230740;
 			
-			// aapt resource value: 0x7f080043
-			public const int genderText = 2131230787;
-			
-			// aapt resource value: 0x7f080044
-			public const int genderUpdateButton = 2131230788;
+			// aapt resource value: 0x7f080041
+			public const int genderText = 2131230785;
 			
 			// aapt resource value: 0x7f08002b
 			public const int gridLayout1 = 2131230763;
 			
 			// aapt resource value: 0x7f08003f
 			public const int heightText = 2131230783;
-			
-			// aapt resource value: 0x7f080040
-			public const int heightUpdateButton = 2131230784;
 			
 			// aapt resource value: 0x7f080003
 			public const int icon_only = 2131230723;
@@ -392,14 +389,11 @@ namespace FitConnectApp
 			// aapt resource value: 0x7f080023
 			public const int weight = 2131230755;
 			
-			// aapt resource value: 0x7f080041
-			public const int weightText = 2131230785;
+			// aapt resource value: 0x7f080040
+			public const int weightText = 2131230784;
 			
 			// aapt resource value: 0x7f08001d
 			public const int weightTextView = 2131230749;
-			
-			// aapt resource value: 0x7f080042
-			public const int weightUpdateButton = 2131230786;
 			
 			// aapt resource value: 0x7f080005
 			public const int wide = 2131230725;

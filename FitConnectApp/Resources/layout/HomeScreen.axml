@@ -16,35 +16,36 @@
         <Button
             android:text="Logout"
             android:id="@+id/Logout"
-            android:layout_row="0"
+            android:layout_row="2"
             android:layout_column="0"
+            android:layout_columnSpan="2"
             android:layout_rowWeight=".5"
             android:layout_columnWeight=".5" />
         <Button
             android:text="Social"
             android:id="@+id/Social"
-            android:layout_row="1"
+            android:layout_row="0"
             android:layout_column="0"
             android:layout_rowWeight=".5"
             android:layout_columnWeight=".5" />
         <Button
             android:text="Account"
             android:id="@+id/Account"
-            android:layout_row="1"
+            android:layout_row="0"
             android:layout_column="1"
             android:layout_rowWeight=".5"
             android:layout_columnWeight=".5" />
         <Button
             android:text="Workouts"
             android:id="@+id/Workouts"
-            android:layout_row="2"
+            android:layout_row="1"
             android:layout_column="0"
             android:layout_rowWeight=".5"
             android:layout_columnWeight=".5" />
         <Button
             android:text="Stats"
             android:id="@+id/Stats"
-            android:layout_row="2"
+            android:layout_row="1"
             android:layout_column="1"
             android:layout_rowWeight=".5"
             android:layout_columnWeight=".5" />

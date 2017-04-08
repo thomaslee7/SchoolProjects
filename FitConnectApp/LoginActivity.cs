@@ -387,6 +387,7 @@ namespace FitConnectApp
             }
             if(pwd.Length < 6)
             {
+                Toast.MakeText(this, "Password must be at least 6 characters.", ToastLength.Short).Show();
                 valid = false;
             }
             return valid;
