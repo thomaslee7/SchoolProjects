@@ -47,56 +47,56 @@ namespace FitConnectApp
 		public partial class Attribute
 		{
 			
-			// aapt resource value: 0x7f01000e
-			public const int buttonSize = 2130771982;
-			
-			// aapt resource value: 0x7f010000
-			public const int cardBackgroundColor = 2130771968;
-			
-			// aapt resource value: 0x7f010001
-			public const int cardCornerRadius = 2130771969;
-			
-			// aapt resource value: 0x7f010002
-			public const int cardElevation = 2130771970;
-			
 			// aapt resource value: 0x7f010003
-			public const int cardMaxElevation = 2130771971;
-			
-			// aapt resource value: 0x7f010005
-			public const int cardPreventCornerOverlap = 2130771973;
-			
-			// aapt resource value: 0x7f010004
-			public const int cardUseCompatPadding = 2130771972;
-			
-			// aapt resource value: 0x7f01000d
-			public const int circleCrop = 2130771981;
-			
-			// aapt resource value: 0x7f01000f
-			public const int colorScheme = 2130771983;
+			public const int buttonSize = 2130771971;
 			
 			// aapt resource value: 0x7f010006
-			public const int contentPadding = 2130771974;
-			
-			// aapt resource value: 0x7f01000a
-			public const int contentPaddingBottom = 2130771978;
+			public const int cardBackgroundColor = 2130771974;
 			
 			// aapt resource value: 0x7f010007
-			public const int contentPaddingLeft = 2130771975;
+			public const int cardCornerRadius = 2130771975;
 			
 			// aapt resource value: 0x7f010008
-			public const int contentPaddingRight = 2130771976;
+			public const int cardElevation = 2130771976;
 			
 			// aapt resource value: 0x7f010009
-			public const int contentPaddingTop = 2130771977;
-			
-			// aapt resource value: 0x7f01000c
-			public const int imageAspectRatio = 2130771980;
+			public const int cardMaxElevation = 2130771977;
 			
 			// aapt resource value: 0x7f01000b
-			public const int imageAspectRatioAdjust = 2130771979;
+			public const int cardPreventCornerOverlap = 2130771979;
+			
+			// aapt resource value: 0x7f01000a
+			public const int cardUseCompatPadding = 2130771978;
+			
+			// aapt resource value: 0x7f010002
+			public const int circleCrop = 2130771970;
+			
+			// aapt resource value: 0x7f010004
+			public const int colorScheme = 2130771972;
+			
+			// aapt resource value: 0x7f01000c
+			public const int contentPadding = 2130771980;
 			
 			// aapt resource value: 0x7f010010
-			public const int scopeUris = 2130771984;
+			public const int contentPaddingBottom = 2130771984;
+			
+			// aapt resource value: 0x7f01000d
+			public const int contentPaddingLeft = 2130771981;
+			
+			// aapt resource value: 0x7f01000e
+			public const int contentPaddingRight = 2130771982;
+			
+			// aapt resource value: 0x7f01000f
+			public const int contentPaddingTop = 2130771983;
+			
+			// aapt resource value: 0x7f010001
+			public const int imageAspectRatio = 2130771969;
+			
+			// aapt resource value: 0x7f010000
+			public const int imageAspectRatioAdjust = 2130771968;
+			
+			// aapt resource value: 0x7f010005
+			public const int scopeUris = 2130771973;
 			
 			static Attribute()
 			{
@@ -111,47 +111,47 @@ namespace FitConnectApp
 		public partial class Color
 		{
 			
-			// aapt resource value: 0x7f050000
-			public const int cardview_dark_background = 2131034112;
+			// aapt resource value: 0x7f060008
+			public const int cardview_dark_background = 2131099656;
 			
-			// aapt resource value: 0x7f050001
-			public const int cardview_light_background = 2131034113;
+			// aapt resource value: 0x7f060009
+			public const int cardview_light_background = 2131099657;
 			
-			// aapt resource value: 0x7f050002
-			public const int cardview_shadow_end_color = 2131034114;
+			// aapt resource value: 0x7f06000a
+			public const int cardview_shadow_end_color = 2131099658;
 			
-			// aapt resource value: 0x7f050003
-			public const int cardview_shadow_start_color = 2131034115;
+			// aapt resource value: 0x7f06000b
+			public const int cardview_shadow_start_color = 2131099659;
 			
-			// aapt resource value: 0x7f05000c
-			public const int common_google_signin_btn_text_dark = 2131034124;
+			// aapt resource value: 0x7f06000c
+			public const int common_google_signin_btn_text_dark = 2131099660;
 			
-			// aapt resource value: 0x7f050004
-			public const int common_google_signin_btn_text_dark_default = 2131034116;
+			// aapt resource value: 0x7f060000
+			public const int common_google_signin_btn_text_dark_default = 2131099648;
 			
-			// aapt resource value: 0x7f050005
-			public const int common_google_signin_btn_text_dark_disabled = 2131034117;
+			// aapt resource value: 0x7f060001
+			public const int common_google_signin_btn_text_dark_disabled = 2131099649;
 			
-			// aapt resource value: 0x7f050006
-			public const int common_google_signin_btn_text_dark_focused = 2131034118;
+			// aapt resource value: 0x7f060002
+			public const int common_google_signin_btn_text_dark_focused = 2131099650;
 			
-			// aapt resource value: 0x7f050007
-			public const int common_google_signin_btn_text_dark_pressed = 2131034119;
+			// aapt resource value: 0x7f060003
+			public const int common_google_signin_btn_text_dark_pressed = 2131099651;
 			
-			// aapt resource value: 0x7f05000d
-			public const int common_google_signin_btn_text_light = 2131034125;
+			// aapt resource value: 0x7f06000d
+			public const int common_google_signin_btn_text_light = 2131099661;
 			
-			// aapt resource value: 0x7f050008
-			public const int common_google_signin_btn_text_light_default = 2131034120;
+			// aapt resource value: 0x7f060004
+			public const int common_google_signin_btn_text_light_default = 2131099652;
 			
-			// aapt resource value: 0x7f050009
-			public const int common_google_signin_btn_text_light_disabled = 2131034121;
+			// aapt resource value: 0x7f060005
+			public const int common_google_signin_btn_text_light_disabled = 2131099653;
 			
-			// aapt resource value: 0x7f05000a
-			public const int common_google_signin_btn_text_light_focused = 2131034122;
+			// aapt resource value: 0x7f060006
+			public const int common_google_signin_btn_text_light_focused = 2131099654;
 			
-			// aapt resource value: 0x7f05000b
-			public const int common_google_signin_btn_text_light_pressed = 2131034123;
+			// aapt resource value: 0x7f060007
+			public const int common_google_signin_btn_text_light_pressed = 2131099655;
 			
 			static Color()
 			{
@@ -166,14 +166,14 @@ namespace FitConnectApp
 		public partial class Dimension
 		{
 			
-			// aapt resource value: 0x7f060000
-			public const int cardview_compat_inset_shadow = 2131099648;
+			// aapt resource value: 0x7f080000
+			public const int cardview_compat_inset_shadow = 2131230720;
 			
-			// aapt resource value: 0x7f060001
-			public const int cardview_default_elevation = 2131099649;
+			// aapt resource value: 0x7f080001
+			public const int cardview_default_elevation = 2131230721;
 			
-			// aapt resource value: 0x7f060002
-			public const int cardview_default_radius = 2131099650;
+			// aapt resource value: 0x7f080002
+			public const int cardview_default_radius = 2131230722;
 			
 			static Dimension()
 			{
@@ -517,8 +517,8 @@ namespace FitConnectApp
 		public partial class Integer
 		{
 			
-			// aapt resource value: 0x7f080000
-			public const int google_play_services_version = 2131230720;
+			// aapt resource value: 0x7f040000
+			public const int google_play_services_version = 2130968576;
 			
 			static Integer()
 			{
@@ -573,128 +573,128 @@ namespace FitConnectApp
 		public partial class String
 		{
 			
-			// aapt resource value: 0x7f07001c
-			public const int ApiKey = 2131165212;
+			// aapt resource value: 0x7f05001c
+			public const int ApiKey = 2131034140;
 			
-			// aapt resource value: 0x7f07001f
-			public const int ApplicationId = 2131165215;
+			// aapt resource value: 0x7f05001f
+			public const int ApplicationId = 2131034143;
 			
-			// aapt resource value: 0x7f070019
-			public const int ApplicationName = 2131165209;
+			// aapt resource value: 0x7f050019
+			public const int ApplicationName = 2131034137;
 			
-			// aapt resource value: 0x7f070020
-			public const int ClientId = 2131165216;
+			// aapt resource value: 0x7f050020
+			public const int ClientId = 2131034144;
 			
-			// aapt resource value: 0x7f07001d
-			public const int DatabaseUrl = 2131165213;
+			// aapt resource value: 0x7f05001d
+			public const int DatabaseUrl = 2131034141;
 			
-			// aapt resource value: 0x7f070018
-			public const int Hello = 2131165208;
+			// aapt resource value: 0x7f050018
+			public const int Hello = 2131034136;
 			
-			// aapt resource value: 0x7f070021
-			public const int SenderId = 2131165217;
+			// aapt resource value: 0x7f050021
+			public const int SenderId = 2131034145;
 			
-			// aapt resource value: 0x7f07001e
-			public const int StorageBucket = 2131165214;
+			// aapt resource value: 0x7f05001e
+			public const int StorageBucket = 2131034142;
 			
-			// aapt resource value: 0x7f070000
-			public const int common_google_play_services_enable_button = 2131165184;
+			// aapt resource value: 0x7f050001
+			public const int common_google_play_services_enable_button = 2131034113;
 			
-			// aapt resource value: 0x7f070001
-			public const int common_google_play_services_enable_text = 2131165185;
+			// aapt resource value: 0x7f050002
+			public const int common_google_play_services_enable_text = 2131034114;
 			
-			// aapt resource value: 0x7f070002
-			public const int common_google_play_services_enable_title = 2131165186;
+			// aapt resource value: 0x7f050003
+			public const int common_google_play_services_enable_title = 2131034115;
 			
-			// aapt resource value: 0x7f070003
-			public const int common_google_play_services_install_button = 2131165187;
+			// aapt resource value: 0x7f050004
+			public const int common_google_play_services_install_button = 2131034116;
 			
-			// aapt resource value: 0x7f070004
-			public const int common_google_play_services_install_text = 2131165188;
+			// aapt resource value: 0x7f050005
+			public const int common_google_play_services_install_text = 2131034117;
 			
-			// aapt resource value: 0x7f070005
-			public const int common_google_play_services_install_title = 2131165189;
+			// aapt resource value: 0x7f050006
+			public const int common_google_play_services_install_title = 2131034118;
 			
-			// aapt resource value: 0x7f070006
-			public const int common_google_play_services_notification_ticker = 2131165190;
+			// aapt resource value: 0x7f050007
+			public const int common_google_play_services_notification_ticker = 2131034119;
 			
-			// aapt resource value: 0x7f070010
-			public const int common_google_play_services_unknown_issue = 2131165200;
+			// aapt resource value: 0x7f050000
+			public const int common_google_play_services_unknown_issue = 2131034112;
 			
-			// aapt resource value: 0x7f070007
-			public const int common_google_play_services_unsupported_text = 2131165191;
+			// aapt resource value: 0x7f050008
+			public const int common_google_play_services_unsupported_text = 2131034120;
 			
-			// aapt resource value: 0x7f070008
-			public const int common_google_play_services_update_button = 2131165192;
+			// aapt resource value: 0x7f050009
+			public const int common_google_play_services_update_button = 2131034121;
 			
-			// aapt resource value: 0x7f070009
-			public const int common_google_play_services_update_text = 2131165193;
+			// aapt resource value: 0x7f05000a
+			public const int common_google_play_services_update_text = 2131034122;
 			
-			// aapt resource value: 0x7f07000a
-			public const int common_google_play_services_update_title = 2131165194;
+			// aapt resource value: 0x7f05000b
+			public const int common_google_play_services_update_title = 2131034123;
 			
-			// aapt resource value: 0x7f07000b
-			public const int common_google_play_services_updating_text = 2131165195;
+			// aapt resource value: 0x7f05000c
+			public const int common_google_play_services_updating_text = 2131034124;
 			
-			// aapt resource value: 0x7f07000c
-			public const int common_google_play_services_wear_update_text = 2131165196;
+			// aapt resource value: 0x7f05000d
+			public const int common_google_play_services_wear_update_text = 2131034125;
 			
-			// aapt resource value: 0x7f07000d
-			public const int common_open_on_phone = 2131165197;
+			// aapt resource value: 0x7f05000e
+			public const int common_open_on_phone = 2131034126;
 			
-			// aapt resource value: 0x7f07000e
-			public const int common_signin_button_text = 2131165198;
+			// aapt resource value: 0x7f05000f
+			public const int common_signin_button_text = 2131034127;
 			
-			// aapt resource value: 0x7f07000f
-			public const int common_signin_button_text_long = 2131165199;
+			// aapt resource value: 0x7f050010
+			public const int common_signin_button_text_long = 2131034128;
 			
-			// aapt resource value: 0x7f070013
-			public const int default_web_client_id = 2131165203;
+			// aapt resource value: 0x7f050013
+			public const int default_web_client_id = 2131034131;
 			
-			// aapt resource value: 0x7f070023
-			public const int fa_arrows = 2131165219;
+			// aapt resource value: 0x7f050023
+			public const int fa_arrows = 2131034147;
 			
-			// aapt resource value: 0x7f070022
-			public const int fa_calendar = 2131165218;
+			// aapt resource value: 0x7f050022
+			public const int fa_calendar = 2131034146;
 			
-			// aapt resource value: 0x7f070026
-			public const int fa_check = 2131165222;
+			// aapt resource value: 0x7f050026
+			public const int fa_check = 2131034150;
 			
-			// aapt resource value: 0x7f070028
-			public const int fa_clock = 2131165224;
+			// aapt resource value: 0x7f050028
+			public const int fa_clock = 2131034152;
 			
-			// aapt resource value: 0x7f070024
-			public const int fa_delete = 2131165220;
+			// aapt resource value: 0x7f050024
+			public const int fa_delete = 2131034148;
 			
-			// aapt resource value: 0x7f070025
-			public const int fa_delete_inverted = 2131165221;
+			// aapt resource value: 0x7f050025
+			public const int fa_delete_inverted = 2131034149;
 			
-			// aapt resource value: 0x7f070027
-			public const int fa_note = 2131165223;
+			// aapt resource value: 0x7f050027
+			public const int fa_note = 2131034151;
 			
-			// aapt resource value: 0x7f070014
-			public const int firebase_database_url = 2131165204;
+			// aapt resource value: 0x7f050014
+			public const int firebase_database_url = 2131034132;
 			
-			// aapt resource value: 0x7f070011
-			public const int gcm_defaultSenderId = 2131165201;
+			// aapt resource value: 0x7f050011
+			public const int gcm_defaultSenderId = 2131034129;
 			
-			// aapt resource value: 0x7f070015
-			public const int google_api_key = 2131165205;
+			// aapt resource value: 0x7f050015
+			public const int google_api_key = 2131034133;
 			
-			// aapt resource value: 0x7f070012
-			public const int google_app_id = 2131165202;
+			// aapt resource value: 0x7f050012
+			public const int google_app_id = 2131034130;
 			
-			// aapt resource value: 0x7f070016
-			public const int google_crash_reporting_api_key = 2131165206;
+			// aapt resource value: 0x7f050016
+			public const int google_crash_reporting_api_key = 2131034134;
 			
-			// aapt resource value: 0x7f070017
-			public const int google_storage_bucket = 2131165207;
+			// aapt resource value: 0x7f050017
+			public const int google_storage_bucket = 2131034135;
 			
-			// aapt resource value: 0x7f07001a
-			public const int signed_in_fmt = 2131165210;
+			// aapt resource value: 0x7f05001a
+			public const int signed_in_fmt = 2131034138;
 			
-			// aapt resource value: 0x7f07001b
-			public const int signed_out = 2131165211;
+			// aapt resource value: 0x7f05001b
+			public const int signed_out = 2131034139;
 			
 			static String()
 			{
@@ -709,17 +709,17 @@ namespace FitConnectApp
 		public partial class Style
 		{
 			
-			// aapt resource value: 0x7f040001
-			public const int Base_CardView = 2130968577;
+			// aapt resource value: 0x7f070001
+			public const int Base_CardView = 2131165185;
 			
-			// aapt resource value: 0x7f040000
-			public const int CardView = 2130968576;
+			// aapt resource value: 0x7f070000
+			public const int CardView = 2131165184;
 			
-			// aapt resource value: 0x7f040002
-			public const int CardView_Dark = 2130968578;
+			// aapt resource value: 0x7f070002
+			public const int CardView_Dark = 2131165186;
 			
-			// aapt resource value: 0x7f040003
-			public const int CardView_Light = 2130968579;
+			// aapt resource value: 0x7f070003
+			public const int CardView_Light = 2131165187;
 			
 			static Style()
 			{
@@ -737,17 +737,17 @@ namespace FitConnectApp
 			public static int[] CardView = new int[] {
 					16843071,
 					16843072,
-					2130771968,
-					2130771969,
-					2130771970,
-					2130771971,
-					2130771972,
-					2130771973,
 					2130771974,
 					2130771975,
 					2130771976,
 					2130771977,
-					2130771978};
+					2130771978,
+					2130771979,
+					2130771980,
+					2130771981,
+					2130771982,
+					2130771983,
+					2130771984};
 			
 			// aapt resource value: 1
 			public const int CardView_android_minHeight = 1;
@@ -789,9 +789,9 @@ namespace FitConnectApp
 			public const int CardView_contentPaddingTop = 11;
 			
 			public static int[] LoadingImageView = new int[] {
-					2130771979,
-					2130771980,
-					2130771981};
+					2130771968,
+					2130771969,
+					2130771970};
 			
 			// aapt resource value: 2
 			public const int LoadingImageView_circleCrop = 2;
@@ -803,9 +803,9 @@ namespace FitConnectApp
 			public const int LoadingImageView_imageAspectRatioAdjust = 0;
 			
 			public static int[] SignInButton = new int[] {
-					2130771982,
-					2130771983,
-					2130771984};
+					2130771971,
+					2130771972,
+					2130771973};
 			
 			// aapt resource value: 0
 			public const int SignInButton_buttonSize = 0;
