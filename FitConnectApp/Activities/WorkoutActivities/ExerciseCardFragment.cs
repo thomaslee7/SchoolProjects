@@ -285,12 +285,15 @@ namespace FitConnectApp.Activities.WorkoutActivities
         }
 
         private ExerciseSetData GetSetDataFromControls()
-        {            
-            bool validWeight = int.TryParse(Weight.Text, out int w);
+        {
+            int w;
+            bool validWeight = int.TryParse(Weight.Text, out w);
 
-            bool validReps = int.TryParse(Reps.Text, out int r);
+            int r;
+            bool validReps = int.TryParse(Reps.Text, out r);
 
-            bool validRpe = int.TryParse(RpeSpinner.SelectedItem.ToString(), out int rpe);
+            int rpe;
+            bool validRpe = int.TryParse(RpeSpinner.SelectedItem.ToString(), out rpe);
 
             ExerciseSetData set = new ExerciseSetData
             {
