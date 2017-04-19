@@ -9,15 +9,16 @@ using Android.Util;
 
 namespace FitConnectApp.ViewModel
 {
-	public class HomeScreenViewModel : ViewModelBase
-	{
-		private User _currentUser;
-		private INavigationService _navService;
-		private RelayCommand _showStartWorkout;
-		private RelayCommand _showSocial;
-		private RelayCommand<GoogleApiClient> _logout;
+	
+    public class HomeScreenViewModel : ViewModelBase
+    {
+        private User _currentUser;
+        private INavigationService _navService;
+        private RelayCommand _showStartWorkout;
         private RelayCommand _showAccount;
         private RelayCommand _showStats;
+        private RelayCommand _showSocial;
+        private RelayCommand<GoogleApiClient> _logout;
 
 		private const string TAG = "HomeScreenViewModel";
 
