@@ -18,6 +18,10 @@ namespace FitConnectApp.Activities.WorkoutActivities.Listeners
     {
         private Action<DataSnapshot> dataChangedAction;
 
+        public ValueEventListener()
+        {
+        }
+
         public ValueEventListener(Action<DataSnapshot> action)
         {
             dataChangedAction = action;

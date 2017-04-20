@@ -33,8 +33,8 @@ namespace FitConnectApp
         public EditText WeightField => _weightField = FindViewById<EditText>(Resource.Id.weightText);
         public EditText GenderField => _genderField = FindViewById<EditText>(Resource.Id.genderText);
         public Button StatsUpdateButton => _statsUpdateButton = FindViewById<Button>(Resource.Id.StatsUpdateButton);
-        
-       
+
+
         public StatsViewModel Vm => App.Locator.Stats;
 
         protected override void OnCreate(Bundle savedInstanceState)
@@ -45,21 +45,16 @@ namespace FitConnectApp
             var uid = App.getUid(this.ApplicationContext);
             var db = FirebaseDatabase.GetInstance(App.fbApp);
             StatsUpdateButton.SetOnClickListener(this);
-
+            DatabaseReference dbRef = db.GetReference("users").Child(uid);
             // EditText a = FindViewById<EditText>(Resource.Id.genderText);
-            if (GenderField.Text == "")
-            {
-                db.GetReference("users").Child(uid).Child("gender").SetValue("");
-                db.GetReference("users").Child(uid).Child("height").SetValue("");
-                db.GetReference("users").Child(uid).Child("weight").SetValue("");
-                db.GetReference("users").Child(uid).Child("gender").AddValueEventListener(new ValueEventListener(genUpdate));
-                db.GetReference("users").Child(uid).Child("height").AddValueEventListener(new ValueEventListener(heightUpdate));
-                db.GetReference("users").Child(uid).Child("weight").AddValueEventListener(new ValueEventListener(weightUpdate));
-            }
-            
+            dbRef.AddListenerForSingleValueEvent(new ValueEventListener(existCheck));
+                
+            db.GetReference("users").Child(uid).Child("gender").AddValueEventListener(new ValueEventListener(genUpdate));
+            db.GetReference("users").Child(uid).Child("height").AddValueEventListener(new ValueEventListener(heightUpdate));
+            db.GetReference("users").Child(uid).Child("weight").AddValueEventListener(new ValueEventListener(weightUpdate));            
 
         }
-
+       
         public void OnClick(View v)
         {
             var db = FirebaseDatabase.GetInstance(App.fbApp);
@@ -83,6 +78,7 @@ namespace FitConnectApp
                     Log.Debug(TAG, c);
                     weightUpdate.Add("weight", c);
                     db.GetReference("users").Child(uid).UpdateChildren(weightUpdate);
+                    Toast.MakeText(this, "Stats Info Saved.", ToastLength.Long).Show();
                     break;
                 default:
                     Log.Debug(TAG, "onclick: " + v.Id);
@@ -91,22 +87,49 @@ namespace FitConnectApp
             }
         }
 
+        public void existCheck(DataSnapshot snapshot)
+        {
+            if (!snapshot.HasChild("gender"))
+            {
+                var uid = App.getUid(this.ApplicationContext);
+                var db = FirebaseDatabase.GetInstance(App.fbApp);
+                db.GetReference("users").Child(uid).Child("gender").SetValue("");
+                db.GetReference("users").Child(uid).Child("height").SetValue("");
+                db.GetReference("users").Child(uid).Child("weight").SetValue("");
+            }
+        }
         public void genUpdate(DataSnapshot snapshot)
         {
-            GenderField.Text = snapshot.Value.ToString();
+            if (snapshot.Value == null)
+            {
+                GenderField.Text = "";
+            }
+            else
+            {
+                GenderField.Text = snapshot.Value.ToString();
+            }
         }
         public void heightUpdate(DataSnapshot snapshot)
         {
-            HeightField.Text = snapshot.Value.ToString();
+            if(snapshot.Value == null)
+            {
+                HeightField.Text = "";
+            }
+            else
+            {
+               HeightField.Text = snapshot.Value.ToString();
+            }
         }
         public void weightUpdate(DataSnapshot snapshot)
         {
-            WeightField.Text = snapshot.Value.ToString();
+            if(snapshot.Value == null)
+            {
+                WeightField.Text = "";
+            }
+            else
+            {
+                WeightField.Text = snapshot.Value.ToString();
+            }
         }
-        public void userExist(DataSnapshot snapshot)
-        {
-            bool a = snapshot.Exists();
-        }
-       
     }
 }
