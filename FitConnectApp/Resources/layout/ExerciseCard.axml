@@ -5,7 +5,8 @@
     android:id="@+id/fragmentContainer"
     android:layout_height="wrap_content"
     cardview:cardElevation="4dp"
-    cardview:cardCornerRadius="3dp">
+    cardview:cardCornerRadius="3dp"    
+    cardview:cardUseCompatPadding="true">
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
