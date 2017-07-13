@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="Hello">Hello World, Click Me!</string>
+    <string name="ApplicationName">FitConnectApp</string>
+    <string name ="signed_in_fmt">Signed In</string>
+    <string name ="signed_out">Signed out</string>
+    <string name="ApiKey">AIzaSyBCr1UAKrOzpslGeqbrhoR_UeC80Akyx9A</string>
+    <string name="DatabaseUrl">
+      https://fitappconnect.firebaseio.com/
+    </string>
+    <string name="StorageBucket">
+      fitappconnect.appspot.com
+    </string>
+    <string name="ApplicationId">1:257464791047:android:a55322b7e60d7a25</string>
+    <string name="ClientId">257464791047-svtu5ge67kd0h4sut35ua3nkh590mte9.apps.googleusercontent.com</string>
+    <string name="SenderId">257464791047</string>
+    <string name="fa_calendar">&#xf073;</string>
+    <string name="fa_arrows">&#xf047;</string>
+    <string name="fa_delete">&#xf014;</string>
+    <string name="fa_delete_inverted">&#xf1f8;</string>
+    <string name="fa_check">&#xf00c;</string>
+    <string name="fa_note">&#xf249;</string>
+    <string name="fa_clock">&#xf017;</string>
+  <string-array name="RpeList">
+    <item>RPE</item>
+    <item>1</item>
+    <item>2</item>
+    <item>3</item>
+    <item>4</item>
+    <item>5</item>
+    <item>6</item>
+    <item>7</item>
+    <item>8</item>
+    <item>9</item>
+    <item>10</item>    
+  </string-array>
+</resources>

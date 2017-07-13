@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:id="@+id/workoutScreen">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/dateTimeContainer"
+        android:layout_marginTop="3dp"
+        android:layout_marginBottom="3dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:id="@+id/dateContainer"
+            android:layout_weight="0.5">
+            <TextView
+                android:minWidth="25px"
+                android:minHeight="25px"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/workoutDate"
+                android:gravity="right"
+                android:textAlignment="center"
+                android:layout_weight="1"
+                android:text="1/1/2017"
+                android:layout_marginRight="5px"
+                android:textSize="20dp" />
+            <TextView
+                android:minWidth="25px"
+                android:minHeight="25px"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/workoutDateIcon"
+                android:gravity="left"
+                android:textAlignment="center"
+                android:layout_weight="1"
+                android:text="@string/fa_calendar"
+                android:layout_marginLeft="5px"
+                android:textSize="20dp"
+                android:textColor="#ff326ef4" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:id="@+id/timeContainer"
+            android:layout_weight="0.5">
+            <TextView
+                android:minWidth="25px"
+                android:minHeight="25px"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/workoutTime"
+                android:gravity="right"
+                android:textAlignment="center"
+                android:layout_weight="1"
+                android:text="6:00 AM"
+                android:layout_marginRight="5px"
+                android:textSize="20dp" />
+            <TextView
+                android:minWidth="25px"
+                android:minHeight="25px"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/workoutTimeIcon"
+                android:gravity="left"
+                android:textAlignment="center"
+                android:layout_weight="1"
+                android:text="@string/fa_clock"
+                android:layout_marginLeft="5px"
+                android:textSize="20dp"
+                android:textColor="#ff326ef4" />
+        </LinearLayout>
+    </LinearLayout>
+    <ScrollView
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:id="@+id/scrollView1"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:layout_weight="1">
+        <LinearLayout
+            android:minWidth="25px"
+            android:minHeight="25px"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/exerciseCardsFrame"
+            android:layout_marginBottom="1.5dp"
+            android:orientation="vertical" />
+    </ScrollView>
+    <LinearLayout
+        android:id="@+id/buttons"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add Exercise"
+            android:id="@+id/AddExercise" />
+        <Button
+            android:text="save"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/saveWorkoutBtn"
+            android:gravity="center" />
+    </LinearLayout>
+</LinearLayout>

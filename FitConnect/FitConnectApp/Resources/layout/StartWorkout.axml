@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center">
+    <Button
+        android:text="Create new workout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/StartNewWorkoutBtn" />
+    <Button
+        android:text="Load Saved Workout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/loadSavedWorkout" />
+    <Button
+        android:text="Workout from template"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/button2" />
+    <Button
+        android:text="Workout from inbox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/button2" />
+</LinearLayout>
